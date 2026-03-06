@@ -649,7 +649,7 @@ body {
     <div class="leg-item"><div class="leg-dot" style="background:#1a6fa8"></div>유럽사</div>
     <div class="leg-item"><div class="leg-dot" style="background:#7b3fa0"></div>일본사</div>
     <div class="leg-item"><div class="leg-circle" style="background:#2e7d32;border-color:#fff;box-shadow:0 0 0 1px #2e7d32"></div>일반 사건</div>
-    <div class="leg-item"><div class="leg-circle" style="background:#e53935;border-color:#fff;box-shadow:0 0 0 1px #e53935"></div>🔴 도쿄 영웅</div>
+    <div class="leg-item"><div class="leg-circle" style="background:#e53935;border-color:#fff;box-shadow:0 0 0 1px #e53935"></div>🔴 도쿄 역사 일화</div>
   </div>
 </div>
 
@@ -662,7 +662,7 @@ body {
     <span class="step-num">②</span>🇯🇵 일본 연대기 추가
   </div>
   <div class="step step-hero" onclick="setStep(3,this)">
-    <span class="step-num">③</span>도쿄 주요 역사적 일화
+    <span class="step-num">③</span>도쿄의 주요 역사적 일화
   </div>
 </div>
 
@@ -673,7 +673,7 @@ body {
 
 <!-- HERO PANEL (Step 3) -->
 <div class="hero-panel" id="hero-panel">
-  <div class="hero-panel-title">⚔️ 도쿄 주요 역사적 일화 — 사건 점(🔴)을 클릭하거나 아래 카드에서 선택하세요</div>
+  <div class="hero-panel-title">🏙️ 도쿄의 주요 역사적 일화 5선 — 🔴 빨간 점 클릭 또는 아래 카드에서 선택하세요</div>
   <div class="hero-cards" id="hero-cards"></div>
 </div>
 
@@ -703,7 +703,7 @@ body {
 <div class="popup-overlay" id="popup" onclick="closePopup(event)">
   <div class="popup-box">
     <button class="popup-close" onclick="closePopup()">✕</button>
-    <div class="popup-hero-badge" id="p-hero-badge">⚔️ 도쿄 영웅 일화</div>
+    <div class="popup-hero-badge" id="p-hero-badge">🏙️ 도쿄 역사적 일화</div>
     <div class="popup-year" id="p-year"></div>
     <div class="popup-title" id="p-title"></div>
     <div class="popup-body" id="p-body"></div>
@@ -829,42 +829,42 @@ const events = [
   { year:1274, row:'japan2', title:'몽골의 1차 일본 침공', body:'쿠빌라이의 몽골-고려 연합군 3만 3천 명이 규슈 하카타에 상륙합니다. 태풍(神風)이 불어 몽골 함대를 괴멸시킵니다.', context:'같은 시기: 고려 삼별초 항쟁이 막 끝난 시기, 원나라 건국 직후', tags:['몽골침공','신풍','가미카제'], step:2 },
   { year:1467, row:'japan2', title:'오닌의 난 — 센고쿠 시대 시작', body:'무로마치 막부의 권위가 붕괴하고 전국 다이묘들이 패권을 다투는 센고쿠(전국) 시대가 시작됩니다. 약 150년간의 내전이 이어집니다.', context:'같은 시기: 조선 세조 집권(1455~1468), 이탈리아 르네상스', tags:['오닌의난','센고쿠','전국시대'], step:2 },
 
-  // ── 도쿄 3대 영웅 (step3, hero:true) ──
-  { year:1560, row:'japan2', hero:true, person:'nobunaga',
-    title:'오다 노부나가 — 오케하자마 전투',
-    body:'오와리의 소다이묘 노부나가(당시 25세)가 1만 대군을 이끈 이마가와 요시모토를 기습으로 격파합니다. 이 전투로 노부나가의 이름이 전국에 알려지며 에도(도쿄) 지배권 확보의 출발점이 됩니다.',
-    context:'같은 시기: 조선 명종 치세, 포르투갈·스페인의 일본 선교 활발. 에도(도쿄)는 아직 허허벌판.',
-    tags:['오다노부나가','오케하자마','전국통일'], step:3 },
-  { year:1568, row:'japan2', hero:true, person:'nobunaga',
-    title:'노부나가, 교토 입성 & 천하통일 선언',
-    body:'오다 노부나가가 아시카가 쇼군을 옹립하여 교토에 입성합니다. "천하포무(天下布武)"를 기치로 전국 통일 의지를 선언. 총포 부대를 혁신적으로 활용해 기존 전술을 완전히 바꿉니다.',
-    context:'같은 시기: 조선 선조 즉위(1567), 유럽 위그노 전쟁(1562~1598)',
-    tags:['노부나가','교토입성','천하포무'], step:3 },
-  { year:1582, row:'japan2', hero:true, person:'nobunaga',
-    title:'혼노지의 변 — 노부나가 최후',
-    body:'교토 혼노지에서 신뢰했던 부하 아케치 미쓰히데의 반란으로 오다 노부나가가 자결합니다. 천하통일 직전의 비극적 최후. 에도에 있던 도쿠가와 이에야스는 이 소식을 듣고 급히 귀환합니다.',
-    context:'같은 시기: 조선 선조 15년. 임진왜란 10년 전.',
-    tags:['혼노지의변','노부나가최후','아케치미쓰히데'], step:3 },
-  { year:1590, row:'japan2', hero:true, person:'hideyoshi',
-    title:'도요토미 히데요시 — 에도성을 이에야스에게 하사',
-    body:'천하를 통일한 히데요시가 도쿠가와 이에야스에게 에도(현 도쿄)를 봉지로 줍니다. 당시 에도는 허허벌판의 작은 어촌. 이에야스는 이곳을 일본 최대 도시로 개발합니다. 도쿄 역사의 실질적 시작점.',
-    context:'같은 시기: 조선 선조 23년. 임진왜란 2년 전. 에도(도쿄)의 역사가 사실상 여기서 시작됩니다.',
-    tags:['히데요시','에도성','도쿠가와','도쿄기원'], step:3 },
-  { year:1598, row:'japan3', hero:true, person:'hideyoshi',
-    title:'도요토미 히데요시 사망',
-    body:'히데요시가 임진왜란 와중에 후시미성에서 사망합니다(향년 62세). 유언으로 5대로(五大老)에게 아들 히데요리를 부탁하지만, 이에야스가 실권을 장악하기 시작합니다.',
-    context:'같은 시기: 조선 정유재란 막바지, 이순신 노량해전(1598) 승리 직후',
-    tags:['히데요시사망','후시미성','5대로'], step:3 },
-  { year:1600, row:'japan3', hero:true, person:'ieyasu',
-    title:'세키가하라 전투 — 이에야스, 천하를 잡다',
-    body:'도쿠가와 이에야스가 세키가하라에서 서군을 대파하고 천하인이 됩니다. 전투는 불과 6시간 만에 결판났습니다. 이후 에도(도쿄) 중심의 260년 태평성대 에도 막부 시대가 열립니다.',
-    context:'같은 시기: 조선 선조 33년, 이순신 순국(1598) 2년 후. 에도 막부 시대 개막 직전.',
-    tags:['세키가하라','이에야스','에도막부'], step:3 },
-  { year:1603, row:'japan3', hero:true, person:'ieyasu',
+  // ── 도쿄 주요 역사적 일화 5선 (step3, hero:true) ──
+
+  // ① 1603 에도 막부 개창 — 도쿄의 탄생
+  { year:1603, row:'japan3', hero:true, person:'edo',
     title:'에도 막부 개창 — 도쿄(에도)의 탄생',
-    body:'도쿠가와 이에야스가 에도에 막부를 열고 쇼군에 취임합니다. 에도는 인구 100만 명의 세계 최대 도시로 성장합니다. 에도성(현 황거·고쿄)이 그 중심. 현재 도쿄의 직접적인 기원입니다.',
-    context:'같은 시기: 조선 선조 36년, 임진왜란 종전 5년 후. 유럽 셰익스피어 활동기.',
-    tags:['에도막부','이에야스','도쿄기원','에도성'], step:3 },
+    body:'도쿠가와 이에야스가 에도(현 도쿄)에 막부를 열고 초대 쇼군에 취임합니다. 당시 에도는 작은 어촌에 불과했지만 이에야스는 수십 년에 걸쳐 거대 도시로 개발합니다. 에도성(현 황거·고쿄)을 중심으로 상·하 도시가 형성되고, 18세기에는 인구 100만 명을 넘어 런던·파리를 제치고 세계 최대 도시가 됩니다. 현재 도쿄의 직접적 기원입니다.',
+    context:'같은 시기: 조선 선조 36년, 임진왜란 종전 5년 후. 유럽에서는 셰익스피어가 오셀로·리어왕을 집필하던 시기.',
+    tags:['에도막부','이에야스','도쿄기원','에도성','1603'], step:3 },
+
+  // ② 1657 메이레키 대화재 — 에도를 바꾼 대재앙
+  { year:1657, row:'japan3', hero:true, person:'meireki',
+    title:'메이레키 대화재 — 에도를 삼킨 불길',
+    body:'1657년 1월, 에도 혼고 지역에서 시작된 화재가 강풍을 타고 3일간 번져 에도 면적의 약 60~70%를 소실합니다. 사망자는 최소 3만 명 이상으로 추정되며, 에도성 천수각(天守閣)도 이때 소실되어 이후 재건되지 않습니다. 막부는 이를 계기로 에도 전체를 계획적으로 재설계합니다. 도로 확장·방화 구역 설정·강변 개발 등 현대 도쿄 도시구조의 뼈대가 이때 만들어집니다.',
+    context:'같은 시기: 조선 효종 치세(북벌론 추진), 유럽 30년 전쟁 종결(1648) 직후 재건기.',
+    tags:['메이레키대화재','에도재건','도시계획','1657'], step:3 },
+
+  // ③ 1868 메이지 유신 — 에도에서 도쿄로
+  { year:1868, row:'japan3', hero:true, person:'meiji',
+    title:'메이지 유신 — 에도가 도쿄(東京)가 되다',
+    body:'메이지 천황이 교토에서 에도로 천도하고 도시 이름을 도쿄(東京, 동쪽의 수도)로 바꿉니다. 260년 에도 막부가 무너지고 근대 일본이 시작됩니다. 에도성은 황거(皇居)로 전환되고, 서양 문물이 물밀듯이 도입됩니다. 철도·전신·학교·신문이 도쿄를 중심으로 급속히 퍼져나갑니다. 아시아 최초의 근대 국민국가를 향한 대변혁입니다.',
+    context:'같은 시기: 조선 흥선대원군 집권기(쇄국 정책). 유럽 프로이센-프랑스 전쟁(1870~71). 미국 남북전쟁 종전(1865) 직후.',
+    tags:['메이지유신','도쿄탄생','근대화','에도→도쿄','1868'], step:3 },
+
+  // ④ 1923 관동대지진 — 도쿄를 무너뜨린 대재앙
+  { year:1923, row:'japan3', hero:true, person:'kanto',
+    title:'관동대지진 — 도쿄를 삼킨 진도 7.9의 공포',
+    body:'1923년 9월 1일 정오, 진도 7.9의 초강력 지진이 도쿄와 요코하마를 강타합니다. 지진 직후 발생한 대화재가 3일간 이어져 도쿄 시내 약 44%가 소실됩니다. 사망·실종자 약 10만 5천 명. 당시 혼란 속에서 재일 조선인 수천 명이 학살되는 비극도 발생합니다. 재건 과정에서 근대적 도시계획이 적용되어 현재 도쿄의 도로망 및 공원 체계가 이때 완성됩니다.',
+    context:'같은 시기: 조선 일제강점기(3·1운동 1919년 후). 유럽 1차 세계대전 종전(1918) 직후 혼란기. 미국 재즈 시대.',
+    tags:['관동대지진','대화재','도쿄재건','1923','조선인학살'], step:3 },
+
+  // ⑤ 1964 도쿄 올림픽 — 전후 부활의 선언
+  { year:1964, row:'japan3', hero:true, person:'olympic',
+    title:'도쿄 올림픽 — 전후(戰後) 일본 부활의 선언',
+    body:'1964년 10월, 아시아 최초의 올림픽이 도쿄에서 개막합니다. 2차 세계대전 패전 19년 만의 극적인 부활입니다. 올림픽 개최를 위해 신칸센(도카이도 신간선)이 개통되고 수도고속도로·도시 지하철망이 완성됩니다. 한국도 이때 첫 올림픽 금메달을 획득합니다(레슬링 장창선). 도쿄는 이 대회를 계기로 세계적인 현대 도시로 공인됩니다.',
+    context:'같은 시기: 한국 박정희 정부 출범·경제개발 5개년 계획 추진. 미국 케네디 암살(1963) 직후. 냉전 절정기(쿠바 미사일 위기 2년 후).',
+    tags:['도쿄올림픽','신칸센','전후부활','아시아최초','1964'], step:3 },
 ];
 
 // ═══════════════════════════════════════════════════
@@ -888,18 +888,24 @@ const rowDefs = [
 ];
 
 // ═══════════════════════════════════════════════════
-//  HERO DATA for panel
+//  TOKYO 주요 역사적 일화 카드 데이터
 // ═══════════════════════════════════════════════════
 const heroes = [
-  { id:'nobunaga', name:'오다 노부나가 織田信長', years:'1534~1582',
-    desc:'전국 통일을 추진한 혁신가. 총포 전술 혁신.',
-    eventYears:[1560,1568,1582] },
-  { id:'hideyoshi', name:'도요토미 히데요시 豊臣秀吉', years:'1537~1598',
-    desc:'농민 출신으로 천하를 통일. 에도를 이에야스에게 줌.',
-    eventYears:[1590,1598] },
-  { id:'ieyasu', name:'도쿠가와 이에야스 徳川家康', years:'1543~1616',
-    desc:'에도(도쿄) 건설자. 260년 막부 시대를 연 최후의 승자.',
-    eventYears:[1600,1603] },
+  { id:'edo',     name:'🏯 에도 막부 개창', years:'1603년',
+    desc:'도쿄(에도)의 탄생 — 세계 최대 도시의 출발',
+    eventYears:[1603] },
+  { id:'meireki', name:'🔥 메이레키 대화재', years:'1657년',
+    desc:'에도 60% 소실 → 근대적 도시계획의 출발점',
+    eventYears:[1657] },
+  { id:'meiji',   name:'🌅 메이지 유신', years:'1868년',
+    desc:'에도 → 도쿄로 개명, 아시아 최초 근대국가',
+    eventYears:[1868] },
+  { id:'kanto',   name:'🌊 관동대지진', years:'1923년',
+    desc:'진도 7.9, 10만 명 희생 → 현대 도쿄 도시구조 완성',
+    eventYears:[1923] },
+  { id:'olympic', name:'🏅 도쿄 올림픽', years:'1964년',
+    desc:'아시아 최초 올림픽, 전후 부활 선언 — 신칸센 개통',
+    eventYears:[1964] },
 ];
 
 // ═══════════════════════════════════════════════════
@@ -1030,7 +1036,7 @@ function setStep(n, btn) {
   const banners = {
     1: '<strong>Step 1</strong> — 한국·중국·유럽 BC 1500~AD 2000. 🟢 초록 점을 클릭하면 상세 팝업이 열립니다.',
     2: '<strong>Step 2</strong> — 일본 연대기 추가. 🟢 초록 점을 클릭해 동아시아 3국의 흐름을 비교하세요.',
-    3: '<strong>Step 3</strong> — 🔴 빨간 점 = 도쿄 주요 역사적 일화. 점 클릭 또는 아래 카드에서 선택하면 상세 내용이 열립니다.',
+    3: '<strong>Step 3</strong> — 🔴 빨간 점 = 도쿄 주요 역사적 일화 5선. 점 클릭 또는 아래 카드에서 선택하면 상세 내용이 열립니다.',
   };
   document.getElementById('info-banner').innerHTML = banners[n];
 
@@ -1039,7 +1045,7 @@ function setStep(n, btn) {
   if (n === 3) {
     panel.classList.add('visible');
     renderHeroPanel();
-    setTimeout(() => scrollToYear(1555), 300);
+    setTimeout(() => scrollToYear(1600), 300);
   } else {
     panel.classList.remove('visible');
   }
