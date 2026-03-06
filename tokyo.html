@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>세계사 연대기 — 여행 블로그 히스토리 엔진</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&family=Noto+Sans+KR:wght@300;400;500;700&family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #ffffff;
+  --surface: #ffffff;
+  --surface2: #f5f5f5;
+  --border: #d0c8b8;
+  --border2: #e4ddd0;
+  --text: #1a1612;
+  --muted: #7a7060;
+  --korea: #c0392b;
+  --china: #c47a1a;
+  --europe: #1a6fa8;
+  --japan: #7b3fa0;
+  --accent: #b8860b;
+  --hero-dot: #e53935;
+  --normal-dot: #2e7d32;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 300;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* ── HEADER ── */
+.header {
+  background: var(--surface);
+  padding: 28px 32px 20px;
+  border-bottom: 2px solid var(--border);
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.header-title {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(16px, 2.5vw, 26px);
+  color: var(--accent);
+  letter-spacing: 0.1em;
+}
+
+.header-sub { font-size: 12px; color: var(--muted); margin-top: 4px; }
+
+.legend {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.leg-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 400;
+}
+
+.leg-dot { width: 13px; height: 13px; border-radius: 3px; flex-shrink: 0; }
+.leg-circle { width: 13px; height: 13px; border-radius: 50%; flex-shrink: 0; border: 2px solid #fff; }
+
+/* ── STEP BAR ── */
+.step-bar {
+  display: flex;
+  background: var(--surface);
+  border-bottom: 2px solid var(--border);
+}
+
+/* ── TAB 1: 기본형 ── */
+.step {
+  flex: 1;
+  padding: 12px 10px;
+  font-size: 12px;
+  color: var(--muted);
+  text-align: center;
+  border-right: 1px solid var(--border2);
+  cursor: pointer;
+  transition: all 0.22s;
+  position: relative;
+  line-height: 1.4;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 300;
+}
+
+.step:last-child { border-right: none; }
+
+.step.active {
+  color: var(--accent);
+  background: #fffdf5;
+  font-weight: 500;
+}
+
+.step.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--accent);
+}
+
+.step-num {
+  font-family: 'Cinzel', serif;
+  font-size: 15px;
+  display: block;
+  margin-bottom: 2px;
+}
+
+/* ── TAB 2: 일본 연대기 — 보라 강조 ── */
+.step.step-japan {
+  background: linear-gradient(160deg, #f8f4ff 0%, #f0e8ff 100%);
+  border-left: 3px solid #7b3fa0;
+  color: #5c2d80;
+  font-weight: 700;
+  font-size: 13px;
+  font-family: 'Noto Serif KR', serif;
+  letter-spacing: 0.02em;
+}
+
+.step.step-japan .step-num {
+  font-family: 'Cinzel', serif;
+  font-size: 16px;
+  color: #7b3fa0;
+  font-weight: 700;
+}
+
+.step.step-japan:hover {
+  background: linear-gradient(160deg, #f0e8ff 0%, #e4d4ff 100%);
+  color: #4a2070;
+}
+
+.step.step-japan.active {
+  background: linear-gradient(160deg, #ede0ff 0%, #dcc8ff 100%);
+  color: #4a1a7a;
+  box-shadow: inset 0 -3px 0 #7b3fa0;
+}
+
+.step.step-japan.active::after {
+  background: #7b3fa0;
+  height: 4px;
+}
+
+/* ── TAB 3: 주요 역사 일화 — 빨간 강조 ── */
+.step.step-hero {
+  background: linear-gradient(160deg, #fff5f5 0%, #ffe8e8 100%);
+  border-left: 3px solid #c62828;
+  color: #b71c1c;
+  font-weight: 900;
+  font-size: 13.5px;
+  font-family: 'Noto Serif KR', serif;
+  letter-spacing: 0.03em;
+  position: relative;
+}
+
+.step.step-hero .step-num {
+  font-family: 'Cinzel', serif;
+  font-size: 17px;
+  color: #e53935;
+  font-weight: 700;
+}
+
+.step.step-hero::before {
+  content: '★';
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  font-size: 11px;
+  color: #e53935;
+  opacity: 0.7;
+  animation: starBlink 2s ease infinite;
+}
+
+@keyframes starBlink {
+  0%,100% { opacity: 0.7; transform: scale(1); }
+  50%      { opacity: 1;   transform: scale(1.3); }
+}
+
+.step.step-hero:hover {
+  background: linear-gradient(160deg, #ffe8e8 0%, #ffd0d0 100%);
+  color: #8b0000;
+}
+
+.step.step-hero.active {
+  background: linear-gradient(160deg, #ffd8d8 0%, #ffbcbc 100%);
+  color: #8b0000;
+}
+
+.step.step-hero.active::after {
+  background: #e53935;
+  height: 4px;
+}
+
+/* ── INFO BANNER ── */
+.info-banner {
+  padding: 8px 32px;
+  background: #fffbf0;
+  border-bottom: 1px solid #e8d898;
+  font-size: 12.5px;
+  color: #7a6820;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.info-banner strong { color: #b8860b; }
+
+/* ── CONTROLS ── */
+.controls {
+  padding: 10px 32px;
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--border2);
+  background: var(--surface);
+}
+
+.era-btn {
+  padding: 5px 13px;
+  border-radius: 100px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--muted);
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.era-btn:hover, .era-btn.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+  font-weight: 500;
+}
+
+/* ── TIMELINE OUTER ── */
+.tl-outer {
+  overflow-x: auto;
+  padding: 16px 24px 32px;
+  cursor: grab;
+  user-select: none;
+  background: var(--bg);
+}
+
+.tl-outer:active { cursor: grabbing; }
+
+.tl-inner {
+  position: relative;
+  padding-bottom: 16px;
+}
+
+/* ── AXIS ── */
+.axis-wrap {
+  position: relative;
+  height: 44px;
+  margin-bottom: 6px;
+}
+
+.axis-line {
+  position: absolute;
+  top: 32px; left: 0; right: 0;
+  height: 1.5px;
+  background: var(--border);
+}
+
+/* BC/AD divider */
+.bcad-divider {
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.bcad-line {
+  width: 2px;
+  height: 44px;
+  background: var(--accent);
+  opacity: 0.6;
+  margin: 0 auto;
+}
+
+.bcad-label {
+  position: absolute;
+  top: 0;
+  left: 6px;
+  font-size: 10px;
+  color: var(--accent);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  background: #ffffff;
+  padding: 0 3px;
+}
+
+.axis-tick {
+  position: absolute;
+  bottom: 0;
+  transform: translateX(-50%);
+  text-align: center;
+}
+
+.tick-line {
+  width: 1px;
+  height: 8px;
+  background: var(--border);
+  margin: 0 auto 2px;
+}
+
+.tick-label {
+  font-size: 9.5px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+/* BC era shading */
+.bc-shade {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  background: rgba(0,0,0,0.025);
+  pointer-events: none;
+}
+
+/* ── ROWS ── */
+.tl-rows { display: flex; flex-direction: column; gap: 5px; }
+
+.row-group-label {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 9px 0 3px;
+  border-top: 1px solid var(--border2);
+  margin-top: 8px;
+  font-weight: 600;
+}
+
+.tl-row {
+  height: 36px;
+  position: relative;
+}
+
+.row-track {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+/* ── PERIOD BARS ── */
+.period {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 26px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  cursor: default;
+  transition: height 0.15s, filter 0.15s;
+  z-index: 1;
+}
+
+.period:hover { height: 32px; filter: brightness(1.08); z-index: 5; }
+
+.period-label {
+  padding: 0 7px;
+  font-size: 10.5px;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  pointer-events: none;
+  letter-spacing: 0.02em;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.35);
+}
+
+/* color classes — fully opaque for crisp text */
+.col-korea  { background: #c0392b; border: 1.5px solid #a93226; color: #fff; }
+.col-china  { background: #c47a1a; border: 1.5px solid #a96515; color: #fff; }
+.col-europe { background: #1a6fa8; border: 1.5px solid #155d8e; color: #fff; }
+.col-japan  { background: #7b3fa0; border: 1.5px solid #66358a; color: #fff; }
+.col-dark   { background: #6b6559; border: 1.5px solid #57534a; color: #fff; }
+
+/* ── EVENT DOTS ── */
+.event-dot {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  border: 2.5px solid #fff;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.25);
+  cursor: pointer;
+  z-index: 20;
+  transition: transform 0.18s, box-shadow 0.18s;
+}
+
+.event-dot.dot-normal { background: var(--normal-dot); }
+.event-dot.dot-hero   { background: var(--hero-dot); width: 16px; height: 16px; border: 3px solid #fff; }
+
+.event-dot:hover {
+  transform: translate(-50%, -50%) scale(1.7);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  z-index: 30;
+}
+
+.event-dot.dot-hero {
+  animation: heroPulse 2s ease infinite;
+}
+
+@keyframes heroPulse {
+  0%,100% { box-shadow: 0 0 0 0 rgba(229,57,53,0.5), 0 1px 4px rgba(0,0,0,0.2); }
+  50%      { box-shadow: 0 0 0 6px rgba(229,57,53,0), 0 1px 4px rgba(0,0,0,0.2); }
+}
+
+/* ── HERO ZOOM PANEL (Step 3) ── */
+.hero-panel {
+  display: none;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--hero-dot);
+  border-radius: 0 8px 8px 0;
+  margin: 0 24px 12px;
+  padding: 14px 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.hero-panel.visible { display: block; animation: slideDown 0.3s ease; }
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.hero-panel-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--hero-dot);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.hero-cards {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.hero-card {
+  flex: 1;
+  min-width: 180px;
+  background: var(--surface2);
+  border-radius: 6px;
+  padding: 10px 14px;
+  border: 1px solid var(--border2);
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.hero-card:hover {
+  border-color: var(--hero-dot);
+  box-shadow: 0 2px 8px rgba(229,57,53,0.15);
+}
+
+.hero-card-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 3px;
+}
+
+.hero-card-years {
+  font-size: 10.5px;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+
+.hero-card-events {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.hero-card-ev {
+  font-size: 11px;
+  color: #555;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  padding: 2px 4px;
+  border-radius: 3px;
+  transition: background 0.15s;
+}
+
+.hero-card-ev:hover { background: rgba(229,57,53,0.08); color: var(--hero-dot); }
+
+.hero-ev-year {
+  font-size: 10px;
+  color: var(--hero-dot);
+  font-weight: 600;
+  min-width: 32px;
+}
+
+/* ── POPUP ── */
+.popup-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(50,40,30,0.45);
+  backdrop-filter: blur(3px);
+  align-items: center;
+  justify-content: center;
+}
+
+.popup-overlay.active { display: flex; }
+
+.popup-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 28px 32px;
+  max-width: 520px;
+  width: calc(100% - 40px);
+  position: relative;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+  animation: popIn 0.22s ease;
+}
+
+@keyframes popIn {
+  from { opacity: 0; transform: scale(0.95) translateY(8px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.popup-hero-badge {
+  display: none;
+  padding: 3px 10px;
+  background: rgba(229,57,53,0.1);
+  border: 1px solid rgba(229,57,53,0.3);
+  color: var(--hero-dot);
+  border-radius: 100px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  width: fit-content;
+}
+
+.popup-hero-badge.show { display: block; }
+
+.popup-close {
+  position: absolute;
+  top: 14px; right: 16px;
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 18px;
+  cursor: pointer;
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s;
+}
+
+.popup-close:hover { background: var(--surface2); }
+
+.popup-year {
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: var(--accent);
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.popup-title {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 12px;
+  line-height: 1.3;
+}
+
+.popup-body {
+  font-size: 13.5px;
+  line-height: 1.9;
+  color: #4a4038;
+}
+
+.popup-context {
+  margin-top: 14px;
+  padding: 10px 14px;
+  background: #f8f5ee;
+  border-left: 3px solid var(--accent);
+  border-radius: 3px;
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.popup-tags {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+}
+
+.popup-tag {
+  padding: 2px 9px;
+  border-radius: 100px;
+  font-size: 10.5px;
+  background: rgba(184,134,11,0.08);
+  border: 1px solid rgba(184,134,11,0.25);
+  color: var(--accent);
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div>
+    <div class="header-title">WORLD HISTORY TIMELINE</div>
+    <div class="header-sub">세계사 연대기 — 한국 · 중국 · 유럽 · 일본 · BC 1500 ~ AD 2000</div>
+  </div>
+  <div class="legend">
+    <div class="leg-item"><div class="leg-dot" style="background:#c0392b"></div>한국사</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#c47a1a"></div>중국사</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#1a6fa8"></div>유럽사</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#7b3fa0"></div>일본사</div>
+    <div class="leg-item"><div class="leg-circle" style="background:#2e7d32;border-color:#fff;box-shadow:0 0 0 1px #2e7d32"></div>일반 사건</div>
+    <div class="leg-item"><div class="leg-circle" style="background:#e53935;border-color:#fff;box-shadow:0 0 0 1px #e53935"></div>🔴 도쿄 영웅</div>
+  </div>
+</div>
+
+<!-- STEP BAR -->
+<div class="step-bar">
+  <div class="step active" onclick="setStep(1,this)">
+    <span class="step-num">①</span>한·중·유럽 대연대기
+  </div>
+  <div class="step step-japan" onclick="setStep(2,this)">
+    <span class="step-num">②</span>🇯🇵 일본 연대기 추가
+  </div>
+  <div class="step step-hero" onclick="setStep(3,this)">
+    <span class="step-num">③</span>도쿄 주요 역사적 일화
+  </div>
+</div>
+
+<!-- INFO BANNER -->
+<div class="info-banner" id="info-banner">
+  <strong>Step 1</strong> — 한국·중국·유럽 BC 1500년~AD 2000년. 🟢 초록 점 = 일반 사건, 클릭하면 상세 팝업이 열립니다.
+</div>
+
+<!-- HERO PANEL (Step 3) -->
+<div class="hero-panel" id="hero-panel">
+  <div class="hero-panel-title">⚔️ 도쿄 주요 역사적 일화 — 사건 점(🔴)을 클릭하거나 아래 카드에서 선택하세요</div>
+  <div class="hero-cards" id="hero-cards"></div>
+</div>
+
+<!-- ERA CONTROLS -->
+<div class="controls">
+  <span style="font-size:11px;color:var(--muted);align-self:center;margin-right:4px">시대 이동 →</span>
+  <button class="era-btn active" onclick="scrollToYear(-1500,this)">BC 1500 고대</button>
+  <button class="era-btn" onclick="scrollToYear(-500,this)">BC 500 고전기</button>
+  <button class="era-btn" onclick="scrollToYear(0,this)">BC/AD 전환</button>
+  <button class="era-btn" onclick="scrollToYear(500,this)">AD 500 중세</button>
+  <button class="era-btn" onclick="scrollToYear(1000,this)">AD 1000</button>
+  <button class="era-btn" onclick="scrollToYear(1400,this)">AD 1400 근세</button>
+  <button class="era-btn" onclick="scrollToYear(1550,this)">AD 1550 센고쿠</button>
+  <button class="era-btn" onclick="scrollToYear(1800,this)">AD 1800 근대</button>
+  <button class="era-btn" onclick="scrollToYear(1900,this)">AD 1900 현대</button>
+</div>
+
+<!-- TIMELINE -->
+<div class="tl-outer" id="tl-outer">
+  <div class="tl-inner" id="tl-inner">
+    <div class="axis-wrap" id="axis-wrap"></div>
+    <div class="tl-rows" id="tl-rows"></div>
+  </div>
+</div>
+
+<!-- POPUP -->
+<div class="popup-overlay" id="popup" onclick="closePopup(event)">
+  <div class="popup-box">
+    <button class="popup-close" onclick="closePopup()">✕</button>
+    <div class="popup-hero-badge" id="p-hero-badge">⚔️ 도쿄 영웅 일화</div>
+    <div class="popup-year" id="p-year"></div>
+    <div class="popup-title" id="p-title"></div>
+    <div class="popup-body" id="p-body"></div>
+    <div class="popup-context" id="p-context"></div>
+    <div class="popup-tags" id="p-tags"></div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════
+//  TIMELINE GEOMETRY
+//  Key idea: BC section uses COMPRESSED scale (less px/year)
+//            AD section uses NORMAL scale
+// ═══════════════════════════════════════════════════
+const BC_START   = -1500;   // leftmost year
+const AD_END     =  2000;   // rightmost year
+const BC_PX_YEAR = 0.28;    // compressed — BC years get fewer pixels
+const AD_PX_YEAR = 0.72;    // expanded   — AD years get more pixels
+
+// compute pixel positions
+const BC_YEARS = Math.abs(BC_START);        // 1500
+const AD_YEARS = AD_END;                    // 2000
+const BC_WIDTH = BC_YEARS * BC_PX_YEAR;     // px for BC section
+const AD_WIDTH = AD_YEARS * AD_PX_YEAR;     // px for AD section
+const TL_WIDTH = Math.round(BC_WIDTH + AD_WIDTH);
+
+function yearToX(y) {
+  if (y <= 0) {
+    // BC: map [-1500, 0] → [0, BC_WIDTH]
+    return BC_WIDTH + y * BC_PX_YEAR;        // y is negative so + shrinks
+  } else {
+    // AD: map [0, 2000] → [BC_WIDTH, TL_WIDTH]
+    return BC_WIDTH + y * AD_PX_YEAR;
+  }
+}
+
+// ═══════════════════════════════════════════════════
+//  DATA — PERIODS
+// ═══════════════════════════════════════════════════
+const periods = [
+  // ─ KOREA ─
+  { row:'korea1', label:'고조선', start:-1500, end:-108, cls:'col-korea' },
+  { row:'korea2', label:'삼한', start:-300, end:300, cls:'col-dark' },
+  { row:'korea2', label:'고구려', start:-37, end:668, cls:'col-korea' },
+  { row:'korea3', label:'백제', start:-18, end:660, cls:'col-korea', opacity:0.65 },
+  { row:'korea3', label:'신라', start:-57, end:935, cls:'col-korea', opacity:0.5 },
+  { row:'korea3', label:'통일신라', start:668, end:935, cls:'col-korea' },
+  { row:'korea3', label:'발해', start:698, end:926, cls:'col-dark' },
+  { row:'korea4', label:'고려', start:918, end:1392, cls:'col-korea' },
+  { row:'korea4', label:'조선', start:1392, end:1897, cls:'col-korea' },
+  { row:'korea4', label:'대한제국', start:1897, end:1910, cls:'col-dark' },
+  { row:'korea4', label:'일제강점기', start:1910, end:1945, cls:'col-dark', opacity:0.7 },
+  { row:'korea4', label:'대한민국', start:1948, end:2000, cls:'col-korea' },
+
+  // ─ CHINA ─
+  { row:'china1', label:'상(은)', start:-1500, end:-1046, cls:'col-china' },
+  { row:'china1', label:'주(周)', start:-1046, end:-256, cls:'col-china' },
+  { row:'china1', label:'진(秦)', start:-221, end:-206, cls:'col-china' },
+  { row:'china1', label:'한(漢)', start:-206, end:220, cls:'col-china' },
+  { row:'china2', label:'위진남북조', start:220, end:589, cls:'col-dark' },
+  { row:'china2', label:'수(隋)', start:581, end:618, cls:'col-china' },
+  { row:'china2', label:'당(唐)', start:618, end:907, cls:'col-china' },
+  { row:'china2', label:'오대십국', start:907, end:960, cls:'col-dark' },
+  { row:'china2', label:'송(宋)', start:960, end:1279, cls:'col-china' },
+  { row:'china3', label:'원(元)', start:1271, end:1368, cls:'col-china' },
+  { row:'china3', label:'명(明)', start:1368, end:1644, cls:'col-china' },
+  { row:'china3', label:'청(淸)', start:1644, end:1912, cls:'col-china' },
+  { row:'china3', label:'중화민국', start:1912, end:1949, cls:'col-dark' },
+  { row:'china3', label:'중화인민공화국', start:1949, end:2000, cls:'col-china' },
+
+  // ─ EUROPE ─
+  { row:'eu1', label:'그리스 도시국가', start:-800, end:-146, cls:'col-europe' },
+  { row:'eu1', label:'카르타고', start:-814, end:-146, cls:'col-dark', opacity:0.7 },
+  { row:'eu1', label:'로마 공화국', start:-509, end:-27, cls:'col-europe', opacity:0.7 },
+  { row:'eu2', label:'로마 제국', start:-27, end:476, cls:'col-europe' },
+  { row:'eu2', label:'동로마(비잔틴)', start:330, end:1453, cls:'col-europe', opacity:0.65 },
+  { row:'eu3', label:'프랑크왕국', start:481, end:843, cls:'col-europe' },
+  { row:'eu3', label:'신성로마제국', start:962, end:1806, cls:'col-europe', opacity:0.55 },
+  { row:'eu3', label:'영국', start:1066, end:2000, cls:'col-europe' },
+  { row:'eu4', label:'이슬람 제국', start:632, end:1258, cls:'col-dark' },
+  { row:'eu4', label:'오스만 제국', start:1299, end:1922, cls:'col-dark', opacity:0.8 },
+  { row:'eu4', label:'프랑스 왕국→공화국', start:987, end:2000, cls:'col-europe', opacity:0.65 },
+
+  // ─ JAPAN (step2+) ─
+  { row:'japan1', label:'야마토 정권', start:250, end:710, cls:'col-japan', step:2 },
+  { row:'japan1', label:'나라시대', start:710, end:794, cls:'col-japan', step:2 },
+  { row:'japan1', label:'헤이안시대', start:794, end:1185, cls:'col-japan', step:2 },
+  { row:'japan2', label:'가마쿠라 막부', start:1185, end:1333, cls:'col-japan', step:2 },
+  { row:'japan2', label:'무로마치 막부', start:1336, end:1573, cls:'col-japan', step:2 },
+  { row:'japan2', label:'센고쿠 시대', start:1467, end:1615, cls:'col-japan', opacity:0.5, step:2 },
+  { row:'japan3', label:'에도 막부', start:1603, end:1868, cls:'col-japan', step:2 },
+  { row:'japan3', label:'메이지~현대', start:1868, end:2000, cls:'col-japan', step:2 },
+];
+
+// ═══════════════════════════════════════════════════
+//  DATA — EVENTS
+// ═══════════════════════════════════════════════════
+const events = [
+  // KOREA
+  { year:-108, row:'korea1', title:'고조선 멸망 & 한사군 설치', body:'한무제의 침공으로 고조선이 멸망하고 낙랑·진번·임둔·현도 4군이 설치됩니다.', context:'같은 시기: 로마 공화국 최전성기, 율리우스 카이사르 출생 직전', tags:['고조선멸망','한사군'], step:1 },
+  { year:918, row:'korea4', title:'왕건, 고려 건국', body:'태조 왕건이 후삼국을 통일하고 고려를 세웁니다. 개성(개경)을 수도로 정하고 불교를 국교로 채택합니다.', context:'같은 시기: 신성로마제국 수립(962) 직전, 바이킹의 유럽 정착기', tags:['고려건국','왕건'], step:1 },
+  { year:1392, row:'korea4', title:'이성계, 조선 건국', body:'고려 말 이성계가 위화도 회군으로 실권을 장악한 후 조선을 개국합니다. 성리학을 통치이념으로 채택.', context:'같은 시기: 명나라 홍무제 통치기, 유럽 르네상스 한창', tags:['조선건국','이성계'], step:1 },
+  { year:1443, row:'korea4', title:'세종대왕, 훈민정음 창제', body:'세종대왕이 백성을 위한 문자 한글(훈민정음)을 창제 반포합니다. 28자 체계로 당시 세계 최고 수준의 음성학 이론이 담겼습니다.', context:'같은 시기: 유럽 백년전쟁 종결(1453), 구텐베르크 인쇄술 발명(1450년경)', tags:['훈민정음','세종','한글'], step:1 },
+  { year:1592, row:'korea4', title:'임진왜란 발발', body:'도요토미 히데요시가 15만 대군으로 조선을 침략합니다. 이순신 장군의 해전, 조선 의병, 명나라 원군으로 7년 전쟁 끝에 히데요시 사망 후 철수합니다.', context:'같은 시기: 유럽 스페인 무적함대 격파(1588) 직후, 명나라 만력제 시대', tags:['임진왜란','이순신'], step:1 },
+
+  // CHINA
+  { year:-221, row:'china1', title:'진시황, 중국 최초 통일', body:'전국 7웅 중 진(秦)이 나머지 6국을 멸하고 중국 역사 최초의 통일 왕조를 세웁니다. 만리장성 축조, 도량형·문자 통일.', context:'같은 시기: 로마 공화국이 카르타고와 1차 포에니 전쟁(BC 264) 중', tags:['진시황','중국통일','만리장성'], step:1 },
+  { year:105, row:'china2', title:'채윤, 제지술 완성', body:'후한의 채윤이 나무껍질·넝마로 종이를 만드는 법을 완성합니다. 이후 실크로드를 통해 전 세계로 전파됩니다.', context:'같은 시기: 로마 트라야누스 황제 시대, 로마 최대 영토 확장', tags:['제지술','채윤'], step:1 },
+  { year:618, row:'china2', title:'당나라 건국 — 동아시아 황금기', body:'이연이 수를 무너뜨리고 당을 건국합니다. 당은 한국·일본·베트남에 지대한 문화적 영향을 주었습니다. 장안은 세계 최대 국제도시였습니다.', context:'같은 시기: 무함마드 이슬람 창시(622), 신라 삼국통일 전야', tags:['당나라','이연','장안'], step:1 },
+  { year:1271, row:'china3', title:'쿠빌라이, 원나라 건국', body:'칭기즈칸의 손자 쿠빌라이가 몽골 제국에서 원(元)을 건국하고 중국 전역을 지배합니다. 마르코 폴로가 원을 방문합니다.', context:'같은 시기: 고려 삼별초 항쟁(1270~1273), 십자군 전쟁 말기', tags:['원나라','쿠빌라이','몽골'], step:1 },
+
+  // EUROPE
+  { year:-44, row:'eu2', title:'율리우스 카이사르 암살', body:'로마 공화정의 독재관 카이사르가 원로원 의원 23명에게 암살됩니다. 이후 로마 내전을 거쳐 제정이 시작됩니다.', context:'같은 시기: 한반도 고조선 멸망(-108) 이후 과도기, 중국 전한 최전성기', tags:['카이사르','로마','암살'], step:1 },
+  { year:1066, row:'eu3', title:'노르망디 공 윌리엄, 잉글랜드 정복', body:'노르망디의 윌리엄이 헤이스팅스 전투에서 승리, 잉글랜드를 정복하여 윌리엄 1세로 즉위합니다.', context:'같은 시기: 고려 문종 시대, 중국 북송 최전성기', tags:['잉글랜드정복','노르만','윌리엄'], step:1 },
+  { year:1215, row:'eu3', title:'마그나 카르타 서명', body:'영국 존 왕이 귀족들의 압박으로 마그나 카르타(대헌장)에 서명합니다. 왕권 제한과 법치주의의 출발점입니다.', context:'같은 시기: 고려 무신정권 시대, 칭기즈칸 몽골 통일(1206)', tags:['마그나카르타','영국','민주주의'], step:1 },
+  { year:1453, row:'eu2', title:'동로마(비잔틴) 제국 멸망', body:'오스만 제국 메흐메트 2세가 콘스탄티노플을 함락합니다. 1000년 이상 이어진 동로마 제국이 끝나고 중세가 사실상 마감됩니다.', context:'같은 시기: 조선 세종대왕 치세 말기, 훈민정음 창제 10년 후', tags:['비잔틴멸망','오스만','콘스탄티노플'], step:1 },
+  { year:1492, row:'eu4', title:'콜럼버스, 아메리카 도달', body:'이사벨라 여왕의 후원으로 출항한 콜럼버스가 카리브해 산살바도르 섬에 도달합니다. 세계화의 시작점입니다.', context:'같은 시기: 조선 성종 치세, 이탈리아 르네상스 절정(레오나르도 다 빈치)', tags:['콜럼버스','신대륙','대항해'], step:1 },
+  { year:1789, row:'eu4', title:'프랑스 혁명 발발', body:'파리 시민들이 바스티유 감옥을 습격하면서 프랑스 혁명이 시작됩니다. 자유·평등·박애 이념이 전 세계로 퍼져 나갑니다.', context:'같은 시기: 조선 정조 치세(1776~1800), 미국 독립(1776) 직후', tags:['프랑스혁명','자유평등','바스티유'], step:1 },
+
+  // JAPAN step2
+  { year:794, row:'japan1', title:'헤이안쿄 천도 — 교토 탄생', body:'간무 천황이 나라에서 헤이안쿄(현 교토)로 도읍을 옮깁니다. 이후 약 1000년간 일본 문화·예술의 중심지가 됩니다.', context:'같은 시기: 당나라 최전성기 직후, 신라 통일 후기', tags:['헤이안','교토','간무천황'], step:2 },
+  { year:1192, row:'japan2', title:'미나모토 요리토모, 가마쿠라 막부', body:'미나모토노 요리토모가 가마쿠라에 막부를 세워 무사정권 시대를 엽니다.', context:'같은 시기: 고려 무신정권 최전성기, 제3차 십자군(1189~1192)', tags:['막부','사무라이','가마쿠라'], step:2 },
+  { year:1274, row:'japan2', title:'몽골의 1차 일본 침공', body:'쿠빌라이의 몽골-고려 연합군 3만 3천 명이 규슈 하카타에 상륙합니다. 태풍(神風)이 불어 몽골 함대를 괴멸시킵니다.', context:'같은 시기: 고려 삼별초 항쟁이 막 끝난 시기, 원나라 건국 직후', tags:['몽골침공','신풍','가미카제'], step:2 },
+  { year:1467, row:'japan2', title:'오닌의 난 — 센고쿠 시대 시작', body:'무로마치 막부의 권위가 붕괴하고 전국 다이묘들이 패권을 다투는 센고쿠(전국) 시대가 시작됩니다. 약 150년간의 내전이 이어집니다.', context:'같은 시기: 조선 세조 집권(1455~1468), 이탈리아 르네상스', tags:['오닌의난','센고쿠','전국시대'], step:2 },
+
+  // ── 도쿄 3대 영웅 (step3, hero:true) ──
+  { year:1560, row:'japan2', hero:true, person:'nobunaga',
+    title:'오다 노부나가 — 오케하자마 전투',
+    body:'오와리의 소다이묘 노부나가(당시 25세)가 1만 대군을 이끈 이마가와 요시모토를 기습으로 격파합니다. 이 전투로 노부나가의 이름이 전국에 알려지며 에도(도쿄) 지배권 확보의 출발점이 됩니다.',
+    context:'같은 시기: 조선 명종 치세, 포르투갈·스페인의 일본 선교 활발. 에도(도쿄)는 아직 허허벌판.',
+    tags:['오다노부나가','오케하자마','전국통일'], step:3 },
+  { year:1568, row:'japan2', hero:true, person:'nobunaga',
+    title:'노부나가, 교토 입성 & 천하통일 선언',
+    body:'오다 노부나가가 아시카가 쇼군을 옹립하여 교토에 입성합니다. "천하포무(天下布武)"를 기치로 전국 통일 의지를 선언. 총포 부대를 혁신적으로 활용해 기존 전술을 완전히 바꿉니다.',
+    context:'같은 시기: 조선 선조 즉위(1567), 유럽 위그노 전쟁(1562~1598)',
+    tags:['노부나가','교토입성','천하포무'], step:3 },
+  { year:1582, row:'japan2', hero:true, person:'nobunaga',
+    title:'혼노지의 변 — 노부나가 최후',
+    body:'교토 혼노지에서 신뢰했던 부하 아케치 미쓰히데의 반란으로 오다 노부나가가 자결합니다. 천하통일 직전의 비극적 최후. 에도에 있던 도쿠가와 이에야스는 이 소식을 듣고 급히 귀환합니다.',
+    context:'같은 시기: 조선 선조 15년. 임진왜란 10년 전.',
+    tags:['혼노지의변','노부나가최후','아케치미쓰히데'], step:3 },
+  { year:1590, row:'japan2', hero:true, person:'hideyoshi',
+    title:'도요토미 히데요시 — 에도성을 이에야스에게 하사',
+    body:'천하를 통일한 히데요시가 도쿠가와 이에야스에게 에도(현 도쿄)를 봉지로 줍니다. 당시 에도는 허허벌판의 작은 어촌. 이에야스는 이곳을 일본 최대 도시로 개발합니다. 도쿄 역사의 실질적 시작점.',
+    context:'같은 시기: 조선 선조 23년. 임진왜란 2년 전. 에도(도쿄)의 역사가 사실상 여기서 시작됩니다.',
+    tags:['히데요시','에도성','도쿠가와','도쿄기원'], step:3 },
+  { year:1598, row:'japan3', hero:true, person:'hideyoshi',
+    title:'도요토미 히데요시 사망',
+    body:'히데요시가 임진왜란 와중에 후시미성에서 사망합니다(향년 62세). 유언으로 5대로(五大老)에게 아들 히데요리를 부탁하지만, 이에야스가 실권을 장악하기 시작합니다.',
+    context:'같은 시기: 조선 정유재란 막바지, 이순신 노량해전(1598) 승리 직후',
+    tags:['히데요시사망','후시미성','5대로'], step:3 },
+  { year:1600, row:'japan3', hero:true, person:'ieyasu',
+    title:'세키가하라 전투 — 이에야스, 천하를 잡다',
+    body:'도쿠가와 이에야스가 세키가하라에서 서군을 대파하고 천하인이 됩니다. 전투는 불과 6시간 만에 결판났습니다. 이후 에도(도쿄) 중심의 260년 태평성대 에도 막부 시대가 열립니다.',
+    context:'같은 시기: 조선 선조 33년, 이순신 순국(1598) 2년 후. 에도 막부 시대 개막 직전.',
+    tags:['세키가하라','이에야스','에도막부'], step:3 },
+  { year:1603, row:'japan3', hero:true, person:'ieyasu',
+    title:'에도 막부 개창 — 도쿄(에도)의 탄생',
+    body:'도쿠가와 이에야스가 에도에 막부를 열고 쇼군에 취임합니다. 에도는 인구 100만 명의 세계 최대 도시로 성장합니다. 에도성(현 황거·고쿄)이 그 중심. 현재 도쿄의 직접적인 기원입니다.',
+    context:'같은 시기: 조선 선조 36년, 임진왜란 종전 5년 후. 유럽 셰익스피어 활동기.',
+    tags:['에도막부','이에야스','도쿄기원','에도성'], step:3 },
+];
+
+// ═══════════════════════════════════════════════════
+//  ROW DEFINITIONS
+// ═══════════════════════════════════════════════════
+const rowDefs = [
+  { id:'korea1', group:'🇰🇷  한국사', label:'고조선·초기' },
+  { id:'korea2', group:null, label:'삼국(삼한·고구려)' },
+  { id:'korea3', label:'삼국(백제·신라·발해)' },
+  { id:'korea4', label:'고려·조선·현대' },
+  { id:'china1', group:'🇨🇳  중국사', label:'상·주·진·한' },
+  { id:'china2', label:'위진남북조~송' },
+  { id:'china3', label:'원·명·청·현대' },
+  { id:'eu1',   group:'🌍  유럽사', label:'그리스·공화정' },
+  { id:'eu2',   label:'로마제국·비잔틴' },
+  { id:'eu3',   label:'프랑크·영국' },
+  { id:'eu4',   label:'이슬람·오스만·프랑스' },
+  { id:'japan1', group:'🇯🇵  일본사', label:'야마토~헤이안', step:2 },
+  { id:'japan2', label:'막부·센고쿠', step:2 },
+  { id:'japan3', label:'에도~현대', step:2 },
+];
+
+// ═══════════════════════════════════════════════════
+//  HERO DATA for panel
+// ═══════════════════════════════════════════════════
+const heroes = [
+  { id:'nobunaga', name:'오다 노부나가 織田信長', years:'1534~1582',
+    desc:'전국 통일을 추진한 혁신가. 총포 전술 혁신.',
+    eventYears:[1560,1568,1582] },
+  { id:'hideyoshi', name:'도요토미 히데요시 豊臣秀吉', years:'1537~1598',
+    desc:'농민 출신으로 천하를 통일. 에도를 이에야스에게 줌.',
+    eventYears:[1590,1598] },
+  { id:'ieyasu', name:'도쿠가와 이에야스 徳川家康', years:'1543~1616',
+    desc:'에도(도쿄) 건설자. 260년 막부 시대를 연 최후의 승자.',
+    eventYears:[1600,1603] },
+];
+
+// ═══════════════════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════════════════
+let currentStep = 1;
+
+// ═══════════════════════════════════════════════════
+//  RENDER
+// ═══════════════════════════════════════════════════
+function render() {
+  document.getElementById('tl-inner').style.width = TL_WIDTH + 'px';
+  document.getElementById('axis-wrap').style.width = TL_WIDTH + 'px';
+  renderAxis();
+  renderRows();
+}
+
+function renderAxis() {
+  const wrap = document.getElementById('axis-wrap');
+  wrap.innerHTML = '';
+
+  // BC shading
+  const shade = document.createElement('div');
+  shade.className = 'bc-shade';
+  shade.style.left = '0';
+  shade.style.width = BC_WIDTH + 'px';
+  wrap.appendChild(shade);
+
+  // main line
+  const line = document.createElement('div');
+  line.className = 'axis-line';
+  wrap.appendChild(line);
+
+  // BC/AD divider
+  const div = document.createElement('div');
+  div.className = 'bcad-divider';
+  div.style.left = BC_WIDTH + 'px';
+  div.innerHTML = '<div class="bcad-label">BC | AD</div><div class="bcad-line"></div>';
+  wrap.appendChild(div);
+
+  // ticks — BC section: sparse (every 500 or 250)
+  const bcTicks = [-1500,-1000,-500,-250,-100];
+  bcTicks.forEach(y => addTick(wrap, y, y < -500 ? `BC ${Math.abs(y)}` : `BC ${Math.abs(y)}`));
+
+  // AD section: denser
+  const adTicks = [0,100,200,300,400,500,600,700,800,900,1000,1100,
+    1200,1300,1400,1450,1500,1550,1600,1650,1700,1750,1800,1850,1900,1950,2000];
+  adTicks.forEach(y => addTick(wrap, y, y===0 ? 'AD 0' : String(y)));
+}
+
+function addTick(wrap, y, label) {
+  const tick = document.createElement('div');
+  tick.className = 'axis-tick';
+  tick.style.left = yearToX(y) + 'px';
+  tick.innerHTML = `<div class="tick-line"></div><div class="tick-label">${label}</div>`;
+  wrap.appendChild(tick);
+}
+
+function renderRows() {
+  const container = document.getElementById('tl-rows');
+  container.innerHTML = '';
+  let lastGroup = null;
+
+  rowDefs.forEach(rd => {
+    if (rd.step && rd.step > currentStep) return;
+
+    if (rd.group && rd.group !== lastGroup) {
+      const gl = document.createElement('div');
+      gl.className = 'row-group-label';
+      gl.textContent = rd.group;
+      container.appendChild(gl);
+      lastGroup = rd.group;
+    }
+
+    const rowEl = document.createElement('div');
+    rowEl.className = 'tl-row';
+    const track = document.createElement('div');
+    track.className = 'row-track';
+
+    // periods
+    periods
+      .filter(p => p.row === rd.id && (!p.step || p.step <= currentStep))
+      .forEach(p => {
+        const x1 = Math.max(0, yearToX(Math.max(p.start, BC_START)));
+        const x2 = Math.min(TL_WIDTH, yearToX(Math.min(p.end, AD_END)));
+        if (x2 <= x1) return;
+        const bar = document.createElement('div');
+        bar.className = `period ${p.cls}`;
+        bar.style.left = x1 + 'px';
+        bar.style.width = (x2 - x1) + 'px';
+        if (p.opacity) bar.style.opacity = p.opacity;
+        const lbl = document.createElement('span');
+        lbl.className = 'period-label';
+        lbl.textContent = p.label;
+        bar.appendChild(lbl);
+        const ys = p.start < 0 ? 'BC'+Math.abs(p.start) : 'AD'+p.start;
+        const ye = p.end < 0 ? 'BC'+Math.abs(p.end) : 'AD'+p.end;
+        bar.title = `${p.label}  (${ys} ~ ${ye})`;
+        track.appendChild(bar);
+      });
+
+    // events
+    events
+      .filter(e => e.row === rd.id && (!e.step || e.step <= currentStep))
+      .forEach(e => {
+        const isHero = !!e.hero;
+        const dot = document.createElement('div');
+        dot.className = 'event-dot ' + (isHero ? 'dot-hero' : 'dot-normal');
+        dot.style.left = yearToX(e.year) + 'px';
+        dot.title = e.title;
+        dot.onclick = () => showPopup(e);
+        track.appendChild(dot);
+      });
+
+    rowEl.appendChild(track);
+    container.appendChild(rowEl);
+  });
+}
+
+// ═══════════════════════════════════════════════════
+//  STEP CONTROL
+// ═══════════════════════════════════════════════════
+function setStep(n, btn) {
+  currentStep = n;
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  btn.classList.add('active');
+
+  const banners = {
+    1: '<strong>Step 1</strong> — 한국·중국·유럽 BC 1500~AD 2000. 🟢 초록 점을 클릭하면 상세 팝업이 열립니다.',
+    2: '<strong>Step 2</strong> — 일본 연대기 추가. 🟢 초록 점을 클릭해 동아시아 3국의 흐름을 비교하세요.',
+    3: '<strong>Step 3</strong> — 🔴 빨간 점 = 도쿄 주요 역사적 일화. 점 클릭 또는 아래 카드에서 선택하면 상세 내용이 열립니다.',
+  };
+  document.getElementById('info-banner').innerHTML = banners[n];
+
+  // show/hide hero panel
+  const panel = document.getElementById('hero-panel');
+  if (n === 3) {
+    panel.classList.add('visible');
+    renderHeroPanel();
+    setTimeout(() => scrollToYear(1555), 300);
+  } else {
+    panel.classList.remove('visible');
+  }
+
+  render();
+}
+
+// ═══════════════════════════════════════════════════
+//  HERO PANEL
+// ═══════════════════════════════════════════════════
+function renderHeroPanel() {
+  const container = document.getElementById('hero-cards');
+  container.innerHTML = '';
+  heroes.forEach(h => {
+    const card = document.createElement('div');
+    card.className = 'hero-card';
+    const evHtml = h.eventYears.map(yr => {
+      const ev = events.find(e => e.year === yr && e.person === h.id);
+      if (!ev) return '';
+      return `<div class="hero-card-ev" onclick="showPopupByYear(${yr},'${h.id}')">
+        <span class="hero-ev-year">${yr}</span>
+        <span>${ev.title.split('—')[0].trim()}</span>
+      </div>`;
+    }).join('');
+    card.innerHTML = `
+      <div class="hero-card-name">${h.name}</div>
+      <div class="hero-card-years">${h.years}</div>
+      <div class="hero-card-events">${evHtml}</div>`;
+    container.appendChild(card);
+  });
+}
+
+function showPopupByYear(yr, personId) {
+  const ev = events.find(e => e.year === yr && e.person === personId);
+  if (ev) showPopup(ev);
+}
+
+// ═══════════════════════════════════════════════════
+//  POPUP
+// ═══════════════════════════════════════════════════
+function showPopup(e) {
+  const yLabel = e.year < 0 ? `BC ${Math.abs(e.year)}년` : `AD ${e.year}년`;
+  document.getElementById('p-year').textContent = yLabel;
+  document.getElementById('p-title').textContent = e.title;
+  document.getElementById('p-body').textContent = e.body;
+  document.getElementById('p-context').textContent = '🌐 ' + (e.context || '');
+  const badge = document.getElementById('p-hero-badge');
+  if (e.hero) badge.classList.add('show'); else badge.classList.remove('show');
+  const tagsEl = document.getElementById('p-tags');
+  tagsEl.innerHTML = (e.tags||[]).map(t=>`<span class="popup-tag">#${t}</span>`).join('');
+  document.getElementById('popup').classList.add('active');
+  // scroll timeline to event
+  scrollToYear(e.year);
+}
+
+function closePopup(ev) {
+  if (!ev || ev.target === document.getElementById('popup')) {
+    document.getElementById('popup').classList.remove('active');
+  }
+}
+
+// ═══════════════════════════════════════════════════
+//  SCROLL
+// ═══════════════════════════════════════════════════
+function scrollToYear(year, btn) {
+  if (btn) {
+    document.querySelectorAll('.era-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+  const outer = document.getElementById('tl-outer');
+  const x = yearToX(year) - outer.clientWidth / 3;
+  outer.scrollTo({ left: Math.max(0, x), behavior: 'smooth' });
+}
+
+// ═══════════════════════════════════════════════════
+//  DRAG SCROLL
+// ═══════════════════════════════════════════════════
+(function() {
+  const el = document.getElementById('tl-outer');
+  let down = false, startX, scrollLeft;
+  el.addEventListener('mousedown', e => { down=true; startX=e.pageX-el.offsetLeft; scrollLeft=el.scrollLeft; });
+  el.addEventListener('mouseleave', () => down=false);
+  el.addEventListener('mouseup', () => down=false);
+  el.addEventListener('mousemove', e => {
+    if (!down) return;
+    e.preventDefault();
+    el.scrollLeft = scrollLeft - (e.pageX - el.offsetLeft - startX);
+  });
+})();
+
+// ═══════════════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════════════
+render();
+</script>
+</body>
+</html>
