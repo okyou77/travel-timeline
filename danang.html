@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>다낭 세계사 연대기 — 여행 블로그</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&family=Noto+Sans+KR:wght@300;400;500;700&family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #ffffff;
+  --surface: #ffffff;
+  --surface2: #f5f5f5;
+  --border: #d0c8b8;
+  --border2: #e4ddd0;
+  --text: #1a1612;
+  --muted: #7a7060;
+  --korea: #c0392b;
+  --china: #c47a1a;
+  --europe: #1a6fa8;
+  --vietnam: #c8362a;   /* 베트남 국기색 */
+  --accent: #b8860b;
+  --hero-dot: #e53935;
+  --normal-dot: #2e7d32;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 300;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* ── HEADER ── */
+.header {
+  background: linear-gradient(135deg, #c8362a 0%, #8b1a10 100%);
+  padding: 24px 32px 20px;
+  border-bottom: 3px solid #f5c518;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.15);
+}
+
+.header-title {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(16px, 2.5vw, 26px);
+  color: #f5c518;
+  letter-spacing: 0.1em;
+}
+
+.header-sub { font-size: 12px; color: rgba(255,255,255,0.8); margin-top: 4px; }
+
+.header-city {
+  font-size: 28px;
+  font-weight: 700;
+  color: #fff;
+  font-family: 'Noto Serif KR', serif;
+  letter-spacing: 0.05em;
+}
+
+.legend {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.leg-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: rgba(255,255,255,0.85);
+  font-weight: 400;
+}
+
+.leg-dot    { width: 13px; height: 13px; border-radius: 3px; flex-shrink: 0; }
+.leg-circle { width: 13px; height: 13px; border-radius: 50%; flex-shrink: 0; border: 2px solid #fff; }
+
+/* ── STEP BAR ── */
+.step-bar {
+  display: flex;
+  background: var(--surface);
+  border-bottom: 2px solid var(--border);
+}
+
+.step {
+  flex: 1;
+  padding: 12px 10px;
+  font-size: 12px;
+  color: var(--muted);
+  text-align: center;
+  border-right: 1px solid var(--border2);
+  cursor: pointer;
+  transition: all 0.22s;
+  position: relative;
+  line-height: 1.4;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 300;
+}
+.step:last-child { border-right: none; }
+.step.active { color: var(--accent); background: #fffdf5; font-weight: 500; }
+.step.active::after {
+  content: ''; position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 3px; background: var(--accent);
+}
+.step-num {
+  font-family: 'Cinzel', serif;
+  font-size: 15px;
+  display: block;
+  margin-bottom: 2px;
+}
+
+/* TAB 2 — 베트남 연대기 (초록+노란 베트남 느낌) */
+.step.step-vietnam {
+  background: linear-gradient(160deg, #f0fff4 0%, #dcffe8 100%);
+  border-left: 3px solid #2e7d32;
+  color: #1b5e20;
+  font-weight: 700;
+  font-size: 13px;
+  font-family: 'Noto Serif KR', serif;
+}
+.step.step-vietnam .step-num { font-family:'Cinzel',serif; font-size:16px; color:#2e7d32; font-weight:700; }
+.step.step-vietnam:hover { background: linear-gradient(160deg, #dcffe8 0%, #b9f5c8 100%); }
+.step.step-vietnam.active { background: linear-gradient(160deg, #c8f5d8 0%, #a5efc0 100%); }
+.step.step-vietnam.active::after { background: #2e7d32; height: 4px; }
+
+/* TAB 3 — 다낭 일화 (빨간 강조) */
+.step.step-hero {
+  background: linear-gradient(160deg, #fff5f5 0%, #ffe8e8 100%);
+  border-left: 3px solid #c62828;
+  color: #b71c1c;
+  font-weight: 900;
+  font-size: 13.5px;
+  font-family: 'Noto Serif KR', serif;
+  position: relative;
+}
+.step.step-hero .step-num { font-family:'Cinzel',serif; font-size:17px; color:#e53935; font-weight:700; }
+.step.step-hero::before {
+  content: '★'; position: absolute; top: 6px; right: 8px;
+  font-size: 11px; color: #e53935; opacity: 0.7;
+  animation: starBlink 2s ease infinite;
+}
+@keyframes starBlink {
+  0%,100% { opacity:0.7; transform:scale(1); }
+  50%      { opacity:1;   transform:scale(1.3); }
+}
+.step.step-hero:hover { background: linear-gradient(160deg, #ffe8e8 0%, #ffd0d0 100%); }
+.step.step-hero.active { background: linear-gradient(160deg, #ffd8d8 0%, #ffbcbc 100%); }
+.step.step-hero.active::after { background: #e53935; height: 4px; }
+
+/* ── INFO BANNER ── */
+.info-banner {
+  padding: 8px 32px;
+  background: #fffbf0;
+  border-bottom: 1px solid #e8d898;
+  font-size: 12.5px;
+  color: #7a6820;
+}
+.info-banner strong { color: #b8860b; }
+
+/* ── HERO PANEL ── */
+.hero-panel {
+  display: none;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--hero-dot);
+  border-radius: 0 8px 8px 0;
+  margin: 0 24px 12px;
+  padding: 14px 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.hero-panel.visible { display: block; animation: slideDown 0.3s ease; }
+@keyframes slideDown {
+  from { opacity:0; transform:translateY(-8px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+.hero-panel-title {
+  font-size: 12px; font-weight: 700;
+  color: var(--hero-dot);
+  letter-spacing: 0.1em; text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.hero-cards { display: flex; gap: 10px; flex-wrap: wrap; }
+.hero-card {
+  flex: 1; min-width: 180px;
+  background: var(--surface2);
+  border-radius: 6px;
+  padding: 10px 14px;
+  border: 1px solid var(--border2);
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.hero-card:hover { border-color: var(--hero-dot); box-shadow: 0 2px 8px rgba(229,57,53,0.15); }
+.hero-card-name  { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+.hero-card-years { font-size: 10.5px; color: var(--muted); margin-bottom: 6px; }
+.hero-card-events { display: flex; flex-direction: column; gap: 3px; }
+.hero-card-ev {
+  font-size: 11px; color: #555;
+  display: flex; align-items: center; gap: 5px;
+  cursor: pointer; padding: 2px 4px;
+  border-radius: 3px; transition: background 0.15s;
+}
+.hero-card-ev:hover { background: rgba(229,57,53,0.08); color: var(--hero-dot); }
+.hero-ev-year { font-size: 10px; color: var(--hero-dot); font-weight: 600; min-width: 36px; }
+
+/* ── CONTROLS ── */
+.controls {
+  padding: 10px 32px;
+  display: flex; gap: 6px; flex-wrap: wrap;
+  border-bottom: 1px solid var(--border2);
+  background: var(--surface);
+}
+.era-btn {
+  padding: 5px 13px; border-radius: 100px;
+  border: 1px solid var(--border);
+  background: transparent; color: var(--muted);
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 11px; cursor: pointer; transition: all 0.2s;
+}
+.era-btn:hover, .era-btn.active {
+  background: var(--accent); border-color: var(--accent);
+  color: #fff; font-weight: 500;
+}
+
+/* ── TIMELINE ── */
+.tl-outer {
+  overflow-x: auto;
+  padding: 16px 24px 32px;
+  cursor: grab; user-select: none;
+  background: var(--bg);
+}
+.tl-outer:active { cursor: grabbing; }
+.tl-inner { position: relative; padding-bottom: 16px; }
+
+/* ── AXIS ── */
+.axis-wrap { position: relative; height: 44px; margin-bottom: 6px; }
+.axis-line {
+  position: absolute;
+  top: 32px; left: 0; right: 0;
+  height: 1.5px; background: var(--border);
+}
+.bcad-divider { position: absolute; top: 0; transform: translateX(-50%); pointer-events: none; }
+.bcad-line { width: 2px; height: 44px; background: var(--accent); opacity: 0.6; margin: 0 auto; }
+.bcad-label {
+  position: absolute; top: 0; left: 6px;
+  font-size: 10px; color: var(--accent); font-weight: 700;
+  letter-spacing: 0.05em; white-space: nowrap;
+  background: #ffffff; padding: 0 3px;
+}
+.axis-tick { position: absolute; bottom: 0; transform: translateX(-50%); text-align: center; }
+.tick-line { width: 1px; height: 8px; background: var(--border); margin: 0 auto 2px; }
+.tick-label { font-size: 9.5px; color: var(--muted); white-space: nowrap; }
+.bc-shade { position: absolute; top: 0; height: 100%; background: rgba(0,0,0,0.025); pointer-events: none; }
+
+/* ── ROWS ── */
+.tl-rows { display: flex; flex-direction: column; gap: 5px; }
+.row-group-label {
+  font-size: 10px; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--muted);
+  padding: 9px 0 3px;
+  border-top: 1px solid var(--border2);
+  margin-top: 8px; font-weight: 600;
+}
+.tl-row { height: 36px; position: relative; }
+.row-track { position: relative; height: 100%; width: 100%; }
+
+/* ── PERIOD BARS ── */
+.period {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  height: 26px; border-radius: 4px;
+  display: flex; align-items: center;
+  overflow: hidden; cursor: default;
+  transition: height 0.15s, filter 0.15s; z-index: 1;
+}
+.period:hover { height: 32px; filter: brightness(1.08); z-index: 5; }
+.period-label {
+  padding: 0 7px; font-size: 10.5px; font-weight: 700;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  pointer-events: none; letter-spacing: 0.02em;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.35);
+}
+
+.col-korea   { background: #c0392b; border: 1.5px solid #a93226; color: #fff; }
+.col-china   { background: #c47a1a; border: 1.5px solid #a96515; color: #fff; }
+.col-europe  { background: #1a6fa8; border: 1.5px solid #155d8e; color: #fff; }
+.col-vietnam { background: #c8362a; border: 1.5px solid #a32520; color: #fff; }
+.col-vn2     { background: #2e7d32; border: 1.5px solid #1b5e20; color: #fff; }
+.col-dark    { background: #6b6559; border: 1.5px solid #57534a; color: #fff; }
+
+/* ── EVENT DOTS ── */
+.event-dot {
+  position: absolute; top: 50%;
+  transform: translate(-50%, -50%);
+  width: 13px; height: 13px;
+  border-radius: 50%; border: 2.5px solid #fff;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.25);
+  cursor: pointer; z-index: 20;
+  transition: transform 0.18s, box-shadow 0.18s;
+}
+.event-dot.dot-normal { background: var(--normal-dot); }
+.event-dot.dot-hero   { background: var(--hero-dot); width: 16px; height: 16px; border: 3px solid #fff; }
+.event-dot:hover { transform: translate(-50%,-50%) scale(1.7); box-shadow: 0 2px 10px rgba(0,0,0,0.3); z-index: 30; }
+.event-dot.dot-hero { animation: heroPulse 2s ease infinite; }
+@keyframes heroPulse {
+  0%,100% { box-shadow: 0 0 0 0 rgba(229,57,53,0.5), 0 1px 4px rgba(0,0,0,0.2); }
+  50%      { box-shadow: 0 0 0 6px rgba(229,57,53,0), 0 1px 4px rgba(0,0,0,0.2); }
+}
+
+/* ── POPUP ── */
+.popup-overlay {
+  display: none; position: fixed; inset: 0; z-index: 200;
+  background: rgba(50,40,30,0.45); backdrop-filter: blur(3px);
+  align-items: center; justify-content: center;
+}
+.popup-overlay.active { display: flex; }
+.popup-box {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 12px; padding: 28px 32px;
+  max-width: 520px; width: calc(100% - 40px);
+  position: relative;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+  animation: popIn 0.22s ease;
+}
+@keyframes popIn {
+  from { opacity:0; transform:scale(0.95) translateY(8px); }
+  to   { opacity:1; transform:scale(1) translateY(0); }
+}
+.popup-hero-badge {
+  display: none; padding: 3px 10px;
+  background: rgba(229,57,53,0.1);
+  border: 1px solid rgba(229,57,53,0.3);
+  color: var(--hero-dot); border-radius: 100px;
+  font-size: 10px; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  margin-bottom: 10px; width: fit-content;
+}
+.popup-hero-badge.show { display: block; }
+.popup-close {
+  position: absolute; top: 14px; right: 16px;
+  background: none; border: none; color: var(--muted);
+  font-size: 18px; cursor: pointer;
+  width: 28px; height: 28px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s;
+}
+.popup-close:hover { background: var(--surface2); }
+.popup-year { font-size: 11px; letter-spacing: 0.2em; color: var(--accent); font-weight: 600; margin-bottom: 5px; }
+.popup-title { font-family:'Noto Serif KR',serif; font-size:19px; font-weight:700; color:var(--text); margin-bottom:12px; line-height:1.3; }
+.popup-body  { font-size: 13.5px; line-height: 1.9; color: #4a4038; }
+.popup-context {
+  margin-top: 14px; padding: 10px 14px;
+  background: #f8f5ee; border-left: 3px solid var(--accent);
+  border-radius: 3px; font-size: 12px; color: var(--muted); line-height: 1.7;
+}
+.popup-tags { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 14px; }
+.popup-tag {
+  padding: 2px 9px; border-radius: 100px; font-size: 10.5px;
+  background: rgba(184,134,11,0.08);
+  border: 1px solid rgba(184,134,11,0.25);
+  color: var(--accent);
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div>
+    <div class="header-city">🇻🇳 베트남 다낭 (Da Nang)</div>
+    <div class="header-title">WORLD HISTORY TIMELINE</div>
+    <div class="header-sub">세계사 연대기 — 한국 · 중국 · 유럽 · 베트남 · BC 1500 ~ AD 2000</div>
+  </div>
+  <div class="legend">
+    <div class="leg-item"><div class="leg-dot" style="background:#c0392b"></div>한국사</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#c47a1a"></div>중국사</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#1a6fa8"></div>유럽사</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#c8362a"></div>베트남사</div>
+    <div class="leg-item"><div class="leg-circle" style="background:#2e7d32;border-color:#fff;box-shadow:0 0 0 1px #2e7d32"></div>일반 사건</div>
+    <div class="leg-item"><div class="leg-circle" style="background:#e53935;border-color:#fff;box-shadow:0 0 0 1px #e53935"></div>🔴 다낭 일화</div>
+  </div>
+</div>
+
+<!-- STEP BAR -->
+<div class="step-bar">
+  <div class="step active" onclick="setStep(1,this)">
+    <span class="step-num">①</span>한·중·유럽 대연대기
+  </div>
+  <div class="step step-vietnam" onclick="setStep(2,this)">
+    <span class="step-num">②</span>🇻🇳 베트남 연대기 추가
+  </div>
+  <div class="step step-hero" onclick="setStep(3,this)">
+    <span class="step-num">③</span>다낭 주요 역사적 일화
+  </div>
+</div>
+
+<!-- INFO BANNER -->
+<div class="info-banner" id="info-banner">
+  <strong>Step 1</strong> — 한국·중국·유럽 BC 1500년~AD 2000년. 🟢 초록 점 = 일반 사건, 클릭하면 상세 팝업이 열립니다.
+</div>
+
+<!-- HERO PANEL (Step 3) -->
+<div class="hero-panel" id="hero-panel">
+  <div class="hero-panel-title">🏛️ 다낭 주요 역사적 일화 — 🔴 빨간 점 클릭 또는 아래 카드에서 선택하세요</div>
+  <div class="hero-cards" id="hero-cards"></div>
+</div>
+
+<!-- ERA CONTROLS -->
+<div class="controls">
+  <span style="font-size:11px;color:var(--muted);align-self:center;margin-right:4px">시대 이동 →</span>
+  <button class="era-btn active" onclick="scrollToYear(-1500,this)">BC 1500 고대</button>
+  <button class="era-btn" onclick="scrollToYear(-500,this)">BC 500 고전기</button>
+  <button class="era-btn" onclick="scrollToYear(0,this)">BC/AD 전환</button>
+  <button class="era-btn" onclick="scrollToYear(500,this)">AD 500 중세</button>
+  <button class="era-btn" onclick="scrollToYear(1000,this)">AD 1000</button>
+  <button class="era-btn" onclick="scrollToYear(1400,this)">AD 1400 근세</button>
+  <button class="era-btn" onclick="scrollToYear(1800,this)">AD 1800 프랑스</button>
+  <button class="era-btn" onclick="scrollToYear(1950,this)">AD 1950 현대</button>
+</div>
+
+<!-- TIMELINE -->
+<div class="tl-outer" id="tl-outer">
+  <div class="tl-inner" id="tl-inner">
+    <div class="axis-wrap" id="axis-wrap"></div>
+    <div class="tl-rows"  id="tl-rows"></div>
+  </div>
+</div>
+
+<!-- POPUP -->
+<div class="popup-overlay" id="popup" onclick="closePopup(event)">
+  <div class="popup-box">
+    <button class="popup-close" onclick="closePopup()">✕</button>
+    <div class="popup-hero-badge" id="p-hero-badge">🏛️ 다낭 역사 일화</div>
+    <div class="popup-year"  id="p-year"></div>
+    <div class="popup-title" id="p-title"></div>
+    <div class="popup-body"  id="p-body"></div>
+    <div class="popup-context" id="p-context"></div>
+    <div class="popup-tags"  id="p-tags"></div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════
+//  GEOMETRY  (BC 압축 / AD 확장)
+// ═══════════════════════════════════════════
+const BC_START   = -1500;
+const AD_END     =  2000;
+const BC_PX_YEAR = 0.28;
+const AD_PX_YEAR = 0.72;
+const BC_WIDTH   = Math.abs(BC_START) * BC_PX_YEAR;
+const AD_WIDTH   = AD_END * AD_PX_YEAR;
+const TL_WIDTH   = Math.round(BC_WIDTH + AD_WIDTH);
+
+function yearToX(y) {
+  return y <= 0
+    ? BC_WIDTH + y * BC_PX_YEAR
+    : BC_WIDTH + y * AD_PX_YEAR;
+}
+
+// ═══════════════════════════════════════════
+//  PERIODS
+// ═══════════════════════════════════════════
+const periods = [
+  // ─ KOREA ─
+  { row:'korea1', label:'고조선', start:-1500, end:-108, cls:'col-korea' },
+  { row:'korea2', label:'삼한',   start:-300,  end:300,  cls:'col-dark' },
+  { row:'korea2', label:'고구려', start:-37,   end:668,  cls:'col-korea' },
+  { row:'korea3', label:'백제',   start:-18,   end:660,  cls:'col-korea', opacity:0.65 },
+  { row:'korea3', label:'신라',   start:-57,   end:935,  cls:'col-korea', opacity:0.5 },
+  { row:'korea3', label:'통일신라', start:668, end:935,  cls:'col-korea' },
+  { row:'korea3', label:'발해',   start:698,   end:926,  cls:'col-dark' },
+  { row:'korea4', label:'고려',   start:918,   end:1392, cls:'col-korea' },
+  { row:'korea4', label:'조선',   start:1392,  end:1897, cls:'col-korea' },
+  { row:'korea4', label:'일제강점기', start:1910, end:1945, cls:'col-dark', opacity:0.7 },
+  { row:'korea4', label:'대한민국', start:1948, end:2000, cls:'col-korea' },
+
+  // ─ CHINA ─
+  { row:'china1', label:'상(은)', start:-1500, end:-1046, cls:'col-china' },
+  { row:'china1', label:'주(周)', start:-1046, end:-256,  cls:'col-china' },
+  { row:'china1', label:'진·한',  start:-221,  end:220,   cls:'col-china' },
+  { row:'china2', label:'위진남북조', start:220, end:589, cls:'col-dark' },
+  { row:'china2', label:'수·당(隋唐)', start:581, end:907, cls:'col-china' },
+  { row:'china2', label:'송(宋)', start:960,  end:1279, cls:'col-china' },
+  { row:'china3', label:'원(元)', start:1271, end:1368, cls:'col-china' },
+  { row:'china3', label:'명(明)', start:1368, end:1644, cls:'col-china' },
+  { row:'china3', label:'청(淸)', start:1644, end:1912, cls:'col-china' },
+  { row:'china3', label:'중화인민공화국', start:1949, end:2000, cls:'col-china' },
+
+  // ─ EUROPE ─
+  { row:'eu1', label:'그리스·공화정', start:-800, end:-27,  cls:'col-europe' },
+  { row:'eu2', label:'로마 제국',    start:-27,  end:476,  cls:'col-europe' },
+  { row:'eu2', label:'동로마(비잔틴)', start:330, end:1453, cls:'col-europe', opacity:0.65 },
+  { row:'eu3', label:'프랑크·신성로마', start:481, end:1806, cls:'col-europe', opacity:0.6 },
+  { row:'eu3', label:'영국',         start:1066, end:2000, cls:'col-europe' },
+  { row:'eu4', label:'이슬람 제국',  start:632,  end:1258, cls:'col-dark' },
+  { row:'eu4', label:'오스만 제국',  start:1299, end:1922, cls:'col-dark', opacity:0.8 },
+  { row:'eu4', label:'프랑스',       start:987,  end:2000, cls:'col-europe', opacity:0.65 },
+
+  // ─ VIETNAM (step2+) ─
+  { row:'vn1', label:'반랑·어우락 (초기국가)', start:-700, end:-111, cls:'col-vn2', step:2 },
+  { row:'vn1', label:'한 지배기 (북속)',       start:-111, end:939,  cls:'col-dark', step:2 },
+  { row:'vn1', label:'참파 왕국',             start:192,  end:1832, cls:'col-vietnam', step:2 },
+  { row:'vn2', label:'딘·전레·리·쩐 왕조',    start:968,  end:1400, cls:'col-vn2', step:2 },
+  { row:'vn2', label:'명 지배기',             start:1407, end:1427, cls:'col-dark', step:2 },
+  { row:'vn2', label:'후레 왕조',             start:1428, end:1788, cls:'col-vn2', step:2 },
+  { row:'vn3', label:'응우옌 왕조',           start:1802, end:1945, cls:'col-vietnam', step:2 },
+  { row:'vn3', label:'프랑스령 인도차이나',    start:1887, end:1954, cls:'col-dark', step:2 },
+  { row:'vn3', label:'베트남 민주공화국(북)',  start:1945, end:1975, cls:'col-vn2', step:2 },
+  { row:'vn3', label:'통일 베트남',           start:1976, end:2000, cls:'col-vietnam', step:2 },
+];
+
+// ═══════════════════════════════════════════
+//  EVENTS
+// ═══════════════════════════════════════════
+const events = [
+  // KOREA
+  { year:-108, row:'korea1', title:'고조선 멸망 & 한사군 설치',
+    body:'한무제의 침공으로 고조선이 멸망하고 낙랑 등 4군이 설치됩니다.',
+    context:'같은 시기: 로마 공화국 최전성기, 베트남 북부에서도 한나라의 지배 시작',
+    tags:['고조선멸망','한사군'], step:1 },
+  { year:1392, row:'korea4', title:'이성계, 조선 건국',
+    body:'고려 말 이성계가 위화도 회군 후 조선을 개국합니다. 성리학을 통치이념으로 채택.',
+    context:'같은 시기: 베트남 후레 왕조 성립(1428) 직전, 명나라 통치기',
+    tags:['조선건국','이성계'], step:1 },
+  { year:1443, row:'korea4', title:'세종대왕, 훈민정음 창제',
+    body:'세종대왕이 28자 체계의 한글을 창제 반포합니다.',
+    context:'같은 시기: 베트남 후레 왕조 전성기, 다낭 인근 참파 왕국 쇠퇴기',
+    tags:['훈민정음','세종','한글'], step:1 },
+
+  // CHINA
+  { year:-221, row:'china1', title:'진시황, 중국 최초 통일',
+    body:'전국 7웅 중 진(秦)이 중국을 최초 통일합니다. 만리장성 축조, 도량형 통일.',
+    context:'같은 시기: 베트남 북부에 남월국 성립 직전, 로마 공화국 카르타고와 전쟁 중',
+    tags:['진시황','중국통일'], step:1 },
+  { year:618, row:'china2', title:'당나라 건국 — 동아시아 황금기',
+    body:'이연이 수를 무너뜨리고 당을 건국. 베트남 북부는 당의 지배하에 놓입니다.',
+    context:'같은 시기: 무함마드 이슬람 창시(622), 신라 삼국통일 전야',
+    tags:['당나라','장안'], step:1 },
+  { year:1271, row:'china3', title:'쿠빌라이, 원나라 건국',
+    body:'쿠빌라이가 원(元)을 건국. 베트남 쩐 왕조는 몽골의 3차례 침공을 모두 격퇴합니다.',
+    context:'같은 시기: 고려 삼별초 항쟁, 베트남 쩐흥다오 장군의 몽골 격퇴',
+    tags:['원나라','쿠빌라이','몽골'], step:1 },
+
+  // EUROPE
+  { year:-44, row:'eu2', title:'율리우스 카이사르 암살',
+    body:'로마 공화정의 카이사르가 원로원 의원들에게 암살됩니다. 로마 제정의 시작.',
+    context:'같은 시기: 베트남 북부에서 한나라 지배 개시(-111년) 직후',
+    tags:['카이사르','로마'], step:1 },
+  { year:1453, row:'eu2', title:'동로마(비잔틴) 제국 멸망',
+    body:'오스만 제국이 콘스탄티노플을 함락. 중세 유럽이 사실상 마감됩니다.',
+    context:'같은 시기: 조선 세종 치세 말기, 베트남 후레 왕조 전성기',
+    tags:['비잔틴멸망','오스만'], step:1 },
+  { year:1492, row:'eu4', title:'콜럼버스, 아메리카 도달',
+    body:'콜럼버스가 카리브해에 도달합니다. 유럽의 아시아 항로 개척이 본격화됩니다.',
+    context:'같은 시기: 포르투갈이 인도차이나 해안 탐사 시작, 조선 성종 치세',
+    tags:['콜럼버스','신대륙','대항해'], step:1 },
+  { year:1789, row:'eu4', title:'프랑스 혁명 발발',
+    body:'바스티유 감옥 습격으로 프랑스 혁명이 시작됩니다.',
+    context:'같은 시기: 베트남 응우옌 왕조 성립(1802) 직전 혼란기, 조선 정조 치세',
+    tags:['프랑스혁명','바스티유'], step:1 },
+
+  // VIETNAM step2
+  { year:192, row:'vn1', title:'참파 왕국 건국',
+    body:'인도 힌두 문화를 받아들인 참파(Champa) 왕국이 중부 베트남(현 다낭 일대)에 건국됩니다. 이후 1700여년간 독자적인 힌두-불교 문명을 꽃피웁니다.',
+    context:'같은 시기: 중국 후한 말기(삼국지 시대), 한반도 삼국시대 초기',
+    tags:['참파왕국','힌두문명','다낭'], step:2 },
+  { year:939, row:'vn2', title:'베트남 독립 — 응오 왕조',
+    body:'응오 꾸옌이 바익당강 전투에서 중국 남한군을 격파하고 베트남이 1000년 중국 지배에서 독립합니다.',
+    context:'같은 시기: 고려 건국(918), 중국 오대십국 시대',
+    tags:['베트남독립','응오꾸옌'], step:2 },
+  { year:1258, row:'vn2', title:'쩐 왕조, 몽골 1차 침공 격퇴',
+    body:'쩐 왕조가 쩐흥다오 장군 지휘 하에 몽골군을 3차례(1258·1285·1288) 모두 격퇴합니다. 아시아에서 몽골을 이긴 드문 사례.',
+    context:'같은 시기: 고려 무신정권·삼별초 항쟁, 원나라 건국(1271)',
+    tags:['몽골격퇴','쩐흥다오','베트남'], step:2 },
+  { year:1471, row:'vn2', title:'베트남, 참파 왕국 정복',
+    body:'레 왕조의 레 타인 똥이 참파 수도 비자야(현 빈딘성)를 함락합니다. 참파는 크게 축소되며 다낭 일대가 베트남 영토로 편입됩니다.',
+    context:'같은 시기: 조선 성종 치세, 유럽 르네상스 절정',
+    tags:['참파멸망','레왕조','다낭편입'], step:2 },
+
+  // ─ DANANG 주요 역사적 일화 (step3, hero:true) ─
+  { year:200, row:'vn1', hero:true, person:'champa',
+    title:'미선 성지 — 참파 힌두 사원 건립 시작',
+    body:'다낭 남서쪽 40km 거리의 미선(My Son)에 힌두교 성지 건립이 시작됩니다. 이후 10세기에 걸쳐 70여 개 사원이 조성됩니다. 인도차이나 반도 최고의 힌두 건축군으로 1999년 유네스코 세계문화유산에 등재됩니다.',
+    context:'같은 시기: 중국 후한 말기(삼국지), 한반도 삼국시대 초기. 인도 힌두 문화가 해상 실크로드를 통해 동남아시아로 전파되던 시기.',
+    tags:['미선성지','힌두사원','참파','다낭'], step:3, person:'champa' },
+  { year:1306, row:'vn1', hero:true, person:'champa',
+    title:'다낭(오주·리주) — 고려비 혼인으로 베트남에 할양',
+    body:'참파 왕 제 첸이 베트남 쩐 왕조 황제의 딸 혼인을 대가로 다낭 일대(오주·리주)를 베트남에 할양합니다. 다낭이 국제 무역항으로 부상하는 계기가 됩니다.',
+    context:'같은 시기: 고려 충렬왕 시대, 원나라 쿠빌라이 사망(1294) 이후. 한반도에서도 원나라 간섭기.',
+    tags:['다낭할양','참파','쩐왕조','혼인외교'], step:3, person:'champa' },
+  { year:1858, row:'vn3', hero:true, person:'french',
+    title:'프랑스 함대 다낭 상륙 — 식민지배의 시작',
+    body:'프랑스 해군 제독 리고 드 주누이 지휘 하에 14척 함대가 다낭항을 포격하고 상륙합니다. 베트남 선교사 보호를 명분으로 한 이 침공은 프랑스령 인도차이나 식민지배의 출발점이 됩니다. 다낭은 프랑스가 베트남 진출을 위해 선택한 첫 거점 항구였습니다.',
+    context:'같은 시기: 조선 철종 치세, 중국 제2차 아편전쟁(1856~1860). 전 세계에서 유럽 열강의 아시아 식민지 쟁탈이 최고조.',
+    tags:['프랑스상륙','식민지배','다낭항','1858'], step:3, person:'french' },
+  { year:1965, row:'vn3', hero:true, person:'vietnam_war',
+    title:'미군 해병대 다낭 상륙 — 베트남전쟁 본격 개입',
+    body:'미국 해병대 3500명이 다낭 해변에 상륙합니다. 이는 미국이 베트남전쟁에 전투병력을 직접 투입한 첫 사례입니다. 다낭은 미군 최대 공군기지가 되어 전쟁 내내 핵심 군사거점 역할을 합니다. 당시 다낭 해변에는 비키니 차림의 여성들이 꽃다발로 환영하는 기묘한 장면이 연출됩니다.',
+    context:'같은 시기: 한국도 베트남 파병(1964~1973) 결정. 박정희 정부 시대. 냉전 절정기.',
+    tags:['미군상륙','베트남전쟁','다낭해변','1965'], step:3, person:'vietnam_war' },
+  { year:1999, row:'vn3', hero:true, person:'modern',
+    title:'호이안 & 미선, 유네스코 세계문화유산 등재',
+    body:'다낭 인근 호이안 고대도시와 미선 성지가 유네스코 세계문화유산에 동시 등재됩니다. 호이안은 15~19세기 동아시아·동남아·유럽 무역의 허브로 번성했던 항구도시로, 한국·중국·일본·포르투갈 상인들이 공존했습니다. 이 등재를 계기로 다낭은 세계적인 관광지로 부상하기 시작합니다.',
+    context:'같은 시기: 한국 IMF 외환위기 이후 회복기, 베트남 도이모이(개혁개방) 정책 결실.',
+    tags:['호이안','미선','유네스코','세계유산','1999'], step:3, person:'modern' },
+];
+
+// ═══════════════════════════════════════════
+//  ROW DEFS
+// ═══════════════════════════════════════════
+const rowDefs = [
+  { id:'korea1', group:'🇰🇷  한국사', label:'고조선·초기' },
+  { id:'korea2', label:'삼국(삼한·고구려)' },
+  { id:'korea3', label:'삼국(백제·신라·발해)' },
+  { id:'korea4', label:'고려·조선·현대' },
+  { id:'china1', group:'🇨🇳  중국사', label:'상·주·진·한' },
+  { id:'china2', label:'위진~당·송' },
+  { id:'china3', label:'원·명·청·현대' },
+  { id:'eu1',   group:'🌍  유럽사', label:'그리스·공화정' },
+  { id:'eu2',   label:'로마제국·비잔틴' },
+  { id:'eu3',   label:'프랑크·영국' },
+  { id:'eu4',   label:'이슬람·오스만·프랑스' },
+  { id:'vn1', group:'🇻🇳  베트남사', label:'초기~참파', step:2 },
+  { id:'vn2', label:'독립왕조~레 왕조', step:2 },
+  { id:'vn3', label:'응우옌·식민·현대', step:2 },
+];
+
+// ═══════════════════════════════════════════
+//  HERO CARDS DATA
+// ═══════════════════════════════════════════
+const heroCards = [
+  { id:'champa',  name:'참파 왕국의 다낭', years:'192~1306',
+    desc:'힌두 문명의 보고, 미선 성지의 도시',
+    eventYears:[200, 1306] },
+  { id:'french',  name:'프랑스 식민지배', years:'1858~1954',
+    desc:'프랑스 함대의 다낭 상륙과 96년 식민지배',
+    eventYears:[1858] },
+  { id:'vietnam_war', name:'베트남 전쟁', years:'1955~1975',
+    desc:'미군 최대 군사거점이 된 다낭',
+    eventYears:[1965] },
+  { id:'modern',  name:'세계유산과 관광도시', years:'1999~현재',
+    desc:'호이안·미선 유네스코 등재, 세계 관광지 도약',
+    eventYears:[1999] },
+];
+
+// ═══════════════════════════════════════════
+//  STATE & RENDER
+// ═══════════════════════════════════════════
+let currentStep = 1;
+
+function render() {
+  document.getElementById('tl-inner').style.width  = TL_WIDTH + 'px';
+  document.getElementById('axis-wrap').style.width = TL_WIDTH + 'px';
+  renderAxis();
+  renderRows();
+}
+
+function renderAxis() {
+  const wrap = document.getElementById('axis-wrap');
+  wrap.innerHTML = '';
+
+  const shade = document.createElement('div');
+  shade.className = 'bc-shade';
+  shade.style.cssText = `left:0; width:${BC_WIDTH}px`;
+  wrap.appendChild(shade);
+
+  const line = document.createElement('div');
+  line.className = 'axis-line';
+  wrap.appendChild(line);
+
+  const div = document.createElement('div');
+  div.className = 'bcad-divider';
+  div.style.left = BC_WIDTH + 'px';
+  div.innerHTML = '<div class="bcad-label">BC | AD</div><div class="bcad-line"></div>';
+  wrap.appendChild(div);
+
+  const bcTicks = [-1500,-1000,-500,-250,-100];
+  bcTicks.forEach(y => addTick(wrap, y, `BC ${Math.abs(y)}`));
+
+  const adTicks = [0,100,200,300,400,500,600,700,800,900,1000,1100,
+    1200,1300,1400,1500,1600,1700,1750,1800,1850,1900,1950,2000];
+  adTicks.forEach(y => addTick(wrap, y, y===0 ? 'AD 0' : String(y)));
+}
+
+function addTick(wrap, y, label) {
+  const t = document.createElement('div');
+  t.className = 'axis-tick';
+  t.style.left = yearToX(y) + 'px';
+  t.innerHTML = `<div class="tick-line"></div><div class="tick-label">${label}</div>`;
+  wrap.appendChild(t);
+}
+
+function renderRows() {
+  const container = document.getElementById('tl-rows');
+  container.innerHTML = '';
+  let lastGroup = null;
+
+  rowDefs.forEach(rd => {
+    if (rd.step && rd.step > currentStep) return;
+
+    if (rd.group && rd.group !== lastGroup) {
+      const gl = document.createElement('div');
+      gl.className = 'row-group-label';
+      gl.textContent = rd.group;
+      container.appendChild(gl);
+      lastGroup = rd.group;
+    }
+
+    const rowEl = document.createElement('div');
+    rowEl.className = 'tl-row';
+    const track = document.createElement('div');
+    track.className = 'row-track';
+
+    periods
+      .filter(p => p.row === rd.id && (!p.step || p.step <= currentStep))
+      .forEach(p => {
+        const x1 = Math.max(0, yearToX(Math.max(p.start, BC_START)));
+        const x2 = Math.min(TL_WIDTH, yearToX(Math.min(p.end, AD_END)));
+        if (x2 <= x1) return;
+        const bar = document.createElement('div');
+        bar.className = `period ${p.cls}`;
+        bar.style.left  = x1 + 'px';
+        bar.style.width = (x2 - x1) + 'px';
+        if (p.opacity) bar.style.opacity = p.opacity;
+        const lbl = document.createElement('span');
+        lbl.className = 'period-label';
+        lbl.textContent = p.label;
+        bar.appendChild(lbl);
+        track.appendChild(bar);
+      });
+
+    events
+      .filter(e => e.row === rd.id && (!e.step || e.step <= currentStep))
+      .forEach(e => {
+        const dot = document.createElement('div');
+        dot.className = 'event-dot ' + (e.hero ? 'dot-hero' : 'dot-normal');
+        dot.style.left = yearToX(e.year) + 'px';
+        dot.title = e.title;
+        dot.onclick = () => showPopup(e);
+        track.appendChild(dot);
+      });
+
+    rowEl.appendChild(track);
+    container.appendChild(rowEl);
+  });
+}
+
+function setStep(n, btn) {
+  currentStep = n;
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  btn.classList.add('active');
+
+  const banners = {
+    1: '<strong>Step 1</strong> — 한국·중국·유럽 BC 1500~AD 2000. 🟢 초록 점을 클릭하면 상세 팝업이 열립니다.',
+    2: '<strong>Step 2</strong> — 베트남 연대기 추가. 참파 왕국부터 통일 베트남까지. 동아시아와의 연관성을 확인하세요.',
+    3: '<strong>Step 3</strong> — 🔴 빨간 점 = 다낭 주요 역사적 일화. 클릭하거나 아래 카드에서 선택하세요.',
+  };
+  document.getElementById('info-banner').innerHTML = banners[n];
+
+  const panel = document.getElementById('hero-panel');
+  if (n === 3) {
+    panel.classList.add('visible');
+    renderHeroPanel();
+    setTimeout(() => scrollToYear(1858), 300);
+  } else {
+    panel.classList.remove('visible');
+  }
+  render();
+}
+
+function renderHeroPanel() {
+  const container = document.getElementById('hero-cards');
+  container.innerHTML = '';
+  heroCards.forEach(h => {
+    const card = document.createElement('div');
+    card.className = 'hero-card';
+    const evHtml = h.eventYears.map(yr => {
+      const ev = events.find(e => e.year === yr && e.person === h.id);
+      if (!ev) return '';
+      const shortTitle = ev.title.split('—')[0].trim();
+      return `<div class="hero-card-ev" onclick="showPopupByKey(${yr},'${h.id}')">
+        <span class="hero-ev-year">${yr}</span>
+        <span>${shortTitle}</span>
+      </div>`;
+    }).join('');
+    card.innerHTML = `
+      <div class="hero-card-name">${h.name}</div>
+      <div class="hero-card-years">${h.years}</div>
+      <div class="hero-card-events">${evHtml}</div>`;
+    container.appendChild(card);
+  });
+}
+
+function showPopupByKey(yr, personId) {
+  const ev = events.find(e => e.year === yr && e.person === personId);
+  if (ev) showPopup(ev);
+}
+
+function showPopup(e) {
+  const yLabel = e.year < 0 ? `BC ${Math.abs(e.year)}년` : `AD ${e.year}년`;
+  document.getElementById('p-year').textContent  = yLabel;
+  document.getElementById('p-title').textContent = e.title;
+  document.getElementById('p-body').textContent  = e.body;
+  document.getElementById('p-context').textContent = '🌐 ' + (e.context || '');
+  const badge = document.getElementById('p-hero-badge');
+  if (e.hero) badge.classList.add('show'); else badge.classList.remove('show');
+  document.getElementById('p-tags').innerHTML =
+    (e.tags||[]).map(t=>`<span class="popup-tag">#${t}</span>`).join('');
+  document.getElementById('popup').classList.add('active');
+  scrollToYear(e.year);
+}
+
+function closePopup(ev) {
+  if (!ev || ev.target === document.getElementById('popup'))
+    document.getElementById('popup').classList.remove('active');
+}
+
+function scrollToYear(year, btn) {
+  if (btn) {
+    document.querySelectorAll('.era-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+  const outer = document.getElementById('tl-outer');
+  const x = yearToX(year) - outer.clientWidth / 3;
+  outer.scrollTo({ left: Math.max(0, x), behavior: 'smooth' });
+}
+
+// drag scroll
+(function() {
+  const el = document.getElementById('tl-outer');
+  let down=false, startX, scrollLeft;
+  el.addEventListener('mousedown', e => { down=true; startX=e.pageX-el.offsetLeft; scrollLeft=el.scrollLeft; });
+  el.addEventListener('mouseleave', () => down=false);
+  el.addEventListener('mouseup',    () => down=false);
+  el.addEventListener('mousemove',  e => {
+    if (!down) return;
+    e.preventDefault();
+    el.scrollLeft = scrollLeft - (e.pageX - el.offsetLeft - startX);
+  });
+})();
+
+render();
+</script>
+</body>
+</html>
