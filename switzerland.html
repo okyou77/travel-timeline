@@ -1165,6 +1165,382 @@ body {
 @media (max-width: 768px) {
   .story-box, .exchange-box { padding: 22px 16px 18px; }
 }
+
+/* ── TAB 0: 스위스 가이드 — 산악 딥 블루 계열 ── */
+.step.step-guide {
+  background: linear-gradient(160deg, #eef4fb 0%, #d8eaf8 100%);
+  border-left: 3px solid #1a5c9a;
+  color: #133f6e;
+  font-weight: 700;
+  font-size: 13px;
+  font-family: 'Noto Serif KR', serif;
+  letter-spacing: 0.02em;
+  position: relative;
+}
+
+.step.step-guide .step-num {
+  font-family: 'Cinzel', serif;
+  font-size: 16px;
+  color: #1a5c9a;
+  font-weight: 700;
+}
+
+.step.step-guide::before {
+  content: '🏔';
+  position: absolute;
+  top: 5px;
+  right: 7px;
+  font-size: 12px;
+  animation: mountainFloat 3s ease-in-out infinite;
+}
+
+@keyframes mountainFloat {
+  0%,100% { transform: translateY(0); }
+  50%      { transform: translateY(-3px); }
+}
+
+.step.step-guide:hover {
+  background: linear-gradient(160deg, #d8eaf8 0%, #bdd8f2 100%);
+  color: #0e2f52;
+}
+
+.step.step-guide.active {
+  background: linear-gradient(160deg, #c8dff5 0%, #a8c8ee 100%);
+  color: #0e2f52;
+  box-shadow: inset 0 -3px 0 #1a5c9a;
+}
+
+.step.step-guide.active::after {
+  background: #1a5c9a;
+  height: 4px;
+}
+
+/* ── GUIDE PANEL ── */
+.guide-panel {
+  display: none;
+  background: linear-gradient(180deg, #f0f6fd 0%, #ffffff 100%);
+  border: 1px solid #b8d4ee;
+  border-left: 4px solid #1a5c9a;
+  border-radius: 0 8px 8px 0;
+  margin: 0 24px 12px;
+  padding: 0;
+  box-shadow: 0 2px 12px rgba(26,92,154,0.10);
+  overflow: hidden;
+}
+
+.guide-panel.visible { display: block; animation: slideDown 0.3s ease; }
+
+/* 가이드 헤더 */
+.guide-header {
+  background: linear-gradient(135deg, #1a5c9a 0%, #0e3d6e 100%);
+  color: #fff;
+  padding: 18px 24px 14px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.guide-avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.15);
+  border: 2px solid rgba(255,255,255,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  flex-shrink: 0;
+}
+
+.guide-header-text {}
+.guide-name { font-size: 15px; font-weight: 700; font-family: 'Noto Serif KR', serif; }
+.guide-desc { font-size: 11.5px; opacity: 0.82; margin-top: 2px; }
+
+/* 챕터 탭 */
+.guide-chapters {
+  display: flex;
+  overflow-x: auto;
+  background: #e8f0f8;
+  border-bottom: 1px solid #b8d4ee;
+  gap: 0;
+  padding: 0 8px;
+}
+
+.guide-chapter-btn {
+  padding: 9px 16px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #4a6a8a;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  white-space: nowrap;
+  transition: all 0.18s;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+.guide-chapter-btn:hover { color: #1a5c9a; }
+.guide-chapter-btn.active { color: #1a5c9a; border-bottom-color: #1a5c9a; font-weight: 700; background: rgba(255,255,255,0.6); }
+
+/* 챕터 컨텐츠 영역 */
+.guide-content-area {
+  padding: 0;
+}
+
+.guide-chapter {
+  display: none;
+  padding: 20px 24px;
+  animation: fadeIn 0.25s ease;
+}
+
+.guide-chapter.active { display: block; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* 가이드 토크 블록 — 말풍선 스타일 */
+.guide-talk {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 18px;
+  align-items: flex-start;
+}
+
+.guide-talk-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #1a5c9a;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.guide-bubble {
+  background: #fff;
+  border: 1px solid #c8dff5;
+  border-radius: 4px 14px 14px 14px;
+  padding: 12px 16px;
+  font-size: 13.5px;
+  line-height: 1.85;
+  color: #2a3a4a;
+  flex: 1;
+  position: relative;
+  box-shadow: 0 1px 6px rgba(26,92,154,0.07);
+}
+
+.guide-bubble::before {
+  content: '';
+  position: absolute;
+  top: 12px;
+  left: -8px;
+  width: 0; height: 0;
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+  border-right: 8px solid #c8dff5;
+}
+
+.guide-bubble::after {
+  content: '';
+  position: absolute;
+  top: 13px;
+  left: -6px;
+  width: 0; height: 0;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-right: 7px solid #fff;
+}
+
+/* 아하! 강조 박스 */
+.aha-box {
+  background: linear-gradient(135deg, #fffbea 0%, #fff8d6 100%);
+  border: 1.5px solid #e8c840;
+  border-radius: 10px;
+  padding: 12px 16px;
+  margin: 14px 0;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.aha-icon {
+  font-size: 22px;
+  flex-shrink: 0;
+  line-height: 1;
+  margin-top: 1px;
+}
+
+.aha-text {
+  font-size: 13px;
+  line-height: 1.75;
+  color: #5a4a10;
+}
+
+.aha-text strong { color: #3a2a00; font-weight: 700; }
+
+/* 데이터 카드 그리드 */
+.guide-data-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 10px;
+  margin: 14px 0;
+}
+
+.guide-data-card {
+  background: linear-gradient(160deg, #f0f6fd 0%, #e0eef8 100%);
+  border: 1px solid #b8d4ee;
+  border-radius: 8px;
+  padding: 12px 14px;
+  text-align: center;
+}
+
+.guide-data-num {
+  font-family: 'Cinzel', serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: #1a5c9a;
+  display: block;
+}
+
+.guide-data-label {
+  font-size: 10.5px;
+  color: #4a6a8a;
+  margin-top: 3px;
+  line-height: 1.4;
+}
+
+/* 이웃나라 비교 카드 */
+.neighbor-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 10px;
+  margin: 14px 0;
+}
+
+.neighbor-card {
+  border-radius: 10px;
+  padding: 12px 14px;
+  border: 1.5px solid transparent;
+  position: relative;
+  overflow: hidden;
+}
+
+.neighbor-card.germany  { background: #f8f4e8; border-color: #d4b840; }
+.neighbor-card.france   { background: #f0f0f8; border-color: #6060c0; }
+.neighbor-card.italy    { background: #f5f0f0; border-color: #c04040; }
+.neighbor-card.austria  { background: #f8f0f0; border-color: #c03030; }
+.neighbor-card.swiss-center { background: linear-gradient(135deg, #fff5f5, #fff); border-color: #d62828; border-width: 2px; }
+
+.neighbor-flag { font-size: 20px; margin-bottom: 4px; }
+.neighbor-name { font-size: 12px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+.neighbor-desc { font-size: 10.5px; color: var(--muted); line-height: 1.5; }
+.neighbor-arrow { font-size: 11px; color: #888; margin-top: 4px; }
+
+/* 언어 바 */
+.lang-bars { margin: 12px 0; }
+.lang-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.lang-name { font-size: 12px; font-weight: 600; color: var(--text); min-width: 56px; }
+.lang-track { flex: 1; height: 14px; background: #e8eef4; border-radius: 999px; overflow: hidden; }
+.lang-fill { height: 100%; border-radius: 999px; transition: width 0.8s ease; }
+.lang-pct { font-size: 11px; color: var(--muted); min-width: 32px; text-align: right; }
+
+/* 섹터 분리선 */
+.guide-section-title {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #1a5c9a;
+  margin: 18px 0 10px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #b8d4ee;
+}
+
+/* 인용 */
+.guide-quote {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 14px;
+  font-style: italic;
+  color: #3a5a7a;
+  border-left: 3px solid #1a5c9a;
+  padding: 8px 14px;
+  margin: 12px 0;
+  background: #f0f6fd;
+  border-radius: 0 6px 6px 0;
+  line-height: 1.8;
+}
+
+/* 도시 카드 */
+.city-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 10px;
+  margin: 14px 0;
+}
+
+.city-card {
+  border-radius: 10px;
+  padding: 13px 15px;
+  border: 1px solid #c8dff5;
+  background: #fff;
+  cursor: pointer;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.city-card:hover { box-shadow: 0 4px 16px rgba(26,92,154,0.13); transform: translateY(-2px); }
+
+.city-card-icon { font-size: 22px; margin-bottom: 5px; }
+.city-card-name { font-size: 13px; font-weight: 700; color: #1a3a5c; margin-bottom: 4px; }
+.city-card-tag  { font-size: 10px; color: #1a5c9a; background: #e0eef8; border-radius: 999px; padding: 2px 8px; display: inline-block; margin-bottom: 6px; }
+.city-card-desc { font-size: 11px; color: #4a6a8a; line-height: 1.55; }
+
+/* 타임라인 미니 */
+.mini-timeline { margin: 14px 0; }
+.mini-tl-item {
+  display: flex;
+  gap: 14px;
+  padding-bottom: 14px;
+  position: relative;
+}
+.mini-tl-item::before {
+  content: '';
+  position: absolute;
+  left: 19px;
+  top: 28px;
+  bottom: 0;
+  width: 2px;
+  background: #c8dff5;
+}
+.mini-tl-item:last-child::before { display: none; }
+.mini-tl-dot {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #e0eef8;
+  border: 2px solid #1a5c9a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+.mini-tl-body {}
+.mini-tl-year { font-size: 10.5px; font-weight: 700; color: #1a5c9a; letter-spacing: 0.1em; }
+.mini-tl-title { font-size: 13px; font-weight: 700; color: var(--text); margin: 2px 0; }
+.mini-tl-desc { font-size: 11.5px; color: var(--muted); line-height: 1.6; }
 </style>
 </head>
 <body>
@@ -1199,6 +1575,9 @@ body {
   <div class="step step-exchange" onclick="setStep(4,this)">
     <span class="step-num">④</span>스위스와의 교류
   </div>
+  <div class="step step-guide" onclick="setStep(5,this)">
+    <span class="step-num">⑤</span>현지인이 말하는 스위스
+  </div>
 </div>
 
 <!-- INFO BANNER -->
@@ -1221,6 +1600,237 @@ body {
   <div class="story-link-grid" id="exchange-link-grid"></div>
   <div class="exchange-cards" id="exchange-cards"></div>
 </div>
+
+<!-- GUIDE PANEL (Step 5) -->
+<div class="guide-panel" id="guide-panel">
+  <div class="guide-header">
+    <div class="guide-avatar">🧑‍🦱</div>
+    <div class="guide-header-text">
+      <div class="guide-name">마르쿠스 슈타이너 (Markus Steiner)</div>
+      <div class="guide-desc">베른 출신 · 취리히 거주 10년 · 공인 스위스 관광 가이드 · 한국어 가능</div>
+    </div>
+  </div>
+  <div class="guide-chapters">
+    <button class="guide-chapter-btn active" onclick="showChapter('ch1',this)">🌍 왜 스위스인가?</button>
+    <button class="guide-chapter-btn" onclick="showChapter('ch2',this)">🗺️ 이웃나라와의 관계</button>
+    <button class="guide-chapter-btn" onclick="showChapter('ch3',this)">🗣️ 4개 언어의 나라</button>
+    <button class="guide-chapter-btn" onclick="showChapter('ch4',this)">🏙️ 도시별 성격</button>
+    <button class="guide-chapter-btn" onclick="showChapter('ch5',this)">⚖️ 중립국의 진짜 의미</button>
+    <button class="guide-chapter-btn" onclick="showChapter('ch6',this)">🏔️ 알프스가 만든 나라</button>
+  </div>
+  <div class="guide-content-area">
+
+    <!-- 챕터 1 -->
+    <div class="guide-chapter active" id="ch1">
+      <div class="guide-talk">
+        <div class="guide-talk-avatar">🧑‍🦱</div>
+        <div class="guide-bubble">
+          안녕하세요! 저는 마르쿠스입니다. 스위스를 처음 오신 분들이 가장 많이 하시는 말이 있어요. <strong>"스위스는 생각보다 작네요!"</strong> 맞아요. 스위스는 한국의 절반도 안 되는 크기입니다. 그런데 이 작은 나라가 왜 전 세계에서 이렇게 유명할까요? 제가 설명해 드릴게요.
+        </div>
+      </div>
+      <div class="guide-data-grid">
+        <div class="guide-data-card"><span class="guide-data-num">41,285</span><div class="guide-data-label">국토 면적 km²<br><small>(한국의 약 41%)</small></div></div>
+        <div class="guide-data-card"><span class="guide-data-num">880만</span><div class="guide-data-label">인구<br><small>(서울시의 약 82%)</small></div></div>
+        <div class="guide-data-card"><span class="guide-data-num">4개</span><div class="guide-data-label">공식 언어<br><small>(독어·불어·이탈어·로망슈어)</small></div></div>
+        <div class="guide-data-card"><span class="guide-data-num">26개</span><div class="guide-data-label">캔톤(주)<br><small>(거의 독립적 자치 정부)</small></div></div>
+        <div class="guide-data-card"><span class="guide-data-num">#1</span><div class="guide-data-label">1인당 GDP<br><small>(세계 최상위권)</small></div></div>
+        <div class="guide-data-card"><span class="guide-data-num">730년</span><div class="guide-data-label">연방 역사<br><small>(1291년 뤼틀리 서약 기준)</small></div></div>
+      </div>
+      <div class="aha-box">
+        <div class="aha-icon">💡</div>
+        <div class="aha-text"><strong>아하! 이게 핵심입니다 —</strong> 스위스가 강한 이유는 땅이 크거나 인구가 많아서가 아닙니다. <strong>오랜 중립과 자치, 4개 언어·문화가 공존하며 쌓아온 신뢰</strong>가 금융·제약·시계·식품(네슬레) 같은 정밀 산업의 토대가 됐습니다. 작지만 분쟁이 없는 나라 — 그게 스위스의 브랜드입니다.</div>
+      </div>
+      <div class="guide-talk">
+        <div class="guide-talk-avatar">🧑‍🦱</div>
+        <div class="guide-bubble">
+          사람들이 또 깜짝 놀라는 것이 있어요. 스위스는 <strong>EU 회원국이 아닙니다.</strong> 유로화도 쓰지 않아요. 스위스 프랑(CHF)을 씁니다. EU에 둘러싸여 있는데도 독립적인 통화와 법을 유지하는 이유는 딱 하나 — <strong>"우리는 우리가 결정한다"</strong>는 직접민주주의 정신 때문입니다. 국민이 투표로 거의 모든 것을 결정해요. 심지어 고속도로 건설도요!
+        </div>
+      </div>
+    </div>
+
+    <!-- 챕터 2 -->
+    <div class="guide-chapter" id="ch2">
+      <div class="guide-talk">
+        <div class="guide-talk-avatar">🧑‍🦱</div>
+        <div class="guide-bubble">
+          스위스를 이해하는 가장 빠른 방법 중 하나는 <strong>이웃나라와의 관계</strong>를 보는 겁니다. 스위스는 독일·프랑스·이탈리아·오스트리아·리히텐슈타인 5개국과 접해 있어요. 그런데 이 나라들이 수백 년 동안 전쟁을 반복하는 동안, 스위스는 딱 가운데서 중립을 지켰습니다. 그게 우연이 아니에요.
+        </div>
+      </div>
+      <div class="neighbor-grid">
+        <div class="neighbor-card germany">
+          <div class="neighbor-flag">🇩🇪</div>
+          <div class="neighbor-name">독일 (북쪽)</div>
+          <div class="neighbor-desc">스위스 인구의 63%가 독일어를 씁니다. 문화·경제적으로 가장 가깝지만 스위스는 "우리는 독일인이 아니다"라고 강조합니다.</div>
+          <div class="neighbor-arrow">→ 취리히·베른이 이 권역</div>
+        </div>
+        <div class="neighbor-card france">
+          <div class="neighbor-flag">🇫🇷</div>
+          <div class="neighbor-name">프랑스 (서쪽)</div>
+          <div class="neighbor-desc">제네바·로잔 등 서부 스위스(로망디)는 프랑스어권. 제네바는 사실상 UN·국제기구의 도시입니다.</div>
+          <div class="neighbor-arrow">→ 제네바·로잔이 이 권역</div>
+        </div>
+        <div class="neighbor-card italy">
+          <div class="neighbor-flag">🇮🇹</div>
+          <div class="neighbor-name">이탈리아 (남쪽)</div>
+          <div class="neighbor-desc">티치노(Ticino)주는 이탈리아어권. 지중해 기후와 알프스가 만나는 곳으로, 스위스에서 가장 따뜻하고 감성적인 지역입니다.</div>
+          <div class="neighbor-arrow">→ 루가노·벨린초나가 이 권역</div>
+        </div>
+        <div class="neighbor-card austria">
+          <div class="neighbor-flag">🇦🇹</div>
+          <div class="neighbor-name">오스트리아 (동쪽)</div>
+          <div class="neighbor-desc">합스부르크 제국에서 탈출하며 독립한 역사가 있어 미묘한 관계. 그라우뷘덴주는 로망슈어(라틴어 계열)도 씁니다.</div>
+          <div class="neighbor-arrow">→ 동부 알프스 권역</div>
+        </div>
+        <div class="neighbor-card swiss-center">
+          <div class="neighbor-flag">🇨🇭</div>
+          <div class="neighbor-name">스위스 (중앙)</div>
+          <div class="neighbor-desc"><strong>모두와 접해 있지만, 누구도 아닌 나라.</strong> 4개 언어, 26개 자치주, 1개의 연방. 이 복잡함이 스위스의 정체성입니다.</div>
+          <div class="neighbor-arrow">→ 베른이 연방의 중심</div>
+        </div>
+      </div>
+      <div class="aha-box">
+        <div class="aha-icon">💡</div>
+        <div class="aha-text"><strong>아하! 지리가 운명을 만들었습니다 —</strong> 독일·프랑스·이탈리아가 전쟁을 벌일 때, 스위스는 세 나라 모두의 언어를 쓰며 <strong>완충지대</strong>가 되었습니다. 중립이 단순한 선택이 아니라 <strong>생존 전략</strong>이었던 것이죠. 덕분에 2차 세계대전에서도 침략받지 않았고, 각국의 금과 자본이 스위스 은행으로 흘러들어왔습니다.</div>
+      </div>
+      <div class="guide-talk">
+        <div class="guide-talk-avatar">🧑‍🦱</div>
+        <div class="guide-bubble">재미있는 사실을 하나 더 드릴게요. 스위스는 EU 비회원국이지만 <strong>솅겐 협약</strong>에는 가입돼 있어요. 그래서 EU 여권이 있으면 국경 검사 없이 스위스에 들어올 수 있습니다. 하지만 스위스에서 물건을 사면 EU보다 비쌉니다. 왜냐면 스위스 프랑은 유로보다 강하거든요. 이 나라는 가입할 것만 쏙쏙 골라서 가입합니다. (웃음)</div>
+      </div>
+    </div>
+
+    <!-- 챕터 3 -->
+    <div class="guide-chapter" id="ch3">
+      <div class="guide-talk">
+        <div class="guide-talk-avatar">🧑‍🦱</div>
+        <div class="guide-bubble">저 마르쿠스는 베른에서 태어나서 독일어를 씁니다. 그런데 제 친구 피에르는 제네바 출신으로 프랑스어를 씁니다. 대학 동기 루카는 루가노에서 이탈리아어로 자랐어요. 우리 셋 다 <strong>"스위스 사람"</strong>입니다. 그런데 서로 모국어로 말하면 못 알아들어요! 그래서 보통 영어로 얘기합니다. (웃음)</div>
+      </div>
+      <div class="guide-section-title">스위스 언어 분포</div>
+      <div class="lang-bars">
+        <div class="lang-bar-row"><div class="lang-name">🇩🇪 독일어</div><div class="lang-track"><div class="lang-fill" style="width:63%;background:linear-gradient(90deg,#d4b840,#c8a820)"></div></div><div class="lang-pct">63%</div></div>
+        <div class="lang-bar-row"><div class="lang-name">🇫🇷 프랑스어</div><div class="lang-track"><div class="lang-fill" style="width:23%;background:linear-gradient(90deg,#6060c0,#4a4aaa)"></div></div><div class="lang-pct">23%</div></div>
+        <div class="lang-bar-row"><div class="lang-name">🇮🇹 이탈리아어</div><div class="lang-track"><div class="lang-fill" style="width:8%;background:linear-gradient(90deg,#c04040,#a83030)"></div></div><div class="lang-pct">8%</div></div>
+        <div class="lang-bar-row"><div class="lang-name">로망슈어</div><div class="lang-track"><div class="lang-fill" style="width:4%;background:linear-gradient(90deg,#2e7d32,#1a5c22);min-width:6px"></div></div><div class="lang-pct">0.5%</div></div>
+      </div>
+      <div class="aha-box">
+        <div class="aha-icon">💡</div>
+        <div class="aha-text"><strong>아하! 언어가 곧 문화권입니다 —</strong> 스위스를 여행할 때 서쪽(제네바·로잔)은 프랑스 분위기, 남쪽(루가노)은 이탈리아 분위기, 중·동부(취리히·베른·인터라켄)는 독일 분위기입니다. <strong>같은 나라 안에서 유럽 3개국을 동시에 느낄 수 있어요.</strong> 이것이 스위스 여행의 가장 큰 매력입니다.</div>
+      </div>
+      <div class="guide-talk">
+        <div class="guide-talk-avatar">🧑‍🦱</div>
+        <div class="guide-bubble">그리고 스위스에서 쓰는 독일어는 독일에서 쓰는 독일어와 달라요. 우리는 <strong>"슈비처뒤치(Schweizerdeutsch)"</strong>라는 방언을 씁니다. 독일 사람들도 못 알아들을 정도로 달라요. 심지어 스위스 독일어권 사람들도 글쓸 때는 표준 독일어(Hochdeutsch)를 써야 합니다. 우리는 말과 글이 다른 나라에서 살고 있는 거죠. 신기하죠?</div>
+      </div>
+      <div class="guide-quote">"로망슈어(Rumantsch)는 2,500년 전 라틴어에서 갈라진 언어로, 스위스 동부 그라우뷘덴주 일부에서만 쓰입니다. 전 세계에 약 6만 명만 이 언어를 씁니다. 스위스는 이 소수 언어도 공식 언어로 지정해 보호합니다."</div>
+    </div>
+
+    <!-- 챕터 4 -->
+    <div class="guide-chapter" id="ch4">
+      <div class="guide-talk">
+        <div class="guide-talk-avatar">🧑‍🦱</div>
+        <div class="guide-bubble">한국 분들이 스위스에 오실 때 주로 <strong>취리히·루체른·인터라켄·베른</strong>을 많이 오시는데, 사실 이 도시들은 성격이 완전히 달라요. 제가 각 도시를 사람으로 표현해 드릴게요 — 그러면 훨씬 잘 기억하실 거예요!</div>
+      </div>
+      <div class="city-cards">
+        <div class="city-card">
+          <div class="city-card-icon">💼</div>
+          <div class="city-card-name">취리히 (Zürich)</div>
+          <div class="city-card-tag">금융·문화의 수도</div>
+          <div class="city-card-desc">스위스의 "뉴욕". UBS 본사, 명품 거리 반호프슈트라세. 바쁘고 세련됐지만 리마트 강변에서 수영하는 사람들을 보면 여유도 있어요. 공식 수도는 베른이지만 경제·문화 수도는 취리히입니다.</div>
+        </div>
+        <div class="city-card">
+          <div class="city-card-icon">🌉</div>
+          <div class="city-card-name">루체른 (Luzern)</div>
+          <div class="city-card-tag">중세 동화의 도시</div>
+          <div class="city-card-desc">카펠교(Kapellbrücke)와 필라투스산이 만나는 스위스 관광의 상징. 중세 구시가가 완벽 보존된 "엽서 속 스위스". 한국 관광객 1위 도시입니다. 걸어서 반나절에 다 볼 수 있거든요!</div>
+        </div>
+        <div class="city-card">
+          <div class="city-card-icon">🏔️</div>
+          <div class="city-card-name">인터라켄 (Interlaken)</div>
+          <div class="city-card-tag">액티비티의 수도</div>
+          <div class="city-card-desc">두 호수 사이의 마을. 융프라우(3,454m) 등반 기지이자 스카이다이빙·패러글라이딩의 성지. 조용한 작은 마을인데 전 세계 모험가들이 모여 신기하게 활기찹니다.</div>
+        </div>
+        <div class="city-card">
+          <div class="city-card-icon">🌹</div>
+          <div class="city-card-name">로이커바트 (Leukerbad)</div>
+          <div class="city-card-tag">유럽 최대 알프스 온천</div>
+          <div class="city-card-desc">해발 1,411m의 온천 마을. 관광객이 가장 모르는 숨겨진 보석. 51°C 유황 온천에 몸을 담그며 만년설 봉우리를 바라보는 경험은 여기서만 가능합니다.</div>
+        </div>
+        <div class="city-card">
+          <div class="city-card-icon">🏛️</div>
+          <div class="city-card-name">베른 (Bern)</div>
+          <div class="city-card-tag">타협의 수도, 곰의 도시</div>
+          <div class="city-card-desc">스위스 연방 수도이지만 취리히보다 훨씬 조용합니다. 6km 아케이드 보행로, 시계탑, 아인슈타인이 살았던 집. "베른은 느리다"고들 하지만, 그게 매력입니다.</div>
+        </div>
+      </div>
+      <div class="aha-box">
+        <div class="aha-icon">💡</div>
+        <div class="aha-text"><strong>아하! 베른이 수도인 이유 —</strong> 왜 가장 큰 도시 취리히가 아니라 베른이 수도일까요? 1848년 연방 결성 때 취리히·제네바·바젤이 수도 자리를 두고 경쟁했는데, 아무도 양보를 안 했어요. 그래서 지리적으로 딱 가운데 있는 베른을 <strong>"연방도시(Bundesstadt)"</strong>로 타협 선정했습니다. 스위스다운 해결 방식이죠?</div>
+      </div>
+    </div>
+
+    <!-- 챕터 5 -->
+    <div class="guide-chapter" id="ch5">
+      <div class="guide-talk">
+        <div class="guide-talk-avatar">🧑‍🦱</div>
+        <div class="guide-bubble">"스위스는 중립국이죠?" — 이 말을 들을 때마다 저는 이렇게 대답합니다. <strong>"중립이지만 무력하지 않습니다."</strong> 스위스는 1815년 빈 회의에서 영세중립을 국제적으로 인정받았는데, 이건 "싸우지 않겠다"는 게 아니라 <strong>"우리가 원하지 않는 전쟁엔 참여하지 않겠다"</strong>는 적극적 선택입니다.</div>
+      </div>
+      <div class="mini-timeline">
+        <div class="mini-tl-item">
+          <div class="mini-tl-dot">⚔️</div>
+          <div class="mini-tl-body"><div class="mini-tl-year">1291</div><div class="mini-tl-title">뤼틀리 서약 — 자치의 시작</div><div class="mini-tl-desc">합스부르크 지배에 저항해 3개 캔톤이 동맹. "우리 스스로 다스린다"는 원칙의 출발.</div></div>
+        </div>
+        <div class="mini-tl-item">
+          <div class="mini-tl-dot">🕊️</div>
+          <div class="mini-tl-body"><div class="mini-tl-year">1648</div><div class="mini-tl-title">베스트팔렌 조약 — 공식 독립</div><div class="mini-tl-desc">30년 전쟁 종결 조약에서 스위스 독립 국제 승인. 유럽이 전쟁으로 피폐해질 때 스위스만 안정.</div></div>
+        </div>
+        <div class="mini-tl-item">
+          <div class="mini-tl-dot">📜</div>
+          <div class="mini-tl-body"><div class="mini-tl-year">1815</div><div class="mini-tl-title">빈 회의 — 영세중립 선언</div><div class="mini-tl-desc">나폴레옹 전쟁 이후 유럽 열강이 스위스의 영구 중립을 국제적으로 보장. "중립"이 외교 전략이 됨.</div></div>
+        </div>
+        <div class="mini-tl-item">
+          <div class="mini-tl-dot">🏥</div>
+          <div class="mini-tl-body"><div class="mini-tl-year">1863</div><div class="mini-tl-title">적십자 창설 — 중립이 세계를 돕다</div><div class="mini-tl-desc">중립이기 때문에 모든 전쟁에서 구호 활동 가능. 제네바가 국제기구의 도시가 된 근거.</div></div>
+        </div>
+        <div class="mini-tl-item">
+          <div class="mini-tl-dot">🏦</div>
+          <div class="mini-tl-body"><div class="mini-tl-year">1939–45</div><div class="mini-tl-title">2차 세계대전 — 중립의 실제 효과</div><div class="mini-tl-desc">유럽 전체가 전장이 될 때 스위스는 불침. 전쟁 자본과 금이 스위스 은행으로 몰려 현대 금융강국의 토대 완성.</div></div>
+        </div>
+      </div>
+      <div class="aha-box">
+        <div class="aha-icon">💡</div>
+        <div class="aha-text"><strong>아하! 중립이 가져다준 것들 —</strong> 중립 덕에 UN 유럽본부, WHO, ICRC, WTO, CERN(유럽입자물리연구소)이 모두 스위스에 있습니다. 제네바에만 국제기구 40개 이상, 외교관 3만 명이 상주합니다. <strong>싸우지 않는 것이 스위스에게 가장 큰 경제적 이익</strong>이 된 것이죠.</div>
+      </div>
+      <div class="guide-talk">
+        <div class="guide-talk-avatar">🧑‍🦱</div>
+        <div class="guide-bubble">그런데 중립이라고 해서 군대가 없는 건 아닙니다. 스위스는 <strong>징병제</strong> 국가입니다. 성인 남성은 의무 복무를 하고, 예비역으로 오랫동안 훈련을 받아요. 우리는 싸우고 싶지 않지만, 싸울 수 있습니다 — 이게 진짜 중립입니다.</div>
+      </div>
+    </div>
+
+    <!-- 챕터 6 -->
+    <div class="guide-chapter" id="ch6">
+      <div class="guide-talk">
+        <div class="guide-talk-avatar">🧑‍🦱</div>
+        <div class="guide-bubble">마지막으로 가장 중요한 이야기를 해드릴게요. 스위스를 이해하는 핵심 키워드는 <strong>알프스(Alps)</strong>입니다. 알프스는 단순히 예쁜 산이 아닙니다. 알프스가 스위스의 역사·경제·문화·기후를 모두 만들었습니다.</div>
+      </div>
+      <div class="guide-section-title">알프스가 스위스에 준 것들</div>
+      <div class="guide-data-grid">
+        <div class="guide-data-card"><span class="guide-data-num">🛡️</span><div class="guide-data-label"><strong>천연 요새</strong><br>산이 막아줘서 외세 침략이 어려웠음. 중립 유지의 지리적 기반.</div></div>
+        <div class="guide-data-card"><span class="guide-data-num">💧</span><div class="guide-data-label"><strong>수자원</strong><br>라인·론·인 강의 발원지. 청정수와 수력발전으로 친환경 에너지 70%.</div></div>
+        <div class="guide-data-card"><span class="guide-data-num">🏨</span><div class="guide-data-label"><strong>관광 산업</strong><br>19세기 귀족 요양지에서 현대 관광 강국으로. 연간 관광객 약 1,700만명.</div></div>
+        <div class="guide-data-card"><span class="guide-data-num">🚂</span><div class="guide-data-label"><strong>철도 기술</strong><br>험준한 산을 넘기 위해 세계 최고의 등산철도·터널 기술 발달.</div></div>
+        <div class="guide-data-card"><span class="guide-data-num">🧀</span><div class="guide-data-label"><strong>낙농업</strong><br>알프스 목초지에서 에멘탈·그뤼에르 치즈, 밀크초콜릿(네슬레·린트) 탄생.</div></div>
+        <div class="guide-data-card"><span class="guide-data-num">⏱️</span><div class="guide-data-label"><strong>정밀 문화</strong><br>겨울이 길어 실내 작업 발달 → 시계 제조업. 아직도 스위스 시계 점유율 세계 1위.</div></div>
+      </div>
+      <div class="aha-box">
+        <div class="aha-icon">💡</div>
+        <div class="aha-text"><strong>아하! 이것이 스위스의 전부입니다 —</strong> 알프스 때문에 고립됐고, 고립됐기 때문에 자치를 배웠으며, 자치 정신이 중립으로 이어졌고, 중립 덕에 전쟁을 피했으며, 전쟁을 피했기 때문에 부가 쌓였습니다. <strong>산이 만든 나라, 스위스.</strong> 이제 알프스를 올려다볼 때 단순한 경관이 아니라 730년 역사가 보일 겁니다.</div>
+      </div>
+      <div class="guide-talk">
+        <div class="guide-talk-avatar">🧑‍🦱</div>
+        <div class="guide-bubble">한 가지만 더 말씀드릴게요. 스위스 사람들은 알프스를 <strong>"우리 것"</strong>이라고 생각하지 않아요. 알프스는 독일·프랑스·이탈리아·오스트리아와 공유하는 산맥입니다. 하지만 스위스는 <strong>알프스의 중심</strong>에 있어요. 스위스를 여행한다는 건 — 유럽의 지붕 한가운데에 서는 것입니다. 좋은 여행 되세요! 🏔️</div>
+      </div>
+    </div>
+
+  </div><!-- end guide-content-area -->
+</div><!-- end guide-panel -->
 
 <!-- 스위스 지도 링크 바 -->
 <div class="swiss-map-bar" id="swiss-map-bar" style="display:none">
@@ -1698,15 +2308,18 @@ function setStep(n, btn) {
     2: '<strong>Step 2</strong> — 🇨🇭 스위스 연대기 추가. 켈트~현대 스위스 역사 바를 최상단에 배치해 세계사 흐름과 비교하기 쉽게 정리했습니다.',
     3: '<strong>Step 3</strong> — 🔴 빨간 점 또는 아래 링크 버튼을 누르면 스위스 역사 일화 5선의 상세창이 열립니다. 각 도시의 역사적 순간을 만나보세요.',
     4: '<strong>Step 4</strong> — 🤝 대한민국×스위스 교류 인사이트. 경제·사회·문화 분야 협력 현황과 새로운 비즈니스 기회를 살펴보세요.',
+    5: '<strong>Step 5</strong> — 🏔️ 베른 출신 공인 가이드 마르쿠스가 관광객 눈높이에서 스위스의 지리·역사·문화를 설명합니다. 6개 챕터를 자유롭게 탐색해 보세요.',
   };
   document.getElementById('info-banner').innerHTML = banners[n];
 
   const panel = document.getElementById('hero-panel');
   const exchangePanel = document.getElementById('exchange-panel');
+  const guidePanel = document.getElementById('guide-panel');
   const mapBar = document.getElementById('swiss-map-bar');
 
   panel.classList.remove('visible');
   exchangePanel.classList.remove('visible');
+  guidePanel.classList.remove('visible');
   mapBar.style.display = 'none';
 
   if (n === 3) {
@@ -1718,12 +2331,23 @@ function setStep(n, btn) {
     exchangePanel.classList.add('visible');
     mapBar.style.display = 'flex';
     renderExchangePanel();
+  } else if (n === 5) {
+    guidePanel.classList.add('visible');
+    mapBar.style.display = 'flex';
   } else if (n === 2) {
     mapBar.style.display = 'flex';
     setTimeout(() => scrollToYear(1291), 250);
   }
 
   render();
+}
+
+function showChapter(id, btn) {
+  document.querySelectorAll('.guide-chapter').forEach(c => c.classList.remove('active'));
+  document.querySelectorAll('.guide-chapter-btn').forEach(b => b.classList.remove('active'));
+  const ch = document.getElementById(id);
+  if (ch) ch.classList.add('active');
+  if (btn) btn.classList.add('active');
 }
 
 function renderHeroPanel() {
