@@ -1,0 +1,1896 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>세계사 연대기 — 스위스 (취리히·루체른·인터라켄·로이커바트·베른)</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&family=Noto+Sans+KR:wght@300;400;500;700&family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #ffffff;
+  --surface: #ffffff;
+  --surface2: #f5f5f5;
+  --border: #d0c8b8;
+  --border2: #e4ddd0;
+  --text: #1a1612;
+  --muted: #7a7060;
+  --korea: #c0392b;
+  --china: #c47a1a;
+  --europe: #1a6fa8;
+  --swiss: #d62828;
+  --accent: #b8860b;
+  --hero-dot: #e53935;
+  --normal-dot: #2e7d32;
+  --swiss-red: #d62828;
+  --swiss-white: #ffffff;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 300;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* ── HEADER ── */
+.header {
+  background: var(--surface);
+  padding: 28px 32px 20px;
+  border-bottom: 2px solid var(--border);
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.header-title {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(16px, 2.5vw, 26px);
+  color: var(--accent);
+  letter-spacing: 0.1em;
+}
+
+.header-sub { font-size: 12px; color: var(--muted); margin-top: 4px; }
+
+.legend {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.leg-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 400;
+}
+
+.leg-dot { width: 13px; height: 13px; border-radius: 3px; flex-shrink: 0; }
+.leg-circle { width: 13px; height: 13px; border-radius: 50%; flex-shrink: 0; border: 2px solid #fff; }
+
+/* ── STEP BAR ── */
+.step-bar {
+  display: flex;
+  background: var(--surface);
+  border-bottom: 2px solid var(--border);
+}
+
+/* ── TAB 1: 기본형 ── */
+.step {
+  flex: 1;
+  padding: 12px 10px;
+  font-size: 12px;
+  color: var(--muted);
+  text-align: center;
+  border-right: 1px solid var(--border2);
+  cursor: pointer;
+  transition: all 0.22s;
+  position: relative;
+  line-height: 1.4;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: 300;
+}
+
+.step:last-child { border-right: none; }
+
+.step.active {
+  color: var(--accent);
+  background: #fffdf5;
+  font-weight: 500;
+}
+
+.step.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--accent);
+}
+
+.step-num {
+  font-family: 'Cinzel', serif;
+  font-size: 15px;
+  display: block;
+  margin-bottom: 2px;
+}
+
+/* ── TAB 2: 스위스 연대기 — 스위스 국기 계열 강조 ── */
+.step.step-swiss {
+  background: linear-gradient(160deg, #fff5f5 0%, #ffe0e0 100%);
+  border-left: 3px solid #d62828;
+  color: #9b1a1a;
+  font-weight: 700;
+  font-size: 13px;
+  font-family: 'Noto Serif KR', serif;
+  letter-spacing: 0.02em;
+  position: relative;
+}
+
+.step.step-swiss .step-num {
+  font-family: 'Cinzel', serif;
+  font-size: 16px;
+  color: #d62828;
+  font-weight: 700;
+}
+
+/* 스위스 국기 십자 장식 */
+.step.step-swiss::before {
+  content: '✚';
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  font-size: 12px;
+  color: #d62828;
+  opacity: 0.6;
+  animation: crossPulse 2.5s ease infinite;
+}
+
+@keyframes crossPulse {
+  0%,100% { opacity: 0.6; transform: scale(1); }
+  50%      { opacity: 1;   transform: scale(1.2); }
+}
+
+.step.step-swiss:hover {
+  background: linear-gradient(160deg, #ffe0e0 0%, #ffc8c8 100%);
+  color: #7a1010;
+}
+
+.step.step-swiss.active {
+  background: linear-gradient(160deg, #ffd0d0 0%, #ffb0b0 100%);
+  color: #7a1010;
+  box-shadow: inset 0 -3px 0 #d62828;
+}
+
+.step.step-swiss.active::after {
+  background: #d62828;
+  height: 4px;
+}
+
+/* ── TAB 3: 주요 역사 일화 — 빨간 강조 (tokyo와 동일) ── */
+.step.step-hero {
+  background: linear-gradient(160deg, #fff5f5 0%, #ffe8e8 100%);
+  border-left: 3px solid #c62828;
+  color: #b71c1c;
+  font-weight: 900;
+  font-size: 13.5px;
+  font-family: 'Noto Serif KR', serif;
+  letter-spacing: 0.03em;
+  position: relative;
+}
+
+.step.step-hero .step-num {
+  font-family: 'Cinzel', serif;
+  font-size: 17px;
+  color: #e53935;
+  font-weight: 700;
+}
+
+.step.step-hero::before {
+  content: '★';
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  font-size: 11px;
+  color: #e53935;
+  opacity: 0.7;
+  animation: starBlink 2s ease infinite;
+}
+
+@keyframes starBlink {
+  0%,100% { opacity: 0.7; transform: scale(1); }
+  50%      { opacity: 1;   transform: scale(1.3); }
+}
+
+.step.step-hero:hover {
+  background: linear-gradient(160deg, #ffe8e8 0%, #ffd0d0 100%);
+  color: #8b0000;
+}
+
+.step.step-hero.active {
+  background: linear-gradient(160deg, #ffd8d8 0%, #ffbcbc 100%);
+  color: #8b0000;
+}
+
+.step.step-hero.active::after {
+  background: #e53935;
+  height: 4px;
+}
+
+/* ── TAB 4: 한-스위스 교류 — 딥 그린 강조 ── */
+.step.step-exchange {
+  background: linear-gradient(160deg, #f0faf5 0%, #d8f2e5 100%);
+  border-left: 3px solid #1a7a4a;
+  color: #145c38;
+  font-weight: 700;
+  font-size: 12.5px;
+  font-family: 'Noto Serif KR', serif;
+  letter-spacing: 0.02em;
+  position: relative;
+}
+
+.step.step-exchange .step-num {
+  font-family: 'Cinzel', serif;
+  font-size: 16px;
+  color: #1a7a4a;
+  font-weight: 700;
+}
+
+.step.step-exchange::before {
+  content: '🤝';
+  position: absolute;
+  top: 5px;
+  right: 6px;
+  font-size: 11px;
+  animation: handShake 3s ease infinite;
+}
+
+@keyframes handShake {
+  0%,100% { transform: scale(1); }
+  50%      { transform: scale(1.15) rotate(5deg); }
+}
+
+.step.step-exchange:hover {
+  background: linear-gradient(160deg, #d8f2e5 0%, #b8e8d0 100%);
+  color: #0f4a2c;
+}
+
+.step.step-exchange.active {
+  background: linear-gradient(160deg, #c0ecd8 0%, #96dec0 100%);
+  color: #0f4a2c;
+  box-shadow: inset 0 -3px 0 #1a7a4a;
+}
+
+.step.step-exchange.active::after {
+  background: #1a7a4a;
+  height: 4px;
+}
+
+/* ── INFO BANNER ── */
+.info-banner {
+  padding: 8px 32px;
+  background: #fffbf0;
+  border-bottom: 1px solid #e8d898;
+  font-size: 12.5px;
+  color: #7a6820;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.info-banner strong { color: #b8860b; }
+
+/* ── CONTROLS ── */
+.controls {
+  padding: 10px 32px;
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--border2);
+  background: var(--surface);
+}
+
+.era-btn {
+  padding: 5px 13px;
+  border-radius: 100px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--muted);
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.era-btn:hover, .era-btn.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+  font-weight: 500;
+}
+
+/* ── TIMELINE OUTER ── */
+.tl-outer {
+  overflow-x: auto;
+  padding: 16px 24px 32px;
+  cursor: grab;
+  user-select: none;
+  background: var(--bg);
+}
+
+.tl-outer:active { cursor: grabbing; }
+
+.tl-inner {
+  position: relative;
+  padding-bottom: 16px;
+}
+
+/* ── AXIS ── */
+.axis-wrap {
+  position: relative;
+  height: 44px;
+  margin-bottom: 6px;
+}
+
+.axis-line {
+  position: absolute;
+  top: 32px; left: 0; right: 0;
+  height: 1.5px;
+  background: var(--border);
+}
+
+.bcad-divider {
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.bcad-line {
+  width: 2px;
+  height: 44px;
+  background: var(--accent);
+  opacity: 0.6;
+  margin: 0 auto;
+}
+
+.bcad-label {
+  position: absolute;
+  top: 0;
+  left: 6px;
+  font-size: 10px;
+  color: var(--accent);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  background: #ffffff;
+  padding: 0 3px;
+}
+
+.axis-tick {
+  position: absolute;
+  bottom: 0;
+  transform: translateX(-50%);
+  text-align: center;
+}
+
+.tick-line {
+  width: 1px;
+  height: 8px;
+  background: var(--border);
+  margin: 0 auto 2px;
+}
+
+.tick-label {
+  font-size: 9.5px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.bc-shade {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  background: rgba(0,0,0,0.025);
+  pointer-events: none;
+}
+
+/* ── ROWS ── */
+.tl-rows { display: flex; flex-direction: column; gap: 5px; }
+
+.row-group-label {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 9px 0 3px;
+  border-top: 1px solid var(--border2);
+  margin-top: 8px;
+  font-weight: 600;
+}
+
+.tl-row {
+  height: 36px;
+  position: relative;
+}
+
+.row-track {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+/* ── PERIOD BARS ── */
+.period {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 26px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  cursor: default;
+  transition: height 0.15s, filter 0.15s;
+  z-index: 1;
+}
+
+.period:hover { height: 32px; filter: brightness(1.08); z-index: 5; }
+
+.period-label {
+  padding: 0 7px;
+  font-size: 10.5px;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  pointer-events: none;
+  letter-spacing: 0.02em;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.35);
+}
+
+.col-korea  { background: #c0392b; border: 1.5px solid #a93226; color: #fff; }
+.col-china  { background: #c47a1a; border: 1.5px solid #a96515; color: #fff; }
+.col-europe { background: #1a6fa8; border: 1.5px solid #155d8e; color: #fff; }
+.col-swiss  { background: #d62828; border: 1.5px solid #b01f1f; color: #fff; }
+.col-dark   { background: #6b6559; border: 1.5px solid #57534a; color: #fff; }
+
+/* ── EVENT DOTS ── */
+.event-dot {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  border: 2.5px solid #fff;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.25);
+  cursor: pointer;
+  z-index: 20;
+  transition: transform 0.18s, box-shadow 0.18s;
+}
+
+.event-dot.dot-normal { background: var(--normal-dot); }
+.event-dot.dot-hero   { background: var(--hero-dot); width: 16px; height: 16px; border: 3px solid #fff; }
+
+.event-dot:hover {
+  transform: translate(-50%, -50%) scale(1.7);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  z-index: 30;
+}
+
+.event-dot.dot-hero {
+  animation: heroPulse 2s ease infinite;
+}
+
+@keyframes heroPulse {
+  0%,100% { box-shadow: 0 0 0 0 rgba(229,57,53,0.5), 0 1px 4px rgba(0,0,0,0.2); }
+  50%      { box-shadow: 0 0 0 6px rgba(229,57,53,0), 0 1px 4px rgba(0,0,0,0.2); }
+}
+
+/* ── HERO ZOOM PANEL (Step 3) ── */
+.hero-panel {
+  display: none;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--hero-dot);
+  border-radius: 0 8px 8px 0;
+  margin: 0 24px 12px;
+  padding: 14px 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.hero-panel.visible { display: block; animation: slideDown 0.3s ease; }
+
+/* ── EXCHANGE PANEL (Step 4) ── */
+.exchange-panel {
+  display: none;
+  background: #f0faf5;
+  border: 1px solid #a0d8bc;
+  border-left: 4px solid #1a7a4a;
+  border-radius: 0 8px 8px 0;
+  margin: 0 24px 12px;
+  padding: 14px 20px;
+  box-shadow: 0 2px 8px rgba(26,122,74,0.08);
+}
+
+.exchange-panel.visible { display: block; animation: slideDown 0.3s ease; }
+
+.exchange-panel-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: #1a7a4a;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.exchange-panel-sub {
+  font-size: 12.5px;
+  color: #2a6a48;
+  line-height: 1.7;
+  margin-bottom: 14px;
+}
+
+.exchange-cards {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.exchange-card {
+  flex: 1;
+  min-width: 200px;
+  background: #fff;
+  border-radius: 8px;
+  padding: 12px 16px;
+  border: 1px solid #c0e8d0;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.exchange-card:hover {
+  border-color: #1a7a4a;
+  box-shadow: 0 2px 8px rgba(26,122,74,0.15);
+}
+
+.exchange-card-sector {
+  font-size: 10px;
+  font-weight: 700;
+  color: #1a7a4a;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.exchange-card-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 6px;
+  line-height: 1.3;
+}
+
+.exchange-card-desc {
+  font-size: 11.5px;
+  color: #4a6255;
+  line-height: 1.6;
+  margin-bottom: 8px;
+}
+
+.exchange-card-biz {
+  font-size: 10.5px;
+  color: #1a7a4a;
+  font-weight: 500;
+  background: rgba(26,122,74,0.07);
+  border-radius: 4px;
+  padding: 4px 8px;
+  border-left: 2px solid #1a7a4a;
+}
+
+.exchange-card-actions {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.exchange-action {
+  border: 1px solid #a0d8bc;
+  background: #f0faf5;
+  color: #1a7a4a;
+  border-radius: 999px;
+  padding: 5px 10px;
+  font-size: 10.5px;
+  cursor: pointer;
+  transition: all 0.18s;
+}
+
+.exchange-action:hover {
+  border-color: #1a7a4a;
+  background: #d0f0e0;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.hero-panel-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--hero-dot);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.hero-cards {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.hero-card {
+  flex: 1;
+  min-width: 180px;
+  background: var(--surface2);
+  border-radius: 6px;
+  padding: 10px 14px;
+  border: 1px solid var(--border2);
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.hero-card:hover {
+  border-color: var(--hero-dot);
+  box-shadow: 0 2px 8px rgba(229,57,53,0.15);
+}
+
+.hero-card-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 3px;
+}
+
+.hero-card-years {
+  font-size: 10.5px;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+
+.hero-card-desc {
+  font-size: 11.5px;
+  color: #5d534a;
+  line-height: 1.6;
+  margin-bottom: 8px;
+}
+
+.hero-card-meta {
+  font-size: 10.5px;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+.hero-card-actions {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.hero-action {
+  border: 1px solid var(--border);
+  background: #fff;
+  color: var(--text);
+  border-radius: 999px;
+  padding: 5px 10px;
+  font-size: 10.5px;
+  cursor: pointer;
+  transition: all 0.18s;
+}
+
+.hero-action:hover {
+  border-color: var(--hero-dot);
+  color: var(--hero-dot);
+}
+
+/* ── POPUP ── */
+.popup-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(50,40,30,0.45);
+  backdrop-filter: blur(3px);
+  align-items: center;
+  justify-content: center;
+}
+
+.popup-overlay.active { display: flex; }
+
+.popup-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 28px 32px;
+  max-width: 520px;
+  width: calc(100% - 40px);
+  position: relative;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+  animation: popIn 0.22s ease;
+}
+
+@keyframes popIn {
+  from { opacity: 0; transform: scale(0.95) translateY(8px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.popup-hero-badge {
+  display: none;
+  padding: 3px 10px;
+  background: rgba(229,57,53,0.1);
+  border: 1px solid rgba(229,57,53,0.3);
+  color: var(--hero-dot);
+  border-radius: 100px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  width: fit-content;
+}
+
+.popup-hero-badge.show { display: block; }
+
+.popup-close {
+  position: absolute;
+  top: 14px; right: 16px;
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 18px;
+  cursor: pointer;
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s;
+}
+
+.popup-close:hover { background: var(--surface2); }
+
+.popup-year {
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: var(--accent);
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.popup-title {
+  font-family: 'Noto Serif KR', serif;
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 12px;
+  line-height: 1.3;
+}
+
+.popup-body {
+  font-size: 13.5px;
+  line-height: 1.9;
+  color: #4a4038;
+}
+
+.popup-context {
+  margin-top: 14px;
+  padding: 10px 14px;
+  background: #f8f5ee;
+  border-left: 3px solid var(--accent);
+  border-radius: 3px;
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.popup-tags {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+}
+
+.popup-tag {
+  padding: 2px 9px;
+  border-radius: 100px;
+  font-size: 10.5px;
+  background: rgba(184,134,11,0.08);
+  border: 1px solid rgba(184,134,11,0.25);
+  color: var(--accent);
+}
+
+.hero-panel-sub {
+  font-size: 12.5px;
+  color: var(--muted);
+  line-height: 1.7;
+  margin-bottom: 14px;
+}
+
+.story-link-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.story-link-btn {
+  border: 1px solid rgba(229,57,53,0.25);
+  background: #fff7f7;
+  color: #a12525;
+  border-radius: 999px;
+  padding: 8px 12px;
+  font-size: 11.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.18s;
+}
+
+.story-link-btn:hover {
+  background: #ffe3e3;
+  border-color: rgba(229,57,53,0.45);
+  transform: translateY(-1px);
+}
+
+/* 교류 링크 버튼 */
+.exchange-link-btn {
+  border: 1px solid rgba(26,122,74,0.25);
+  background: #f0faf5;
+  color: #1a6a44;
+  border-radius: 999px;
+  padding: 8px 12px;
+  font-size: 11.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.18s;
+}
+
+.exchange-link-btn:hover {
+  background: #d0f0e0;
+  border-color: rgba(26,122,74,0.45);
+  transform: translateY(-1px);
+}
+
+.popup-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 14px;
+}
+
+.popup-action {
+  padding: 7px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(229,57,53,0.25);
+  background: #fff7f7;
+  color: var(--hero-dot);
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* ── STORY MODAL ── */
+.story-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 260;
+  background: rgba(28,18,16,0.56);
+  backdrop-filter: blur(4px);
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+}
+
+.story-overlay.active { display: flex; }
+
+.story-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  width: min(980px, 100%);
+  max-height: calc(100vh - 36px);
+  overflow-y: auto;
+  padding: 28px 28px 24px;
+  position: relative;
+  box-shadow: 0 14px 48px rgba(0,0,0,0.28);
+}
+
+.story-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 34px;
+  height: 34px;
+  border: none;
+  border-radius: 50%;
+  background: #f3eee5;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 17px;
+}
+
+.story-kicker {
+  font-size: 10px;
+  letter-spacing: 0.24em;
+  color: var(--hero-dot);
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.story-year {
+  font-size: 11px;
+  color: var(--accent);
+  letter-spacing: 0.12em;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.story-title {
+  font-family: 'Noto Serif KR', serif;
+  font-size: clamp(23px, 3vw, 31px);
+  line-height: 1.3;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+.story-subtitle {
+  font-size: 14px;
+  color: #5d534a;
+  line-height: 1.7;
+  margin-bottom: 18px;
+}
+
+.story-location,
+.story-travel-tip,
+.story-context {
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin-bottom: 12px;
+  font-size: 12.5px;
+  line-height: 1.8;
+}
+
+.story-location { background: #f7f3ea; color: #5f5446; }
+.story-travel-tip { background: #fff8ec; color: #7a6223; border: 1px solid #ead6a7; }
+.story-context { background: #f8f5ee; color: var(--muted); }
+
+.story-body {
+  font-size: 14px;
+  line-height: 1.95;
+  color: #433931;
+  margin-bottom: 14px;
+}
+
+.story-body p + p { margin-top: 12px; }
+
+.story-tags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+
+.story-tag {
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(184,134,11,0.08);
+  border: 1px solid rgba(184,134,11,0.24);
+  font-size: 10.5px;
+  color: var(--accent);
+}
+
+.story-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.story-action-btn {
+  border: 1px solid rgba(26,111,168,0.25);
+  background: #f5fbff;
+  color: #1a6fa8;
+  border-radius: 999px;
+  padding: 9px 14px;
+  font-size: 11.5px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.story-map-btn {
+  border: 1px solid rgba(214,40,40,0.25);
+  background: #fff5f5;
+  color: #d62828;
+  border-radius: 999px;
+  padding: 9px 14px;
+  font-size: 11.5px;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+}
+
+.story-map-btn:hover { background: #ffe0e0; }
+
+/* ── EXCHANGE MODAL ── */
+.exchange-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 260;
+  background: rgba(10,40,25,0.56);
+  backdrop-filter: blur(4px);
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+}
+
+.exchange-overlay.active { display: flex; }
+
+.exchange-box {
+  background: var(--surface);
+  border: 1px solid #a0d8bc;
+  border-radius: 18px;
+  width: min(920px, 100%);
+  max-height: calc(100vh - 36px);
+  overflow-y: auto;
+  padding: 28px 28px 24px;
+  position: relative;
+  box-shadow: 0 14px 48px rgba(0,0,0,0.28);
+}
+
+.exchange-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 34px;
+  height: 34px;
+  border: none;
+  border-radius: 50%;
+  background: #e8f5ee;
+  color: #1a7a4a;
+  cursor: pointer;
+  font-size: 17px;
+}
+
+.exchange-kicker {
+  font-size: 10px;
+  letter-spacing: 0.24em;
+  color: #1a7a4a;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.exchange-title {
+  font-family: 'Noto Serif KR', serif;
+  font-size: clamp(20px, 3vw, 28px);
+  line-height: 1.3;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+.exchange-subtitle {
+  font-size: 13.5px;
+  color: #4a7060;
+  line-height: 1.7;
+  margin-bottom: 16px;
+}
+
+.exchange-body {
+  font-size: 14px;
+  line-height: 1.95;
+  color: #2a4035;
+  margin-bottom: 14px;
+}
+
+.exchange-body p + p { margin-top: 12px; }
+
+.exchange-biz-box {
+  background: #f0faf5;
+  border-left: 4px solid #1a7a4a;
+  border-radius: 0 8px 8px 0;
+  padding: 12px 16px;
+  margin-bottom: 14px;
+  font-size: 13px;
+  color: #145c38;
+  line-height: 1.8;
+}
+
+.exchange-biz-box strong { color: #0f4a2c; font-weight: 700; }
+
+.exchange-tags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+
+.exchange-tag {
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(26,122,74,0.08);
+  border: 1px solid rgba(26,122,74,0.24);
+  font-size: 10.5px;
+  color: #1a7a4a;
+}
+
+/* 스위스 지도 링크 버튼 */
+.swiss-map-bar {
+  background: linear-gradient(135deg, #d62828 0%, #a01a1a 100%);
+  color: #fff;
+  padding: 10px 32px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+  font-size: 12px;
+  border-bottom: 1px solid #b01a1a;
+}
+
+.swiss-map-bar a {
+  color: #ffe0e0;
+  text-decoration: none;
+  font-weight: 700;
+  padding: 4px 10px;
+  border: 1px solid rgba(255,255,255,0.35);
+  border-radius: 999px;
+  font-size: 11px;
+  transition: all 0.18s;
+}
+
+.swiss-map-bar a:hover { background: rgba(255,255,255,0.15); color: #fff; }
+
+.swiss-map-bar span { opacity: 0.8; }
+
+@media (max-width: 768px) {
+  .story-box, .exchange-box { padding: 22px 16px 18px; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div>
+    <div class="header-title">WORLD HISTORY TIMELINE — SWITZERLAND</div>
+    <div class="header-sub">세계사 연대기 — 한국 · 중국 · 유럽 · 스위스 | 취리히 · 루체른 · 인터라켄 · 로이커바트 · 베른 | BC 1500 ~ AD 2000</div>
+  </div>
+  <div class="legend">
+    <div class="leg-item"><div class="leg-dot" style="background:#c0392b"></div>한국사</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#c47a1a"></div>중국사</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#1a6fa8"></div>유럽사</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#d62828"></div>스위스사</div>
+    <div class="leg-item"><div class="leg-circle" style="background:#2e7d32;border-color:#fff;box-shadow:0 0 0 1px #2e7d32"></div>일반 사건</div>
+    <div class="leg-item"><div class="leg-circle" style="background:#e53935;border-color:#fff;box-shadow:0 0 0 1px #e53935"></div>🔴 스위스 역사 일화</div>
+  </div>
+</div>
+
+<!-- STEP BAR -->
+<div class="step-bar">
+  <div class="step active" onclick="setStep(1,this)">
+    <span class="step-num">①</span>한·중·유럽 대연대기
+  </div>
+  <div class="step step-swiss" onclick="setStep(2,this)">
+    <span class="step-num">②</span>🇨🇭 스위스 연대기 추가
+  </div>
+  <div class="step step-hero" onclick="setStep(3,this)">
+    <span class="step-num">③</span>스위스 주요 역사적 일화
+  </div>
+  <div class="step step-exchange" onclick="setStep(4,this)">
+    <span class="step-num">④</span>스위스와의 교류
+  </div>
+</div>
+
+<!-- INFO BANNER -->
+<div class="info-banner" id="info-banner">
+  <strong>Step 1</strong> — 한국·중국·유럽 BC 1500년~AD 2000년. 🟢 초록 점 = 일반 사건, 클릭하면 상세 팝업이 열립니다.
+</div>
+
+<!-- HERO PANEL (Step 3) -->
+<div class="hero-panel" id="hero-panel">
+  <div class="hero-panel-title">🏔️ 스위스 주요 역사 스토리 5선</div>
+  <div class="hero-panel-sub">알프스와 도시에 스며든 스위스 역사 비하인드 스토리를 골라 보세요. 아래 링크 버튼이나 빨간 점을 누르면 스토리 상세창이 열립니다.</div>
+  <div class="story-link-grid" id="story-link-grid"></div>
+  <div class="hero-cards" id="hero-cards"></div>
+</div>
+
+<!-- EXCHANGE PANEL (Step 4) -->
+<div class="exchange-panel" id="exchange-panel">
+  <div class="exchange-panel-title">🤝 대한민국 × 스위스 교류 비즈니스 인사이트</div>
+  <div class="exchange-panel-sub">경제·사회·문화 분야 대한민국-스위스 교류 현황과 새로운 비즈니스 기회를 살펴보세요. 아래 링크 버튼을 클릭하면 상세 내용이 열립니다.</div>
+  <div class="story-link-grid" id="exchange-link-grid"></div>
+  <div class="exchange-cards" id="exchange-cards"></div>
+</div>
+
+<!-- 스위스 지도 링크 바 -->
+<div class="swiss-map-bar" id="swiss-map-bar" style="display:none">
+  <span>🗺️ 스위스 지도 바로가기 →</span>
+  <a href="https://www.google.com/maps/place/Zurich,+Switzerland" target="_blank">📍 취리히</a>
+  <a href="https://www.google.com/maps/place/Lucerne,+Switzerland" target="_blank">📍 루체른</a>
+  <a href="https://www.google.com/maps/place/Interlaken,+Switzerland" target="_blank">📍 인터라켄</a>
+  <a href="https://www.google.com/maps/place/Leukerbad,+Switzerland" target="_blank">📍 로이커바트</a>
+  <a href="https://www.google.com/maps/place/Bern,+Switzerland" target="_blank">📍 베른</a>
+  <a href="https://www.swisstopo.admin.ch/" target="_blank">🇨🇭 스위스 공식 지도 (swisstopo)</a>
+</div>
+
+<!-- ERA CONTROLS -->
+<div class="controls">
+  <span style="font-size:11px;color:var(--muted);align-self:center;margin-right:4px">시대 이동 →</span>
+  <button class="era-btn active" onclick="scrollToYear(-1500,this)">BC 1500 고대</button>
+  <button class="era-btn" onclick="scrollToYear(-500,this)">BC 500 고전기</button>
+  <button class="era-btn" onclick="scrollToYear(0,this)">BC/AD 전환</button>
+  <button class="era-btn" onclick="scrollToYear(500,this)">AD 500 중세</button>
+  <button class="era-btn" onclick="scrollToYear(1000,this)">AD 1000</button>
+  <button class="era-btn" onclick="scrollToYear(1291,this)">AD 1291 스위스 건국</button>
+  <button class="era-btn" onclick="scrollToYear(1500,this)">AD 1500 종교개혁</button>
+  <button class="era-btn" onclick="scrollToYear(1800,this)">AD 1800 근대</button>
+  <button class="era-btn" onclick="scrollToYear(1900,this)">AD 1900 현대</button>
+</div>
+
+<!-- TIMELINE -->
+<div class="tl-outer" id="tl-outer">
+  <div class="tl-inner" id="tl-inner">
+    <div class="axis-wrap" id="axis-wrap"></div>
+    <div class="tl-rows" id="tl-rows"></div>
+  </div>
+</div>
+
+<!-- POPUP -->
+<div class="popup-overlay" id="popup" onclick="closePopup(event)">
+  <div class="popup-box">
+    <button class="popup-close" onclick="closePopup()">✕</button>
+    <div class="popup-hero-badge" id="p-hero-badge">🏔️ 스위스 역사적 일화</div>
+    <div class="popup-year" id="p-year"></div>
+    <div class="popup-title" id="p-title"></div>
+    <div class="popup-body" id="p-body"></div>
+    <div class="popup-context" id="p-context"></div>
+    <div class="popup-tags" id="p-tags"></div>
+  </div>
+</div>
+
+<!-- STORY DETAIL MODAL -->
+<div class="story-overlay" id="story-overlay" onclick="closeStoryModal(event)">
+  <div class="story-box">
+    <button class="story-close" onclick="closeStoryModal()">✕</button>
+    <div class="story-kicker" id="story-kicker">SWITZERLAND STORY</div>
+    <div class="story-year" id="story-year"></div>
+    <div class="story-title" id="story-title"></div>
+    <div class="story-subtitle" id="story-subtitle"></div>
+    <div class="story-location" id="story-location"></div>
+    <div class="story-travel-tip" id="story-travel-tip"></div>
+    <div class="story-body" id="story-body"></div>
+    <div class="story-context" id="story-context"></div>
+    <div class="story-tags" id="story-tags"></div>
+    <div class="story-actions">
+      <a class="story-map-btn" id="story-map-link" href="#" target="_blank">🗺️ 구글 지도로 보기</a>
+      <button class="story-action-btn" id="story-scroll-btn">연대기에서 이 시점 보기</button>
+    </div>
+  </div>
+</div>
+
+<!-- EXCHANGE DETAIL MODAL -->
+<div class="exchange-overlay" id="exchange-overlay" onclick="closeExchangeModal(event)">
+  <div class="exchange-box">
+    <button class="exchange-close" onclick="closeExchangeModal()">✕</button>
+    <div class="exchange-kicker" id="ex-kicker">🇰🇷 × 🇨🇭 EXCHANGE</div>
+    <div class="exchange-title" id="ex-title"></div>
+    <div class="exchange-subtitle" id="ex-subtitle"></div>
+    <div class="exchange-body" id="ex-body"></div>
+    <div class="exchange-biz-box" id="ex-biz"></div>
+    <div class="exchange-tags" id="ex-tags"></div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════
+//  TIMELINE GEOMETRY
+// ═══════════════════════════════════════════════════
+const BC_START   = -1500;
+const AD_END     =  2000;
+const BC_PX_YEAR = 0.28;
+const AD_PX_YEAR = 0.72;
+
+const BC_YEARS = Math.abs(BC_START);
+const AD_YEARS = AD_END;
+const BC_WIDTH = BC_YEARS * BC_PX_YEAR;
+const AD_WIDTH = AD_YEARS * AD_PX_YEAR;
+const TL_WIDTH = Math.round(BC_WIDTH + AD_WIDTH);
+
+function yearToX(y) {
+  if (y <= 0) return BC_WIDTH + y * BC_PX_YEAR;
+  return BC_WIDTH + y * AD_PX_YEAR;
+}
+
+// ═══════════════════════════════════════════════════
+//  DATA — PERIODS
+// ═══════════════════════════════════════════════════
+const periods = [
+  // 한국사
+  { row:'korea1', label:'고조선', start:-1500, end:-108, cls:'col-korea' },
+  { row:'korea2', label:'삼한', start:-300, end:300, cls:'col-dark' },
+  { row:'korea2', label:'고구려', start:-37, end:668, cls:'col-korea' },
+  { row:'korea3', label:'백제', start:-18, end:660, cls:'col-korea', opacity:0.65 },
+  { row:'korea3', label:'신라', start:-57, end:935, cls:'col-korea', opacity:0.5 },
+  { row:'korea3', label:'통일신라', start:668, end:935, cls:'col-korea' },
+  { row:'korea3', label:'발해', start:698, end:926, cls:'col-dark' },
+  { row:'korea4', label:'고려', start:918, end:1392, cls:'col-korea' },
+  { row:'korea4', label:'조선', start:1392, end:1897, cls:'col-korea' },
+  { row:'korea4', label:'대한제국', start:1897, end:1910, cls:'col-dark' },
+  { row:'korea4', label:'일제강점기', start:1910, end:1945, cls:'col-dark', opacity:0.7 },
+  { row:'korea4', label:'대한민국', start:1948, end:2000, cls:'col-korea' },
+
+  // 중국사
+  { row:'china1', label:'상(은)', start:-1500, end:-1046, cls:'col-china' },
+  { row:'china1', label:'주(周)', start:-1046, end:-256, cls:'col-china' },
+  { row:'china1', label:'진(秦)', start:-221, end:-206, cls:'col-china' },
+  { row:'china1', label:'한(漢)', start:-206, end:220, cls:'col-china' },
+  { row:'china2', label:'위진남북조', start:220, end:589, cls:'col-dark' },
+  { row:'china2', label:'수(隋)', start:581, end:618, cls:'col-china' },
+  { row:'china2', label:'당(唐)', start:618, end:907, cls:'col-china' },
+  { row:'china2', label:'오대십국', start:907, end:960, cls:'col-dark' },
+  { row:'china2', label:'송(宋)', start:960, end:1279, cls:'col-china' },
+  { row:'china3', label:'원(元)', start:1271, end:1368, cls:'col-china' },
+  { row:'china3', label:'명(明)', start:1368, end:1644, cls:'col-china' },
+  { row:'china3', label:'청(淸)', start:1644, end:1912, cls:'col-china' },
+  { row:'china3', label:'중화민국', start:1912, end:1949, cls:'col-dark' },
+  { row:'china3', label:'중화인민공화국', start:1949, end:2000, cls:'col-china' },
+
+  // 유럽사
+  { row:'eu1', label:'그리스 도시국가', start:-800, end:-146, cls:'col-europe' },
+  { row:'eu1', label:'카르타고', start:-814, end:-146, cls:'col-dark', opacity:0.7 },
+  { row:'eu1', label:'로마 공화국', start:-509, end:-27, cls:'col-europe', opacity:0.7 },
+  { row:'eu2', label:'로마 제국', start:-27, end:476, cls:'col-europe' },
+  { row:'eu2', label:'동로마(비잔틴)', start:330, end:1453, cls:'col-europe', opacity:0.65 },
+  { row:'eu3', label:'프랑크왕국', start:481, end:843, cls:'col-europe' },
+  { row:'eu3', label:'신성로마제국', start:962, end:1806, cls:'col-europe', opacity:0.55 },
+  { row:'eu3', label:'영국', start:1066, end:2000, cls:'col-europe' },
+  { row:'eu4', label:'이슬람 제국', start:632, end:1258, cls:'col-dark' },
+  { row:'eu4', label:'오스만 제국', start:1299, end:1922, cls:'col-dark', opacity:0.8 },
+  { row:'eu4', label:'프랑스 왕국→공화국', start:987, end:2000, cls:'col-europe', opacity:0.65 },
+
+  // 스위스사
+  { row:'swiss1', label:'헬베티아족 켈트 시대', start:-400, end:-58, cls:'col-swiss', step:2 },
+  { row:'swiss1', label:'로마 지배 (갈리아 속주)', start:-58, end:400, cls:'col-swiss', opacity:0.6, step:2 },
+  { row:'swiss1', label:'부르군트·알라만족', start:400, end:900, cls:'col-dark', step:2 },
+  { row:'swiss2', label:'신성로마제국 편입', start:900, end:1291, cls:'col-swiss', opacity:0.5, step:2 },
+  { row:'swiss2', label:'스위스 맹방 (구 동맹)', start:1291, end:1648, cls:'col-swiss', step:2 },
+  { row:'swiss2', label:'스위스 연방 (독립)', start:1648, end:1798, cls:'col-swiss', step:2 },
+  { row:'swiss3', label:'헬베티아 공화국 (나폴레옹)', start:1798, end:1815, cls:'col-dark', step:2 },
+  { row:'swiss3', label:'스위스 연방 (근대)', start:1815, end:1848, cls:'col-swiss', opacity:0.7, step:2 },
+  { row:'swiss3', label:'스위스 연방국 (현대)', start:1848, end:2000, cls:'col-swiss', step:2 },
+];
+
+// ═══════════════════════════════════════════════════
+//  DATA — BASE EVENTS
+// ═══════════════════════════════════════════════════
+const baseEvents = [
+  { year:-108, row:'korea1', title:'고조선 멸망 & 한사군 설치', body:'한무제의 침공으로 고조선이 멸망하고 낙랑·진번·임둔·현도 4군이 설치됩니다.', context:'같은 시기: 로마 공화국 최전성기, 율리우스 카이사르 출생 직전', tags:['고조선멸망','한사군'], step:1 },
+  { year:918, row:'korea4', title:'왕건, 고려 건국', body:'태조 왕건이 후삼국을 통일하고 고려를 세웁니다. 개성(개경)을 수도로 정하고 불교를 국교로 채택합니다.', context:'같은 시기: 신성로마제국 수립(962) 직전, 바이킹의 유럽 정착기', tags:['고려건국','왕건'], step:1 },
+  { year:1392, row:'korea4', title:'이성계, 조선 건국', body:'고려 말 이성계가 위화도 회군으로 실권을 장악한 후 조선을 개국합니다. 성리학을 통치이념으로 채택.', context:'같은 시기: 명나라 홍무제 통치기, 유럽 르네상스 한창', tags:['조선건국','이성계'], step:1 },
+  { year:1443, row:'korea4', title:'세종대왕, 훈민정음 창제', body:'세종대왕이 백성을 위한 문자 한글(훈민정음)을 창제 반포합니다. 28자 체계로 당시 세계 최고 수준의 음성학 이론이 담겼습니다.', context:'같은 시기: 유럽 백년전쟁 종결(1453), 구텐베르크 인쇄술 발명(1450년경)', tags:['훈민정음','세종','한글'], step:1 },
+  { year:1592, row:'korea4', title:'임진왜란 발발', body:'도요토미 히데요시가 15만 대군으로 조선을 침략합니다. 이순신 장군의 해전, 조선 의병, 명나라 원군으로 7년 전쟁 끝에 히데요시 사망 후 철수합니다.', context:'같은 시기: 유럽 스페인 무적함대 격파(1588) 직후, 명나라 만력제 시대', tags:['임진왜란','이순신'], step:1 },
+
+  { year:-221, row:'china1', title:'진시황, 중국 최초 통일', body:'전국 7웅 중 진(秦)이 나머지 6국을 멸하고 중국 역사 최초의 통일 왕조를 세웁니다. 만리장성 축조, 도량형·문자 통일.', context:'같은 시기: 로마 공화국이 카르타고와 1차 포에니 전쟁(BC 264) 중', tags:['진시황','중국통일','만리장성'], step:1 },
+  { year:618, row:'china2', title:'당나라 건국 — 동아시아 황금기', body:'이연이 수를 무너뜨리고 당을 건국합니다. 당은 한국·일본·베트남에 지대한 문화적 영향을 주었습니다. 장안은 세계 최대 국제도시였습니다.', context:'같은 시기: 무함마드 이슬람 창시(622), 신라 삼국통일 전야', tags:['당나라','이연','장안'], step:1 },
+  { year:1271, row:'china3', title:'쿠빌라이, 원나라 건국', body:'칭기즈칸의 손자 쿠빌라이가 몽골 제국에서 원(元)을 건국하고 중국 전역을 지배합니다. 마르코 폴로가 원을 방문합니다.', context:'같은 시기: 고려 삼별초 항쟁(1270~1273), 십자군 전쟁 말기', tags:['원나라','쿠빌라이','몽골'], step:1 },
+
+  { year:-44, row:'eu2', title:'율리우스 카이사르 암살', body:'로마 공화정의 독재관 카이사르가 원로원 의원 23명에게 암살됩니다. 이후 로마 내전을 거쳐 제정이 시작됩니다.', context:'같은 시기: 한반도 고조선 멸망(-108) 이후 과도기, 중국 전한 최전성기', tags:['카이사르','로마','암살'], step:1 },
+  { year:1066, row:'eu3', title:'노르망디 공 윌리엄, 잉글랜드 정복', body:'노르망디의 윌리엄이 헤이스팅스 전투에서 승리, 잉글랜드를 정복하여 윌리엄 1세로 즉위합니다.', context:'같은 시기: 고려 문종 시대, 중국 북송 최전성기', tags:['잉글랜드정복','노르만','윌리엄'], step:1 },
+  { year:1215, row:'eu3', title:'마그나 카르타 서명', body:'영국 존 왕이 귀족들의 압박으로 마그나 카르타(대헌장)에 서명합니다. 왕권 제한과 법치주의의 출발점입니다.', context:'같은 시기: 고려 무신정권 시대, 칭기즈칸 몽골 통일(1206)', tags:['마그나카르타','영국','민주주의'], step:1 },
+  { year:1453, row:'eu2', title:'동로마(비잔틴) 제국 멸망', body:'오스만 제국 메흐메트 2세가 콘스탄티노플을 함락합니다. 1000년 이상 이어진 동로마 제국이 끝나고 중세가 사실상 마감됩니다.', context:'같은 시기: 조선 세종대왕 치세 말기, 훈민정음 창제 10년 후', tags:['비잔틴멸망','오스만','콘스탄티노플'], step:1 },
+];
+
+// ═══════════════════════════════════════════════════
+//  SWITZERLAND STORIES (Step 3)
+// ═══════════════════════════════════════════════════
+const swissStories = [
+  {
+    id:'ruetli',
+    year:1291,
+    row:'swiss2',
+    title:'뤼틀리 서약 — 스위스 연방의 탄생',
+    subtitle:'알프스 산맥 호숫가에서 세 공동체가 영원한 동맹을 맺다',
+    short:'1291년 8월 1일, 슈비츠·우리·운터발덴 세 캔톤의 대표들이 루체른 호수의 뤼틀리 초원에서 상호 방어를 맹세한 이 서약이 스위스 연방의 공식 탄생일로 기념됩니다.',
+    body:[
+      '1291년 8월 1일, 신성로마제국 합스부르크 가문의 지배에 저항한 슈비츠(Schwyz)·우리(Uri)·운터발덴(Unterwalden) 세 산악 공동체 지도자들이 루체른 호수 기슭 뤼틀리(Rütli) 초원에 모였습니다. 이들은 외부 침략에 공동 대응하고 내부 분쟁을 자체 해결한다는 영구 동맹 서약을 체결합니다.',
+      '오늘날 매년 8월 1일 스위스 국경일에 이 초원에서 기념식이 열립니다. 루체른에서 유람선으로 접근할 수 있는 뤼틀리 초원은 스위스 여행자에게 단순한 경치 이상의 의미 — 자치와 직접민주주의의 씨앗이 뿌려진 역사적 공간입니다.'
+    ],
+    context:'같은 시기: 고려 충렬왕 시대(몽골 지배 아래), 원나라 쿠빌라이칸 집권 후기. 동아시아 전체가 몽골의 영향권에 있을 때, 알프스 작은 공동체들은 대제국에 맞서 자치의 씨앗을 심었습니다.',
+    location:'📍 루체른 호수 (뤼틀리 초원) | 루체른에서 유람선 약 40분',
+    travelTip:'여행 포인트: 루체른 선착장 → 뤼틀리 초원 유람선 → 알프스 파노라마 트레킹. 8월 1일 국경일 방문 시 불꽃놀이와 기념식 체험 가능.',
+    tags:['뤼틀리서약','스위스건국','루체른','직접민주주의'],
+    mapUrl:'https://www.google.com/maps/place/R%C3%BCtli,+6376+Emmetten,+Switzerland'
+  },
+  {
+    id:'zwingli',
+    year:1519,
+    row:'swiss3',
+    title:'츠빙글리의 종교개혁 — 취리히발 개신교 혁명',
+    subtitle:'루터보다 2년 앞서, 알프스에서 독자적으로 시작된 종교혁명',
+    short:'1519년 취리히 그로스뮌스터 성당에서 울리히 츠빙글리가 독자적 성경 강독 운동을 시작합니다. 이는 스위스를 개신교의 중심지로 만들고, 칼뱅이 제네바에서 이을 새로운 신학의 토대가 됩니다.',
+    body:[
+      '1519년 취리히 그로스뮌스터(Grossmünster) 대성당에서 울리히 츠빙글리(Huldrych Zwingli)는 마태복음을 처음부터 설교하기 시작합니다. 교황의 면죄부 판매와 교회 부패를 공개적으로 비판한 그는 독일의 루터와 비슷한 시기, 그러나 독립적으로 종교개혁을 시작한 인물입니다.',
+      '이후 칼뱅이 제네바에서 신정정치 모델을 구축하면서 스위스는 유럽 개신교의 두 번째 중심축이 됩니다. 오늘날 취리히 그로스뮌스터 성당과 제네바 종교개혁 기념비(Mur des Réformateurs)는 이 역사를 직접 체험할 수 있는 대표 여행지입니다.'
+    ],
+    context:'같은 시기: 조선 중종반정(1506) 직후 사림파 등장기. 동서양이 동시에 기존 권위에 도전하는 개혁의 물결을 경험했습니다.',
+    location:'📍 취리히 그로스뮌스터 성당 | 취리히 구도심 중심부',
+    travelTip:'여행 포인트: 그로스뮌스터 → 프라우뮌스터 → 취리히 구시가 골목(Niederdorf) → 린덴호프 언덕 전망대. 종교개혁 루트로 반나절 코스 최적.',
+    tags:['츠빙글리','종교개혁','취리히','그로스뮌스터','개신교'],
+    mapUrl:'https://www.google.com/maps/place/Grossm%C3%BCnster,+Grossm%C3%BCnsterplatz,+8001+Z%C3%BCrich'
+  },
+  {
+    id:'redcross',
+    year:1863,
+    row:'swiss3',
+    title:'앙리 뒤낭, 적십자 창설 — 인도주의의 출발점',
+    subtitle:'솔페리노 전장의 참상을 목격한 제네바 청년이 바꾼 세계',
+    short:'1859년 솔페리노 전투의 참상을 목격한 스위스인 앙리 뒤낭이 1863년 제네바에서 국제적십자위원회(ICRC)를 창설합니다. 세계 최초의 인도주의 국제기구로, 제네바 협약의 기반이 됩니다.',
+    body:[
+      '1859년 이탈리아 통일전쟁 솔페리노 전투에서 4만 명의 사상자가 구호 없이 방치된 것을 목격한 제네바 출신 사업가 앙리 뒤낭(Henri Dunant)은 충격으로 책 『솔페리노의 회상』을 씁니다. 이 책이 유럽 전역을 움직여 1863년 국제적십자위원회(ICRC) 창설로 이어집니다.',
+      '스위스 국기 색상을 반전한 적십자 마크는 오늘날 전 세계 모든 분쟁 지역에서 중립과 구호를 상징합니다. 제네바 적십자·적신월 박물관(Musée International de la Croix-Rouge)은 이 역사를 가장 생생하게 체험할 수 있는 공간입니다.'
+    ],
+    context:'같은 시기: 조선 흥선대원군 시대, 병인양요(1866) 직전. 세계가 근대 전쟁의 잔혹함을 깨닫기 시작한 동일한 시기에, 한반도는 외세의 포함 외교를 맞닥뜨리고 있었습니다.',
+    location:'📍 제네바 | 국제적십자·적신월 박물관 (Place Henry-Dunant 1)',
+    travelTip:'여행 포인트: 적십자 박물관 → UN제네바사무소(팔레데나시옹) → 알라만 분수 → 구시가(비외빌). 인도주의 역사 루트로 하루 코스 추천.',
+    tags:['앙리뒤낭','적십자','제네바','ICRC','인도주의'],
+    mapUrl:'https://www.google.com/maps/place/International+Red+Cross+and+Red+Crescent+Museum'
+  },
+  {
+    id:'leukerbad',
+    year:1501,
+    row:'swiss3',
+    title:'로이커바트 온천 — 알프스 최고(最古) 온천의 역사',
+    subtitle:'괴테와 릴케가 치유를 찾아 오른 알프스 속 온천 마을',
+    short:'발레 주 해발 1411m에 자리한 로이커바트 온천은 로마 시대부터 이용된 기록이 있으며, 16세기부터 귀족과 문인들의 요양지로 발전합니다. 괴테(1779)와 릴케가 방문한 것으로 유명합니다.',
+    body:[
+      '발레(Valais) 주 로이커바트(Leukerbad)는 해발 1411m 알프스 산중에 위치한 유럽 최대 규모의 온천 리조트 마을입니다. 로마 시대 기록에도 이 온천이 등장하며, 1501년부터 마을 공식 온천 기록이 남아있습니다.',
+      '1779년 독일 문호 괴테가 이 온천을 방문해 알프스 경관에 감동받은 기록이 있으며, 릴케도 이 일대에서 창작 활동을 했습니다. 유황성분이 풍부한 온천수(51°C)는 류머티즘과 피부질환에 효과적이라고 알려져 있습니다. 케이블카로 게미 고개(Gemmi Pass, 2350m)까지 올라가면 다르 글라시에 파노라마와 함께 알프스의 압도적 경관을 볼 수 있습니다.'
+    ],
+    context:'같은 시기: 조선 연산군 폐위(1506) 직전, 중종반정기. 동서양 모두 새 시대의 혼란 속에서도 치유와 휴식에 대한 인간적 욕구는 동일했습니다.',
+    location:'📍 로이커바트 (Leukerbad, VS) | 취리히에서 차 약 2시간 20분, 기차+버스 약 3시간',
+    travelTip:'여행 포인트: 부르거바트 온천 → 게미 케이블카 → 알프스 트레킹. 한국인 여행자에게 덜 알려진 숨겨진 명소로, 조용한 알프스 온천 힐링 여행에 최적.',
+    tags:['로이커바트','알프스온천','괴테','발레주','스위스온천'],
+    mapUrl:'https://www.google.com/maps/place/Leukerbad,+Switzerland'
+  },
+  {
+    id:'bern1848',
+    year:1848,
+    row:'swiss3',
+    title:'베른, 연방 수도 확정 — 타협의 수도 탄생',
+    subtitle:'어느 주도 양보하지 않으려 했을 때, 중간의 도시가 수도가 된 이유',
+    short:'1848년 현대 스위스 연방헌법 제정과 함께 베른이 연방도시(수도)로 선정됩니다. 언어·문화적으로 분열된 연방이 선택한 타협의 수도로, 오늘날까지 연방의회와 연방정부가 이 도시에 위치합니다.',
+    body:[
+      '1848년 스위스 현대 연방헌법이 채택되면서 수도 문제가 대두됩니다. 가장 큰 도시 취리히, 국제 도시 제네바, 경제 도시 바젤 모두 수도권을 주장했지만 어느 쪽도 다수를 설득하지 못했습니다. 결국 지리적·언어적으로 중간에 위치한 베른이 연방도시(Bundesstadt)로 절충 선택됩니다.',
+      '베른은 오늘날 연방의회 의사당(Bundeshaus)과 연방정부 기관들의 본부 도시입니다. 구시가(Altstadt)는 아케이드(Lauben) 보행 거리, 장미 정원(Rosengarten) 전망대, 시계탑(Zytglogge), 곰 공원(Bärenpark)으로 구성된 유네스코 세계유산으로, 중세 도시 경관이 그대로 보존되어 있습니다.'
+    ],
+    context:'같은 시기: 조선 헌종 → 철종 교체 시기, 동학사상 태동 전야. 1848년은 유럽 전역이 혁명의 해(Völkerfrühling)였습니다. 스위스는 이 격동 속에서 가장 성숙한 방식으로 근대 연방국가를 완성한 예외적 사례입니다.',
+    location:'📍 베른 구시가 (Bundeshaus 일대) | 취리히에서 기차 약 55분',
+    travelTip:'여행 포인트: 연방의사당 → 시계탑 → 아케이드 쇼핑 → 장미 정원 전망대 → 곰 공원. 반나절 도보 코스. 아인슈타인이 베른 특허청 근무 시절 살던 집(Einstein Haus)도 추천.',
+    tags:['베른','스위스수도','연방헌법','유네스코','시계탑'],
+    mapUrl:'https://www.google.com/maps/place/Bundeshaus,+Bundesplatz+3,+3005+Bern'
+  }
+];
+
+// ═══════════════════════════════════════════════════
+//  EXCHANGE DATA (Step 4) — 한국-스위스 교류
+// ═══════════════════════════════════════════════════
+const exchangeData = [
+  {
+    id:'pharma',
+    sector:'경제 · 제약/바이오',
+    title:'한-스위스 제약·바이오텍 협력 — 롤모델 시장의 문',
+    subtitle:'노바르티스·로슈·론자의 나라가 한국 바이오와 손잡는 이유',
+    body:[
+      '스위스는 노바르티스(Novartis), 로슈(Roche), 론자(Lonza) 등 글로벌 제약 빅파마의 본거지로, GDP 대비 제약 수출 비중이 세계 최고 수준입니다. 한국은 2010년대 이후 삼성바이오로직스·셀트리온 등 바이오 CMO(위탁생산) 역량을 급격히 키우며 스위스 빅파마의 핵심 파트너로 부상했습니다.',
+      '한국 바이오 기업들은 스위스 기업과 바이오시밀러 공동개발, 원료의약품(API) 공급계약, 임상시험 협력을 활발히 진행 중입니다. 스위스 연방 기술혁신청(Innosuisse)과 한국 산업부의 R&D 협력 프로그램도 확대되고 있습니다.'
+    ],
+    biz:'💡 비즈니스 기회: 스위스 제약사의 아시아 임상·규제 대응 파트너, 바이오 CMO 중개 컨설팅, 한국-스위스 바이오 스타트업 매칭 플랫폼',
+    tags:['제약바이오','노바르티스','로슈','CMO','바이오시밀러','한스위스협력']
+  },
+  {
+    id:'finance',
+    sector:'경제 · 금융/핀테크',
+    title:'취리히 금융 허브와 한국의 접점 — 프라이빗 뱅킹 & 핀테크',
+    subtitle:'UBS·크레디스위스의 도시가 한국 자본시장과 연결되는 방식',
+    body:[
+      '취리히는 런던·뉴욕과 함께 세계 3대 금융 중심지입니다. UBS·크레디스위스(현재 UBS와 합병) 등 프라이빗 뱅킹 강국으로, 전 세계 부유층 자산의 상당 부분을 관리합니다. 한국 기관투자자(국민연금, 한국투자공사 등)들은 스위스 금융사를 통해 유럽 대체투자에 적극 참여하고 있습니다.',
+      '최근에는 스위스의 규제 친화적 핀테크 환경(楚크 크립토 밸리)과 한국 블록체인·디지털 자산 기업들의 협력이 증가하고 있습니다. 스위스 금융감독청(FINMA)의 명확한 규제 체계는 한국 핀테크의 유럽 진출 전진기지로 활용되는 추세입니다.'
+    ],
+    biz:'💡 비즈니스 기회: 스위스 크립토 밸리(楚크)를 통한 한국 블록체인 기업의 유럽 법인 설립, 한-스위스 기관투자 자문, 프라이빗 뱅킹 서비스 현지화',
+    tags:['취리히금융','프라이빗뱅킹','크립토밸리','핀테크','한국금융']
+  },
+  {
+    id:'tourism',
+    sector:'사회 · 관광/교육',
+    title:'한국인 관광객 급증과 럭셔리 관광 시장 기회',
+    subtitle:'알프스-한류의 만남: 스위스 관광청이 한국에 집중하는 이유',
+    body:[
+      '코로나 이전 기준 한국인 스위스 방문객은 연간 40만 명 이상으로, 아시아 최상위권 관광객을 기록했습니다. 인터라켄·융프라우·루체른은 한국 여행자 최선호 목적지 유럽 TOP 10에 지속적으로 포함됩니다. 스위스 관광청(Switzerland Tourism)은 서울 사무소를 두고 한국 시장을 전략적으로 공략 중입니다.',
+      '스위스는 세계 1위 호텔경영대학원 에콜호텔리에르드로잔(EHL) 등 최고 수준의 관광·호텔 교육기관을 보유하고 있어, 한국 유학생들의 관심도 증가하고 있습니다. 또한 한국 OTT 콘텐츠의 스위스 촬영 유치 사례도 늘고 있습니다.'
+    ],
+    biz:'💡 비즈니스 기회: 한국인 맞춤형 프리미엄 스위스 여행 패키지, 스위스 럭셔리 호텔과 한국 유통 채널 연계, 스위스 관광 콘텐츠 제작 에이전시',
+    tags:['스위스관광','인터라켄','융프라우','한류관광','EHL호텔경영'],
+  },
+  {
+    id:'watchlux',
+    sector:'문화 · 명품/시계',
+    title:'스위스 시계 산업과 한국 시장 — 럭셔리 유통의 새 판',
+    subtitle:'롤렉스·오메가·IWC의 나라가 한국 소비자를 주목하는 이유',
+    body:[
+      '스위스는 롤렉스·파텍필립·오메가·IWC·바쉐론 콘스탄틴 등 세계 최고급 시계 브랜드의 본거지입니다. 한국은 1인당 명품 소비 세계 1위 국가(2022 모건스탠리 보고서)로, 스위스 시계 수출국 중 상위권을 차지합니다. 특히 MZ세대 한국 소비자들의 하이엔드 시계 구매가 급증하며 스위스 워치 그룹들의 한국 전략이 정교해지고 있습니다.',
+      '한국 편집숍·시계 전문 리테일러들과 스위스 중소 독립 워치메이커(Independent Watchmaker) 간의 직접 유통 계약이 새로운 비즈니스 모델로 주목받고 있습니다. 한국의 NFT·디지털 자산 트렌드와 스위스 시계의 컬래버레이션도 등장하고 있습니다.'
+    ],
+    biz:'💡 비즈니스 기회: 스위스 독립 워치메이커의 한국 독점 유통 에이전트, 빈티지 스위스 시계 리셀 플랫폼, 한-스위스 시계 문화 콘텐츠(유튜브·SNS)',
+    tags:['스위스시계','롤렉스','오메가','명품유통','워치메이커','한국럭셔리']
+  },
+  {
+    id:'sustainability',
+    sector:'경제 · 지속가능성/ESG',
+    title:'한-스위스 ESG·지속가능성 협력의 최전선',
+    subtitle:'탄소중립 선도국 스위스와 한국 그린뉴딜의 접점',
+    body:[
+      '스위스는 지속가능발전 지수(SDG) 세계 최상위국으로, 재생에너지 비중 70% 이상, 원형 경제(Circular Economy) 모델 선도국입니다. 한국은 2050 탄소중립을 선언하고 K-ESG 기준을 도입하면서 스위스의 제도·기술 모델에 높은 관심을 보이고 있습니다.',
+      '특히 스위스 연방공대(ETH 취리히)와 EPFL(로잔공대)의 클린테크·에너지 스타트업들이 한국 기업과의 기술이전 및 합작투자를 활발히 모색 중입니다. 한국수출입은행과 스위스 기후금융 기관 간 녹색채권 협력도 진행되고 있습니다.'
+    ],
+    biz:'💡 비즈니스 기회: ETH·EPFL 클린테크 스타트업의 한국 투자 유치 중개, 스위스 ESG 평가 모델의 한국 기업 컨설팅 도입, 한-스위스 탄소시장 연계 플랫폼',
+    tags:['ESG','탄소중립','ETH취리히','EPFL','클린테크','그린뉴딜','한스위스']
+  }
+];
+
+const events = [
+  ...baseEvents,
+  // Swiss step-2 events
+  { year:-58, row:'swiss1', title:'카이사르, 헬베티아 정벌', body:'율리우스 카이사르가 갈리아 원정(BC 58)에서 헬베티아족(오늘날 스위스 민족의 전신)의 대이동을 격파하고 알프스 지역을 로마 지배 아래 둡니다.', context:'같은 시기: 로마 공화국 말기, 카이사르-폼페이우스 갈등 전야', tags:['헬베티아','로마','카이사르'], step:2 },
+  { year:1291, row:'swiss2', title:'뤼틀리 서약 — 스위스 연방 탄생', body:'슈비츠·우리·운터발덴 세 캔톤이 뤼틀리 초원에서 영구 동맹을 맹세합니다.', context:'같은 시기: 고려 충렬왕(몽골 지배), 원나라 쿠빌라이칸', tags:['뤼틀리서약','스위스건국'], step:2 },
+  { year:1476, row:'swiss2', title:'부르고뉴 전쟁 — 스위스 용병의 명성', body:'스위스 연방군이 부르고뉴 공 샤를에 대항한 그랑송·뮈르텐 전투에서 대승, "스위스 보병"이 유럽 최강 육군으로 명성을 얻습니다.', context:'같은 시기: 조선 성종 초기, 유럽 르네상스 절정기', tags:['부르고뉴전쟁','스위스용병','뮈르텐'], step:2 },
+  { year:1648, row:'swiss2', title:'베스트팔렌 조약 — 스위스 완전 독립', body:'30년 전쟁을 종결한 베스트팔렌 조약(1648)에서 스위스 연방이 신성로마제국으로부터 공식 독립을 국제적으로 승인받습니다.', context:'같은 시기: 조선 효종, 북벌 운동. 유럽 종교전쟁 종결 후 근대 국제질서 형성 시기', tags:['베스트팔렌','스위스독립','30년전쟁'], step:2 },
+  { year:1798, row:'swiss3', title:'나폴레옹, 헬베티아 공화국 수립', body:'프랑스 혁명군 나폴레옹이 스위스를 침공하여 헬베티아 공화국을 수립합니다. 이후 1815년 나폴레옹 몰락 후 스위스는 영세중립을 공식 선언합니다.', context:'같은 시기: 조선 순조 즉위 직전, 동아시아 서양 열강 접근 초기', tags:['헬베티아공화국','나폴레옹','중립선언'], step:2 },
+  ...swissStories.map(story => ({
+    year: story.year,
+    row: story.row,
+    hero: true,
+    storyId: story.id,
+    title: story.title,
+    body: story.short,
+    context: story.context,
+    tags: story.tags,
+    step: 3
+  }))
+];
+
+const rowDefs = [
+  { id:'swiss1', group:'🇨🇭  스위스사', label:'켈트~로마 시대', step:2 },
+  { id:'swiss2', label:'중세 맹방', step:2 },
+  { id:'swiss3', label:'근세~현대', step:2 },
+  { id:'korea1', group:'🇰🇷  한국사', label:'고조선·초기' },
+  { id:'korea2', label:'삼국(삼한·고구려)' },
+  { id:'korea3', label:'삼국(백제·신라·발해)' },
+  { id:'korea4', label:'고려·조선·현대' },
+  { id:'china1', group:'🇨🇳  중국사', label:'상·주·진·한' },
+  { id:'china2', label:'위진남북조~송' },
+  { id:'china3', label:'원·명·청·현대' },
+  { id:'eu1',   group:'🌍  유럽사', label:'그리스·공화정' },
+  { id:'eu2',   label:'로마제국·비잔틴' },
+  { id:'eu3',   label:'프랑크·영국' },
+  { id:'eu4',   label:'이슬람·오스만·프랑스' },
+];
+
+let currentStep = 1;
+
+function render() {
+  document.getElementById('tl-inner').style.width = TL_WIDTH + 'px';
+  document.getElementById('axis-wrap').style.width = TL_WIDTH + 'px';
+  renderAxis();
+  renderRows();
+}
+
+function renderAxis() {
+  const wrap = document.getElementById('axis-wrap');
+  wrap.innerHTML = '';
+
+  const shade = document.createElement('div');
+  shade.className = 'bc-shade';
+  shade.style.left = '0';
+  shade.style.width = BC_WIDTH + 'px';
+  wrap.appendChild(shade);
+
+  const line = document.createElement('div');
+  line.className = 'axis-line';
+  wrap.appendChild(line);
+
+  const div = document.createElement('div');
+  div.className = 'bcad-divider';
+  div.style.left = BC_WIDTH + 'px';
+  div.innerHTML = '<div class="bcad-label">BC | AD</div><div class="bcad-line"></div>';
+  wrap.appendChild(div);
+
+  [-1500,-1000,-500,-250,-100].forEach(y => addTick(wrap, y, `BC ${Math.abs(y)}`));
+  [0,100,200,300,400,500,600,700,800,900,1000,1100,1200,1300,1400,1450,1500,1550,1600,1650,1700,1750,1800,1850,1900,1950,2000]
+    .forEach(y => addTick(wrap, y, y===0 ? 'AD 0' : String(y)));
+}
+
+function addTick(wrap, y, label) {
+  const tick = document.createElement('div');
+  tick.className = 'axis-tick';
+  tick.style.left = yearToX(y) + 'px';
+  tick.innerHTML = `<div class="tick-line"></div><div class="tick-label">${label}</div>`;
+  wrap.appendChild(tick);
+}
+
+function renderRows() {
+  const container = document.getElementById('tl-rows');
+  container.innerHTML = '';
+  let lastGroup = null;
+
+  rowDefs.forEach(rd => {
+    if (rd.step && rd.step > currentStep) return;
+
+    if (rd.group && rd.group !== lastGroup) {
+      const gl = document.createElement('div');
+      gl.className = 'row-group-label';
+      gl.textContent = rd.group;
+      container.appendChild(gl);
+      lastGroup = rd.group;
+    }
+
+    const rowEl = document.createElement('div');
+    rowEl.className = 'tl-row';
+    const track = document.createElement('div');
+    track.className = 'row-track';
+
+    periods.filter(p => p.row === rd.id && (!p.step || p.step <= currentStep)).forEach(p => {
+      const x1 = Math.max(0, yearToX(Math.max(p.start, BC_START)));
+      const x2 = Math.min(TL_WIDTH, yearToX(Math.min(p.end, AD_END)));
+      if (x2 <= x1) return;
+      const bar = document.createElement('div');
+      bar.className = `period ${p.cls}`;
+      bar.style.left = x1 + 'px';
+      bar.style.width = (x2 - x1) + 'px';
+      if (p.opacity) bar.style.opacity = p.opacity;
+      const lbl = document.createElement('span');
+      lbl.className = 'period-label';
+      lbl.textContent = p.label;
+      bar.appendChild(lbl);
+      track.appendChild(bar);
+    });
+
+    events.filter(e => e.row === rd.id && (!e.step || e.step <= currentStep)).forEach(e => {
+      const dot = document.createElement('div');
+      dot.className = 'event-dot ' + (e.hero ? 'dot-hero' : 'dot-normal');
+      dot.style.left = yearToX(e.year) + 'px';
+      dot.title = e.title;
+      dot.onclick = () => e.hero ? openStoryById(e.storyId) : showPopup(e);
+      track.appendChild(dot);
+    });
+
+    rowEl.appendChild(track);
+    container.appendChild(rowEl);
+  });
+}
+
+function setStep(n, btn) {
+  currentStep = n;
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  btn.classList.add('active');
+
+  const banners = {
+    1: '<strong>Step 1</strong> — 한국·중국·유럽 BC 1500~AD 2000. 🟢 초록 점을 클릭하면 상세 팝업이 열립니다.',
+    2: '<strong>Step 2</strong> — 🇨🇭 스위스 연대기 추가. 켈트~현대 스위스 역사 바를 최상단에 배치해 세계사 흐름과 비교하기 쉽게 정리했습니다.',
+    3: '<strong>Step 3</strong> — 🔴 빨간 점 또는 아래 링크 버튼을 누르면 스위스 역사 일화 5선의 상세창이 열립니다. 각 도시의 역사적 순간을 만나보세요.',
+    4: '<strong>Step 4</strong> — 🤝 대한민국×스위스 교류 인사이트. 경제·사회·문화 분야 협력 현황과 새로운 비즈니스 기회를 살펴보세요.',
+  };
+  document.getElementById('info-banner').innerHTML = banners[n];
+
+  const panel = document.getElementById('hero-panel');
+  const exchangePanel = document.getElementById('exchange-panel');
+  const mapBar = document.getElementById('swiss-map-bar');
+
+  panel.classList.remove('visible');
+  exchangePanel.classList.remove('visible');
+  mapBar.style.display = 'none';
+
+  if (n === 3) {
+    panel.classList.add('visible');
+    mapBar.style.display = 'flex';
+    renderHeroPanel();
+    setTimeout(() => scrollToYear(1291), 250);
+  } else if (n === 4) {
+    exchangePanel.classList.add('visible');
+    mapBar.style.display = 'flex';
+    renderExchangePanel();
+  } else if (n === 2) {
+    mapBar.style.display = 'flex';
+    setTimeout(() => scrollToYear(1291), 250);
+  }
+
+  render();
+}
+
+function renderHeroPanel() {
+  const linkGrid = document.getElementById('story-link-grid');
+  const cardGrid = document.getElementById('hero-cards');
+  linkGrid.innerHTML = '';
+  cardGrid.innerHTML = '';
+
+  swissStories.forEach((story, idx) => {
+    const linkBtn = document.createElement('button');
+    linkBtn.className = 'story-link-btn';
+    linkBtn.textContent = `${idx + 1}. ${story.title.split('—')[0].trim()}`;
+    linkBtn.onclick = () => openStoryById(story.id);
+    linkGrid.appendChild(linkBtn);
+
+    const card = document.createElement('div');
+    card.className = 'hero-card';
+    card.innerHTML = `
+      <div class="hero-card-name">${story.title}</div>
+      <div class="hero-card-years">${story.year}년</div>
+      <div class="hero-card-desc">${story.short}</div>
+      <div class="hero-card-meta">${story.location}</div>
+      <div class="hero-card-actions">
+        <button class="hero-action" onclick="openStoryById('${story.id}')">스토리 열기</button>
+        <button class="hero-action" onclick="scrollToYear(${story.year})">연대기 위치 보기</button>
+      </div>
+    `;
+    cardGrid.appendChild(card);
+  });
+}
+
+function renderExchangePanel() {
+  const linkGrid = document.getElementById('exchange-link-grid');
+  const cardGrid = document.getElementById('exchange-cards');
+  linkGrid.innerHTML = '';
+  cardGrid.innerHTML = '';
+
+  exchangeData.forEach((ex, idx) => {
+    const linkBtn = document.createElement('button');
+    linkBtn.className = 'exchange-link-btn';
+    linkBtn.textContent = `${idx + 1}. ${ex.title.split('—')[0].trim()}`;
+    linkBtn.onclick = () => openExchangeById(ex.id);
+    linkGrid.appendChild(linkBtn);
+
+    const card = document.createElement('div');
+    card.className = 'exchange-card';
+    card.innerHTML = `
+      <div class="exchange-card-sector">${ex.sector}</div>
+      <div class="exchange-card-title">${ex.title}</div>
+      <div class="exchange-card-desc">${ex.subtitle}</div>
+      <div class="exchange-card-biz">${ex.biz}</div>
+      <div class="exchange-card-actions">
+        <button class="exchange-action" onclick="openExchangeById('${ex.id}')">상세 보기</button>
+      </div>
+    `;
+    cardGrid.appendChild(card);
+  });
+}
+
+function showPopup(e) {
+  const yLabel = e.year < 0 ? `BC ${Math.abs(e.year)}년` : `AD ${e.year}년`;
+  document.getElementById('p-year').textContent = yLabel;
+  document.getElementById('p-title').textContent = e.title;
+  document.getElementById('p-body').textContent = e.body;
+  document.getElementById('p-context').textContent = '🌐 ' + (e.context || '관련 배경 정보가 준비 중입니다.');
+  const badge = document.getElementById('p-hero-badge');
+  badge.classList.remove('show');
+  const tagsEl = document.getElementById('p-tags');
+  tagsEl.innerHTML = (e.tags || []).map(t => `<span class="popup-tag">#${t}</span>`).join('');
+  document.getElementById('popup').classList.add('active');
+  scrollToYear(e.year);
+}
+
+function closePopup(ev) {
+  if (!ev || ev.target === document.getElementById('popup')) {
+    document.getElementById('popup').classList.remove('active');
+  }
+}
+
+function openStoryById(id) {
+  const story = swissStories.find(s => s.id === id);
+  if (!story) return;
+
+  document.getElementById('story-year').textContent = story.year + '년';
+  document.getElementById('story-title').textContent = story.title;
+  document.getElementById('story-subtitle').textContent = story.subtitle;
+  document.getElementById('story-location').textContent = story.location;
+  document.getElementById('story-travel-tip').textContent = '🧭 ' + story.travelTip;
+  document.getElementById('story-context').textContent = '🌐 ' + story.context;
+  document.getElementById('story-body').innerHTML = story.body.map(p => `<p>${p}</p>`).join('');
+  document.getElementById('story-tags').innerHTML = story.tags.map(t => `<span class="story-tag">#${t}</span>`).join('');
+
+  const mapLink = document.getElementById('story-map-link');
+  if (story.mapUrl) {
+    mapLink.href = story.mapUrl;
+    mapLink.style.display = 'inline-flex';
+  } else {
+    mapLink.style.display = 'none';
+  }
+
+  document.getElementById('story-scroll-btn').onclick = () => {
+    scrollToYear(story.year);
+    closeStoryModal();
+  };
+
+  document.getElementById('story-overlay').classList.add('active');
+  scrollToYear(story.year);
+}
+
+function closeStoryModal(ev) {
+  if (!ev || ev.target === document.getElementById('story-overlay')) {
+    document.getElementById('story-overlay').classList.remove('active');
+  }
+}
+
+function openExchangeById(id) {
+  const ex = exchangeData.find(e => e.id === id);
+  if (!ex) return;
+
+  document.getElementById('ex-kicker').textContent = `🇰🇷 × 🇨🇭  ${ex.sector}`;
+  document.getElementById('ex-title').textContent = ex.title;
+  document.getElementById('ex-subtitle').textContent = ex.subtitle;
+  document.getElementById('ex-body').innerHTML = ex.body.map(p => `<p>${p}</p>`).join('');
+  document.getElementById('ex-biz').innerHTML = ex.biz;
+  document.getElementById('ex-tags').innerHTML = ex.tags.map(t => `<span class="exchange-tag">#${t}</span>`).join('');
+
+  document.getElementById('exchange-overlay').classList.add('active');
+}
+
+function closeExchangeModal(ev) {
+  if (!ev || ev.target === document.getElementById('exchange-overlay')) {
+    document.getElementById('exchange-overlay').classList.remove('active');
+  }
+}
+
+function scrollToYear(year, btn) {
+  if (btn) {
+    document.querySelectorAll('.era-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+  const outer = document.getElementById('tl-outer');
+  const x = yearToX(year) - outer.clientWidth / 3;
+  outer.scrollTo({ left: Math.max(0, x), behavior: 'smooth' });
+}
+
+(function() {
+  const el = document.getElementById('tl-outer');
+  let down = false, startX = 0, scrollLeft = 0;
+  el.addEventListener('mousedown', e => { down = true; startX = e.pageX - el.offsetLeft; scrollLeft = el.scrollLeft; });
+  el.addEventListener('mouseleave', () => down = false);
+  el.addEventListener('mouseup', () => down = false);
+  el.addEventListener('mousemove', e => {
+    if (!down) return;
+    e.preventDefault();
+    el.scrollLeft = scrollLeft - (e.pageX - el.offsetLeft - startX);
+  });
+})();
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    closePopup();
+    closeStoryModal();
+    closeExchangeModal();
+  }
+});
+
+render();
+</script>
+</body>
+</html>
