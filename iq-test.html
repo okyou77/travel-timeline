@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>IQ 정밀 검사 — IQ PRO</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+:root{
+  --bg:#08080e;--card:#111119;--card2:#16161f;--border:#24243a;
+  --accent:#c8ff3e;--blue:#5b8cff;--text:#ededf5;--muted:#686896;
+  --green:#4ade80;--danger:#ff5566;--warn:#ef9f27;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{background:var(--bg);color:var(--text);font-family:'Noto Serif KR',serif;min-height:100vh;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(91,140,255,.015) 1px,transparent 1px),linear-gradient(90deg,rgba(91,140,255,.015) 1px,transparent 1px);background-size:52px 52px;pointer-events:none;z-index:0}
+.wrap{max-width:600px;margin:0 auto;padding:0 16px;position:relative;z-index:1}
+.screen{display:none}.screen.active{display:block}
+.mono{font-family:'Space Mono',monospace}
+h1{font-size:clamp(24px,6vw,42px);font-weight:900;line-height:1.1;letter-spacing:-.5px}
+h1 em{font-style:normal;color:var(--accent)}
+.badge{display:inline-flex;align-items:center;gap:6px;background:var(--card2);border:1px solid var(--border);border-radius:100px;padding:6px 14px;font-family:'Space Mono',monospace;font-size:10px;color:var(--accent);letter-spacing:1.5px}
+.badge::before{content:'◉';animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+/* buttons */
+.btn{display:block;width:100%;padding:17px 24px;border-radius:14px;border:none;cursor:pointer;font-size:16px;font-family:'Noto Serif KR',serif;font-weight:700;transition:all .2s;touch-action:manipulation}
+.btn-a{background:var(--accent);color:#08080e}
+.btn-a:hover,.btn-a:active{transform:translateY(-2px);box-shadow:0 8px 28px rgba(200,255,62,.28)}
+.btn-a:disabled{opacity:.3;cursor:not-allowed;transform:none;box-shadow:none}
+.btn-o{background:transparent;color:var(--text);border:1px solid var(--border);margin-top:10px}
+.btn-o:hover{border-color:var(--accent);color:var(--accent)}
+/* limit bar */
+.limit-bar{display:flex;align-items:center;justify-content:space-between;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:16px}
+.limit-count{font-family:'Space Mono',monospace;font-size:20px;font-weight:700}
+.lc-ok{color:var(--green)}.lc-warn{color:var(--warn)}.lc-none{color:var(--danger)}
+/* domain cards */
+.domain-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0}
+.domain-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 16px}
+.domain-card.full{grid-column:1/-1}
+.d-icon{font-size:20px;margin-bottom:7px}
+.d-name{font-size:14px;font-weight:700;margin-bottom:3px}
+.d-desc{font-size:12px;color:var(--muted);line-height:1.5}
+.d-highlight{border-top:3px solid var(--accent)}
+.d0{border-top:2px solid #7f77dd}.d1{border-top:2px solid #1d9e75}
+.d2{border-top:2px solid #d85a30}.d4{border-top:2px solid #639922}
+/* cert notice */
+.cert-notice{background:rgba(200,255,62,.06);border:1px solid rgba(200,255,62,.2);border-radius:12px;padding:14px 16px;margin-bottom:16px;font-size:13px;color:var(--accent);line-height:1.6}
+/* progress */
+.pb-wrap{padding-top:20px;padding-bottom:4px}
+.pb{height:4px;background:var(--card2);border-radius:2px;overflow:hidden;margin-bottom:8px}
+.pbf{height:100%;background:linear-gradient(90deg,var(--blue),var(--accent));transition:width .4s ease}
+.pm{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.pm-left{font-family:'Space Mono',monospace;font-size:12px;color:var(--muted)}
+.pm-timer{font-family:'Space Mono',monospace;font-size:14px;font-weight:700}
+/* chips */
+.chip{display:inline-block;border-radius:100px;padding:4px 12px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:1px;margin-bottom:10px}
+.c3{background:rgba(200,255,62,.12);color:#c8ff3e;border:1px solid rgba(200,255,62,.25)}
+.c0{background:rgba(127,119,221,.15);color:#afa9ec;border:1px solid rgba(127,119,221,.3)}
+.c1{background:rgba(29,158,117,.15);color:#5dcaa5;border:1px solid rgba(29,158,117,.3)}
+.c2{background:rgba(216,90,48,.15);color:#f0997b;border:1px solid rgba(216,90,48,.3)}
+.c4{background:rgba(99,153,34,.15);color:#97c459;border:1px solid rgba(99,153,34,.3)}
+/* question card */
+.qcard{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:22px 20px;margin-bottom:14px;position:relative;overflow:hidden}
+.qcard::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--blue),var(--accent))}
+.qnum{font-family:'Space Mono',monospace;font-size:10px;color:var(--blue);margin-bottom:8px;letter-spacing:2px}
+.qtext{font-size:15px;font-weight:600;line-height:1.65;margin-bottom:12px}
+/* SVG matrix question */
+.matrix-wrap{background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:12px;display:flex;justify-content:center}
+.matrix-grid{display:grid;gap:6px}
+.matrix-cell{background:var(--bg);border:1px solid var(--border);border-radius:6px;display:flex;align-items:center;justify-content:center}
+.matrix-cell.question-mark{border:2px dashed var(--accent);background:rgba(200,255,62,.04)}
+/* options */
+.opts{display:flex;flex-direction:column;gap:10px;margin-bottom:16px}
+.opt{background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:14px 16px;color:var(--text);font-size:15px;font-family:'Noto Serif KR',serif;cursor:pointer;text-align:left;transition:all .18s;display:flex;align-items:center;gap:10px;min-height:52px;touch-action:manipulation}
+.opt:active{background:rgba(200,255,62,.06);border-color:var(--accent)}
+.opt.sel{border-color:var(--accent);background:rgba(200,255,62,.09);color:var(--accent)}
+.ol{font-family:'Space Mono',monospace;font-size:11px;color:var(--accent);min-width:16px;flex-shrink:0}
+/* SVG option grid (for matrix questions) */
+.matrix-opts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.matrix-opt{background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:12px;cursor:pointer;transition:all .18s;display:flex;flex-direction:column;align-items:center;gap:6px;touch-action:manipulation}
+.matrix-opt:active,.matrix-opt:hover{border-color:var(--accent);background:rgba(200,255,62,.06)}
+.matrix-opt.sel{border-color:var(--accent);background:rgba(200,255,62,.09)}
+.matrix-opt-label{font-family:'Space Mono',monospace;font-size:11px;color:var(--accent)}
+/* analyze */
+.ana{text-align:center;padding:64px 0}
+.spin{display:inline-block;font-size:44px;animation:rot 1.8s linear infinite;margin-bottom:20px}
+@keyframes rot{to{transform:rotate(360deg)}}
+.steps{list-style:none;max-width:280px;margin:22px auto 0;text-align:left}
+.step{display:flex;align-items:center;gap:10px;padding:9px 0;font-size:13px;color:var(--muted);border-bottom:1px solid var(--border);transition:color .3s}
+.step.done{color:var(--text)}.step.cur{color:var(--accent)}
+.sdot{width:20px;height:20px;border-radius:50%;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:9px;flex-shrink:0}
+.step.done .sdot{background:var(--accent);border-color:var(--accent);color:#08080e;font-weight:700}
+.step.cur .sdot{border-color:var(--accent);color:var(--accent);animation:blink 1s infinite}
+.ld::after{content:'';animation:ld 1.5s infinite}
+@keyframes ld{0%{content:''}33%{content:'.'}66%{content:'..'}100%{content:'...'}}
+/* result */
+.rpage{padding:28px 0 64px}
+.ihero{text-align:center;background:var(--card);border:1px solid var(--border);border-radius:20px;padding:36px 20px;margin-bottom:16px;position:relative;overflow:hidden}
+.ihero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(200,255,62,.1) 0%,transparent 60%)}
+.ibig{font-family:'Space Mono',monospace;font-size:clamp(60px,15vw,80px);font-weight:700;color:var(--accent);line-height:1;display:block;position:relative}
+.ilabel{font-size:16px;font-weight:700;color:var(--text);margin-top:6px;position:relative}
+.ipct{display:inline-block;background:rgba(200,255,62,.1);border:1px solid rgba(200,255,62,.25);border-radius:100px;padding:5px 18px;font-size:12px;color:var(--accent);margin-top:10px;font-family:'Space Mono',monospace;position:relative}
+.itime{font-size:12px;color:var(--muted);margin-top:8px;font-family:'Space Mono',monospace;position:relative}
+/* tabs - only 2 now */
+.result-tabs{display:flex;gap:6px;margin-bottom:14px}
+.rtab{flex:1;background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:12px 8px;text-align:center;cursor:pointer;font-size:14px;transition:all .2s;touch-action:manipulation}
+.rtab.active{border-color:var(--accent);background:rgba(200,255,62,.07);color:var(--accent)}
+.rtab-panel{display:none}.rtab-panel.active{display:block}
+.dcard{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:12px}
+.bars{display:flex;flex-direction:column;gap:10px}
+.br{display:flex;align-items:center;gap:10px}
+.bl{font-size:12px;color:var(--muted);width:68px;flex-shrink:0}
+.bt{flex:1;height:6px;background:var(--card2);border-radius:3px;overflow:hidden}
+.bf{height:100%;background:linear-gradient(90deg,var(--blue),var(--accent));border-radius:3px;transition:width 1s ease}
+.bval{font-family:'Space Mono',monospace;font-size:11px;color:var(--text);width:28px;text-align:right}
+/* cert */
+.cert-wrap{background:#0a0a14;border-radius:16px;overflow:hidden;margin-bottom:12px;display:flex;justify-content:center;align-items:center;min-height:180px}
+#cert-canvas{width:100%;height:auto;display:block;border-radius:16px}
+.cert-loading{color:var(--muted);font-size:13px;font-family:'Space Mono',monospace;text-align:center;padding:40px}
+/* blocked */
+.blocked-card{background:var(--card);border:1px solid var(--danger);border-radius:16px;padding:32px 24px;text-align:center;margin:24px 0}
+.blocked-icon{font-size:48px;margin-bottom:16px}
+.blocked-title{font-size:20px;font-weight:700;margin-bottom:10px;color:var(--danger)}
+.blocked-desc{font-size:14px;color:var(--muted);line-height:1.7;margin-bottom:20px}
+.blocked-timer{font-family:'Space Mono',monospace;font-size:28px;font-weight:700;color:var(--accent);margin-bottom:6px}
+/* toast */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--card);border:1px solid var(--accent);border-radius:10px;padding:12px 20px;font-size:13px;color:var(--accent);font-family:'Space Mono',monospace;z-index:9999;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap;max-width:90vw;text-align:center}
+.toast.show{opacity:1}
+@media(max-width:480px){.domain-grid{grid-template-columns:1fr}.domain-card.full{grid-column:auto}.matrix-opts{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<div class="toast" id="toast"></div>
+
+<!-- ══ INTRO ══ -->
+<div id="s-intro" class="screen active">
+<div class="wrap">
+  <div style="padding:44px 0 24px;text-align:center">
+    <div class="badge" style="margin-bottom:18px">IQ PRO · 공식 지능 검사</div>
+    <h1>나의 <em>IQ</em>는<br>얼마일까?</h1>
+    <p style="font-size:14px;color:var(--muted);margin:12px 0 0;line-height:1.7">
+      5개 영역 · 15문항으로 측정하는 정밀 IQ 검사
+    </p>
+  </div>
+
+  <!-- 일일 횟수 -->
+  <div class="limit-bar">
+    <div>
+      <div style="font-size:13px;color:var(--muted)">오늘 남은 응시 횟수</div>
+      <div style="font-size:11px;color:var(--muted);font-family:'Space Mono',monospace" id="limit-reset-time"></div>
+    </div>
+    <div style="text-align:right">
+      <div class="limit-count lc-ok" id="limit-count">2</div>
+      <div style="font-size:11px;color:var(--muted)">/ 2회</div>
+    </div>
+  </div>
+
+  <!-- 5개 영역 -->
+  <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 18px;margin-bottom:16px">
+    <p style="font-size:11px;color:var(--muted);font-family:'Space Mono',monospace;letter-spacing:1px;margin-bottom:10px">측정 영역 (각 3문항)</p>
+    <div style="display:flex;flex-wrap:wrap;gap:8px">
+      <span style="background:rgba(200,255,62,.12);color:#c8ff3e;border:1px solid rgba(200,255,62,.3);border-radius:100px;padding:5px 13px;font-size:13px;font-weight:700">🔷 도형 추론</span>
+      <span style="background:rgba(127,119,221,.12);color:#afa9ec;border:1px solid rgba(127,119,221,.3);border-radius:100px;padding:5px 13px;font-size:13px">🔢 논리 추론</span>
+      <span style="background:rgba(29,158,117,.12);color:#5dcaa5;border:1px solid rgba(29,158,117,.3);border-radius:100px;padding:5px 13px;font-size:13px">📖 언어 지능</span>
+      <span style="background:rgba(216,90,48,.12);color:#f0997b;border:1px solid rgba(216,90,48,.3);border-radius:100px;padding:5px 13px;font-size:13px">➕ 수리 능력</span>
+      <span style="background:rgba(99,153,34,.12);color:#97c459;border:1px solid rgba(99,153,34,.3);border-radius:100px;padding:5px 13px;font-size:13px">🧩 기억·처리속도</span>
+    </div>
+  </div>
+
+  <!-- 인증서 안내 -->
+  <div class="cert-notice">
+    🏆 <strong>IQ 인증서가 즉시 발급됩니다.</strong><br>
+    이름을 입력하시면 인증서에 표기됩니다. (선택사항)
+  </div>
+
+  <!-- 이름 입력 (선택) -->
+  <div style="margin-bottom:16px">
+    <label style="display:block;font-size:12px;color:var(--muted);margin-bottom:7px">이름 (선택 · 인증서에 표기)</label>
+    <input type="text" id="inp-name" placeholder="홍길동 (입력 안 해도 됩니다)"
+      style="width:100%;background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:15px 16px;font-size:15px;color:var(--text);font-family:'Noto Serif KR',serif;outline:none;-webkit-appearance:none"
+      autocomplete="name" enterkeyhint="go">
+  </div>
+
+  <button class="btn btn-a" id="start-btn" onclick="startTest()">
+    IQ 검사 시작하기 →
+  </button>
+</div>
+</div>
+
+<!-- ══ BLOCKED ══ -->
+<div id="s-blocked" class="screen">
+<div class="wrap" style="padding-top:48px">
+  <div class="blocked-card">
+    <div class="blocked-icon">🚫</div>
+    <div class="blocked-title">오늘의 응시 횟수를 모두 사용했습니다</div>
+    <div class="blocked-desc">공정한 검사를 위해 하루 2회로 제한됩니다.<br>내일 자정이 지나면 다시 응시할 수 있습니다.</div>
+    <div class="blocked-timer" id="blocked-countdown">--:--:--</div>
+    <div style="font-size:12px;color:var(--muted)">자정까지 남은 시간</div>
+  </div>
+</div>
+</div>
+
+<!-- ══ QUIZ ══ -->
+<div id="s-quiz" class="screen">
+<div class="wrap">
+  <div class="pb-wrap">
+    <div class="pb"><div class="pbf" id="prog" style="width:0%"></div></div>
+    <div class="pm">
+      <span class="pm-left" id="qcnt">1 / 15</span>
+      <span class="pm-timer" id="timer">00:00</span>
+    </div>
+  </div>
+  <div class="qcard">
+    <div class="qnum" id="qnum">QUESTION 01</div>
+    <div id="qcat"></div>
+    <div class="qtext" id="qtext"></div>
+    <div id="matrix-display"></div>
+  </div>
+  <div id="opts-wrap"></div>
+  <button class="btn btn-a" id="next-btn" onclick="nextQ()" disabled>다음 문항</button>
+</div>
+</div>
+
+<!-- ══ ANALYZE ══ -->
+<div id="s-analyze" class="screen">
+<div class="wrap">
+  <div class="ana">
+    <span class="spin">🧠</span>
+    <h2 style="font-size:20px;font-weight:700;margin-bottom:10px">결과를 분석하고 있습니다</h2>
+    <p style="font-size:13px;color:var(--muted)">잠시만 기다려 주세요<span class="ld"></span></p>
+    <ul class="steps" id="steps">
+      <li class="step"><div class="sdot">1</div>답변 패턴 분석</li>
+      <li class="step"><div class="sdot">2</div>영역별 점수 산출</li>
+      <li class="step"><div class="sdot">3</div>전국 데이터 비교</li>
+      <li class="step"><div class="sdot">4</div>IQ 점수 도출</li>
+    </ul>
+  </div>
+</div>
+</div>
+
+<!-- ══ RESULT ══ -->
+<div id="s-result" class="screen">
+<div class="wrap">
+  <div class="rpage">
+    <div style="text-align:center;margin-bottom:14px">
+      <div class="badge" style="margin-bottom:10px">결과 공개</div>
+      <p style="font-size:15px;font-weight:700;margin-top:10px"><span id="r-name"></span>님의 IQ 검사 결과</p>
+    </div>
+
+    <div class="ihero">
+      <span class="ibig" id="r-score">—</span>
+      <p class="ilabel" id="r-label">—</p>
+      <div class="ipct" id="r-pct">—</div>
+      <p class="itime" id="r-time">—</p>
+    </div>
+
+    <!-- 탭: 영역분석 + 인증서 -->
+    <div class="result-tabs">
+      <div class="rtab active" onclick="switchTab('summary')">📊 영역 분석</div>
+      <div class="rtab" onclick="switchTab('cert')">🏆 인증서</div>
+    </div>
+
+    <div class="rtab-panel active" id="tab-summary">
+      <div class="dcard">
+        <p style="font-size:13px;font-weight:700;margin-bottom:14px">영역별 점수</p>
+        <div class="bars" id="r-bars"></div>
+      </div>
+    </div>
+
+    <div class="rtab-panel" id="tab-cert">
+      <div class="cert-wrap" id="cert-wrap">
+        <div class="cert-loading" id="cert-loading">🎨 인증서 생성 중<span class="ld"></span></div>
+        <canvas id="cert-canvas" style="display:none"></canvas>
+      </div>
+      <button class="btn btn-a" id="dl-btn" onclick="downloadCert()" style="display:none">
+        📄 IQ 인증서 PDF 다운로드
+      </button>
+      <p id="cert-note" style="display:none;text-align:center;font-size:11px;color:var(--muted);margin-top:8px;font-family:'Space Mono',monospace">
+        브라우저에서 즉시 생성 · 개인정보 전송 없음
+      </p>
+    </div>
+
+    <button class="btn btn-o" onclick="restartTest()" style="margin-top:6px">↺ 다시 검사하기</button>
+  </div>
+</div>
+</div>
+
+<script>
+// ═══ 상태 ═══
+let USER = { name: '응시자' };
+let testQ = [], curIdx = 0, answers = [], elapsed = 0;
+let timerID = null, startTs = null, computedScore = 0, catScoresResult = [];
+let certGenerated = false;
+
+const catKeys   = ['도형추론','논리추론','언어지능','수리능력','기억처리'];
+const catLabels = ['도형 추론','논리 추론','언어 지능','수리 능력','기억·처리'];
+const catClass  = ['c3','c0','c1','c2','c4'];
+
+// ═══ 일일 제한 ═══
+const DAILY_KEY = 'iqpro_daily_v2';
+function getTodayStr(){ return new Date().toISOString().slice(0,10); }
+function getDailyData(){try{const r=localStorage.getItem(DAILY_KEY);return r?JSON.parse(r):{date:'',count:0};}catch{return{date:'',count:0};}}
+function getRemaining(){const d=getDailyData();return d.date!==getTodayStr()?2:Math.max(0,2-d.count);}
+function consumeAttempt(){const t=getTodayStr(),d=getDailyData();localStorage.setItem(DAILY_KEY,JSON.stringify({date:t,count:d.date!==t?1:d.count+1}));}
+function updateLimitUI(){
+  const rem=getRemaining();
+  const el=document.getElementById('limit-count');
+  el.textContent=rem;el.className='limit-count '+(rem>=2?'lc-ok':rem===1?'lc-warn':'lc-none');
+  const now=new Date(),mid=new Date(now);mid.setHours(24,0,0,0);
+  const diff=Math.floor((mid-now)/1000);
+  const hh=String(Math.floor(diff/3600)).padStart(2,'0'),mm=String(Math.floor((diff%3600)/60)).padStart(2,'0');
+  document.getElementById('limit-reset-time').textContent=`자정까지 ${hh}:${mm}`;
+}
+function startBlockedCountdown(){
+  function tick(){const now=new Date(),mid=new Date(now);mid.setHours(24,0,0,0);const s=Math.floor((mid-now)/1000);
+    const el=document.getElementById('blocked-countdown');if(!el)return;
+    el.textContent=`${String(Math.floor(s/3600)).padStart(2,'0')}:${String(Math.floor((s%3600)/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;}
+  tick();setInterval(tick,1000);
+}
+
+// ═══ 유틸 ═══
+function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo(0,0);}
+function toast(msg,ms=3000){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),ms);}
+const wait=ms=>new Promise(r=>setTimeout(r,ms));
+function shuffle(arr){const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Math.random()*i|0;[a[i],a[j]]=[a[j],a[i]];}return a;}
+
+// ═══ SVG 도형 생성 헬퍼 ═══
+// 각 도형 타입: circle, square, triangle, diamond, pentagon, star, cross, hexagon
+// 속성: 크기(small/large), 채움(filled/outline), 색(dark/light)
+
+const S = 52; // 셀 크기
+
+function mkSVG(shapes, w=S, h=S) {
+  return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg">${shapes}</svg>`;
+}
+
+// shape: {type, fill, size, rotate}
+// size: 's'=small, 'm'=medium, 'l'=large
+// fill: 'solid'|'outline'|'half'
+// type: 'circle','square','triangle','diamond','rhombus','cross','pentagon','hexagon'
+function drawShape(shape, cx=S/2, cy=S/2) {
+  const { type, fill='solid', size='m', rotate=0 } = shape;
+  const DARK='#c8ff3e', LIGHT='rgba(200,255,62,.25)', STROKE='#c8ff3e', STROKE2='rgba(200,255,62,.5)';
+  const sMap={s:0.38,m:0.55,l:0.75};
+  const r = (S/2) * sMap[size];
+  const fillColor = fill==='solid' ? DARK : fill==='half' ? LIGHT : 'none';
+  const strokeColor = STROKE;
+  const sw = fill==='solid' ? 0 : 1.5;
+  const tf = rotate ? `transform="rotate(${rotate} ${cx} ${cy})"` : '';
+
+  switch(type) {
+    case 'circle':
+      return `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${fillColor}" stroke="${strokeColor}" stroke-width="${sw}" ${tf}/>`;
+    case 'square': {
+      const x=cx-r, y=cy-r, d=r*2;
+      return `<rect x="${x}" y="${y}" width="${d}" height="${d}" fill="${fillColor}" stroke="${strokeColor}" stroke-width="${sw}" ${tf}/>`;
+    }
+    case 'triangle': {
+      const pts=`${cx},${cy-r} ${cx-r*0.87},${cy+r*0.5} ${cx+r*0.87},${cy+r*0.5}`;
+      return `<polygon points="${pts}" fill="${fillColor}" stroke="${strokeColor}" stroke-width="${sw}" ${tf}/>`;
+    }
+    case 'diamond': {
+      const pts=`${cx},${cy-r} ${cx+r*0.7},${cy} ${cx},${cy+r} ${cx-r*0.7},${cy}`;
+      return `<polygon points="${pts}" fill="${fillColor}" stroke="${strokeColor}" stroke-width="${sw}" ${tf}/>`;
+    }
+    case 'cross': {
+      const t=r*0.3, lh=r*0.9;
+      return `<g ${tf}><rect x="${cx-t}" y="${cy-lh}" width="${t*2}" height="${lh*2}" fill="${fillColor}" stroke="${strokeColor}" stroke-width="${sw}"/><rect x="${cx-lh}" y="${cy-t}" width="${lh*2}" height="${t*2}" fill="${fillColor}" stroke="${strokeColor}" stroke-width="${sw}"/></g>`;
+    }
+    case 'hexagon': {
+      const pts=Array.from({length:6},(_,i)=>{const a=i*60-30;return `${cx+r*Math.cos(a*Math.PI/180)},${cy+r*Math.sin(a*Math.PI/180)}`;}).join(' ');
+      return `<polygon points="${pts}" fill="${fillColor}" stroke="${strokeColor}" stroke-width="${sw}" ${tf}/>`;
+    }
+    case 'pentagon': {
+      const pts=Array.from({length:5},(_,i)=>{const a=i*72-90;return `${cx+r*Math.cos(a*Math.PI/180)},${cy+r*Math.sin(a*Math.PI/180)}`;}).join(' ');
+      return `<polygon points="${pts}" fill="${fillColor}" stroke="${strokeColor}" stroke-width="${sw}" ${tf}/>`;
+    }
+    case 'star': {
+      const pts=Array.from({length:10},(_,i)=>{const a=i*36-90,rv=i%2===0?r:r*0.45;return `${cx+rv*Math.cos(a*Math.PI/180)},${cy+rv*Math.sin(a*Math.PI/180)}`;}).join(' ');
+      return `<polygon points="${pts}" fill="${fillColor}" stroke="${strokeColor}" stroke-width="${sw}" ${tf}/>`;
+    }
+    default: return '';
+  }
+}
+
+function cellSVG(shape, isQ=false) {
+  const bg = isQ ? 'rgba(200,255,62,.04)' : 'none';
+  const border = isQ ? '2px dashed rgba(200,255,62,.5)' : '1px solid rgba(255,255,255,.08)';
+  const inner = shape ? drawShape(shape) : `<text x="${S/2}" y="${S/2+6}" text-anchor="middle" font-size="22" fill="#c8ff3e" font-weight="bold">?</text>`;
+  return `<div style="width:${S}px;height:${S}px;background:var(--bg);border:${border};border-radius:6px;display:flex;align-items:center;justify-content:center">
+    ${mkSVG(inner)}
+  </div>`;
+}
+
+// ═══ 도형 매트릭스 문제 풀 (3×3 행렬) ═══
+// 각 문제: matrix(3×3배열, null=물음표), options(4개 선택지), ans(정답 인덱스)
+// 규칙 유형: 크기변화, 채움변화, 타입변화, 회전변화, 개수변화
+
+const MATRIX_POOL = [
+  // 1. 크기: 각 행마다 s→m→l
+  { rule:'크기 변화', level:1,
+    matrix:[
+      [{type:'circle',fill:'solid',size:'s'},{type:'circle',fill:'solid',size:'m'},{type:'circle',fill:'solid',size:'l'}],
+      [{type:'square',fill:'solid',size:'s'},{type:'square',fill:'solid',size:'m'},{type:'square',fill:'solid',size:'l'}],
+      [{type:'triangle',fill:'solid',size:'s'},{type:'triangle',fill:'solid',size:'m'},null],
+    ],
+    options:[
+      {type:'triangle',fill:'solid',size:'l'},
+      {type:'triangle',fill:'outline',size:'l'},
+      {type:'circle',fill:'solid',size:'l'},
+      {type:'triangle',fill:'solid',size:'s'},
+    ], ans:0
+  },
+  // 2. 채움: 각 행마다 solid→outline→half
+  { rule:'채움 변화', level:1,
+    matrix:[
+      [{type:'circle',fill:'solid',size:'m'},{type:'circle',fill:'outline',size:'m'},{type:'circle',fill:'half',size:'m'}],
+      [{type:'square',fill:'solid',size:'m'},{type:'square',fill:'outline',size:'m'},{type:'square',fill:'half',size:'m'}],
+      [{type:'diamond',fill:'solid',size:'m'},{type:'diamond',fill:'outline',size:'m'},null],
+    ],
+    options:[
+      {type:'diamond',fill:'half',size:'m'},
+      {type:'diamond',fill:'solid',size:'m'},
+      {type:'circle',fill:'half',size:'m'},
+      {type:'diamond',fill:'outline',size:'m'},
+    ], ans:0
+  },
+  // 3. 도형 타입: 열마다 circle/square/triangle
+  { rule:'도형 패턴', level:1,
+    matrix:[
+      [{type:'circle',fill:'solid',size:'m'},{type:'square',fill:'solid',size:'m'},{type:'triangle',fill:'solid',size:'m'}],
+      [{type:'circle',fill:'outline',size:'m'},{type:'square',fill:'outline',size:'m'},{type:'triangle',fill:'outline',size:'m'}],
+      [{type:'circle',fill:'half',size:'m'},{type:'square',fill:'half',size:'m'},null],
+    ],
+    options:[
+      {type:'triangle',fill:'half',size:'m'},
+      {type:'triangle',fill:'solid',size:'m'},
+      {type:'diamond',fill:'half',size:'m'},
+      {type:'triangle',fill:'outline',size:'m'},
+    ], ans:0
+  },
+  // 4. 크기+타입 조합
+  { rule:'크기·타입 조합', level:2,
+    matrix:[
+      [{type:'circle',fill:'solid',size:'s'},{type:'square',fill:'solid',size:'m'},{type:'triangle',fill:'solid',size:'l'}],
+      [{type:'diamond',fill:'solid',size:'s'},{type:'hexagon',fill:'solid',size:'m'},{type:'pentagon',fill:'solid',size:'l'}],
+      [{type:'star',fill:'solid',size:'s'},{type:'cross',fill:'solid',size:'m'},null],
+    ],
+    options:[
+      {type:'star',fill:'solid',size:'l'},
+      {type:'cross',fill:'solid',size:'l'},
+      {type:'star',fill:'outline',size:'l'},
+      {type:'cross',fill:'solid',size:'m'},
+    ], ans:1
+  },
+  // 5. 회전 패턴 (삼각형)
+  { rule:'회전 패턴', level:2,
+    matrix:[
+      [{type:'triangle',fill:'solid',size:'m',rotate:0},{type:'triangle',fill:'solid',size:'m',rotate:60},{type:'triangle',fill:'solid',size:'m',rotate:120}],
+      [{type:'triangle',fill:'outline',size:'m',rotate:0},{type:'triangle',fill:'outline',size:'m',rotate:60},{type:'triangle',fill:'outline',size:'m',rotate:120}],
+      [{type:'triangle',fill:'half',size:'m',rotate:0},{type:'triangle',fill:'half',size:'m',rotate:60},null],
+    ],
+    options:[
+      {type:'triangle',fill:'half',size:'m',rotate:120},
+      {type:'triangle',fill:'solid',size:'m',rotate:120},
+      {type:'triangle',fill:'half',size:'m',rotate:180},
+      {type:'triangle',fill:'half',size:'m',rotate:60},
+    ], ans:0
+  },
+  // 6. 채움+크기 동시 변화
+  { rule:'채움·크기 동시 변화', level:2,
+    matrix:[
+      [{type:'hexagon',fill:'solid',size:'l'},{type:'hexagon',fill:'solid',size:'m'},{type:'hexagon',fill:'solid',size:'s'}],
+      [{type:'hexagon',fill:'outline',size:'l'},{type:'hexagon',fill:'outline',size:'m'},{type:'hexagon',fill:'outline',size:'s'}],
+      [{type:'hexagon',fill:'half',size:'l'},{type:'hexagon',fill:'half',size:'m'},null],
+    ],
+    options:[
+      {type:'hexagon',fill:'half',size:'s'},
+      {type:'hexagon',fill:'solid',size:'s'},
+      {type:'hexagon',fill:'half',size:'m'},
+      {type:'pentagon',fill:'half',size:'s'},
+    ], ans:0
+  },
+  // 7. 대각선 패턴
+  { rule:'대각선 패턴', level:2,
+    matrix:[
+      [{type:'circle',fill:'solid',size:'m'},{type:'square',fill:'solid',size:'m'},{type:'triangle',fill:'solid',size:'m'}],
+      [{type:'square',fill:'solid',size:'m'},{type:'triangle',fill:'solid',size:'m'},{type:'circle',fill:'solid',size:'m'}],
+      [{type:'triangle',fill:'solid',size:'m'},{type:'circle',fill:'solid',size:'m'},null],
+    ],
+    options:[
+      {type:'square',fill:'solid',size:'m'},
+      {type:'triangle',fill:'solid',size:'m'},
+      {type:'circle',fill:'solid',size:'m'},
+      {type:'diamond',fill:'solid',size:'m'},
+    ], ans:0
+  },
+  // 8. 열 규칙: 각 열이 다른 타입
+  { rule:'열 도형 일관성', level:1,
+    matrix:[
+      [{type:'star',fill:'solid',size:'s'},{type:'diamond',fill:'solid',size:'s'},{type:'cross',fill:'solid',size:'s'}],
+      [{type:'star',fill:'outline',size:'m'},{type:'diamond',fill:'outline',size:'m'},{type:'cross',fill:'outline',size:'m'}],
+      [{type:'star',fill:'half',size:'l'},{type:'diamond',fill:'half',size:'l'},null],
+    ],
+    options:[
+      {type:'cross',fill:'half',size:'l'},
+      {type:'cross',fill:'solid',size:'l'},
+      {type:'diamond',fill:'half',size:'l'},
+      {type:'cross',fill:'half',size:'m'},
+    ], ans:0
+  },
+  // 9. 어려움: 크기역전+채움역전
+  { rule:'역방향 복합 규칙', level:3,
+    matrix:[
+      [{type:'pentagon',fill:'solid',size:'l'},{type:'pentagon',fill:'outline',size:'m'},{type:'pentagon',fill:'half',size:'s'}],
+      [{type:'hexagon',fill:'outline',size:'l'},{type:'hexagon',fill:'half',size:'m'},{type:'hexagon',fill:'solid',size:'s'}],
+      [{type:'circle',fill:'half',size:'l'},{type:'circle',fill:'solid',size:'m'},null],
+    ],
+    options:[
+      {type:'circle',fill:'outline',size:'s'},
+      {type:'circle',fill:'half',size:'s'},
+      {type:'circle',fill:'solid',size:'s'},
+      {type:'pentagon',fill:'outline',size:'s'},
+    ], ans:0
+  },
+  // 10. 어려움: 행마다 도형+크기 순환
+  { rule:'도형·크기 이중 순환', level:3,
+    matrix:[
+      [{type:'triangle',fill:'solid',size:'s'},{type:'square',fill:'solid',size:'m'},{type:'circle',fill:'solid',size:'l'}],
+      [{type:'square',fill:'solid',size:'m'},{type:'circle',fill:'solid',size:'l'},{type:'triangle',fill:'solid',size:'s'}],
+      [{type:'circle',fill:'solid',size:'l'},{type:'triangle',fill:'solid',size:'s'},null],
+    ],
+    options:[
+      {type:'circle',fill:'solid',size:'l'},
+      {type:'triangle',fill:'solid',size:'m'},
+      {type:'square',fill:'solid',size:'m'},
+      {type:'square',fill:'solid',size:'l'},
+    ], ans:2
+  },
+  // 11. 보통: 빈 셀 개수 규칙
+  { rule:'도형+채움 교차', level:2,
+    matrix:[
+      [{type:'diamond',fill:'solid',size:'m'},{type:'circle',fill:'outline',size:'m'},{type:'star',fill:'solid',size:'m'}],
+      [{type:'circle',fill:'outline',size:'m'},{type:'star',fill:'solid',size:'m'},{type:'diamond',fill:'outline',size:'m'}],
+      [{type:'star',fill:'solid',size:'m'},{type:'diamond',fill:'outline',size:'m'},null],
+    ],
+    options:[
+      {type:'circle',fill:'solid',size:'m'},
+      {type:'circle',fill:'outline',size:'m'},
+      {type:'star',fill:'solid',size:'m'},
+      {type:'diamond',fill:'solid',size:'m'},
+    ], ans:1
+  },
+  // 12. 쉬움: 단순 반복
+  { rule:'행 반복 패턴', level:1,
+    matrix:[
+      [{type:'cross',fill:'solid',size:'m'},{type:'cross',fill:'solid',size:'m'},{type:'cross',fill:'solid',size:'m'}],
+      [{type:'star',fill:'outline',size:'m'},{type:'star',fill:'outline',size:'m'},{type:'star',fill:'outline',size:'m'}],
+      [{type:'hexagon',fill:'half',size:'m'},{type:'hexagon',fill:'half',size:'m'},null],
+    ],
+    options:[
+      {type:'hexagon',fill:'half',size:'m'},
+      {type:'hexagon',fill:'solid',size:'m'},
+      {type:'star',fill:'half',size:'m'},
+      {type:'hexagon',fill:'half',size:'l'},
+    ], ans:0
+  },
+  // 13. 어려움: 회전+타입 동시
+  { rule:'회전·타입 복합', level:3,
+    matrix:[
+      [{type:'triangle',fill:'solid',size:'m',rotate:0},{type:'diamond',fill:'solid',size:'m',rotate:0},{type:'triangle',fill:'solid',size:'m',rotate:90}],
+      [{type:'diamond',fill:'solid',size:'m',rotate:45},{type:'triangle',fill:'solid',size:'m',rotate:90},{type:'diamond',fill:'solid',size:'m',rotate:90}],
+      [{type:'triangle',fill:'solid',size:'m',rotate:180},{type:'diamond',fill:'solid',size:'m',rotate:135},null],
+    ],
+    options:[
+      {type:'triangle',fill:'solid',size:'m',rotate:270},
+      {type:'diamond',fill:'solid',size:'m',rotate:180},
+      {type:'triangle',fill:'outline',size:'m',rotate:270},
+      {type:'triangle',fill:'solid',size:'m',rotate:180},
+    ], ans:0
+  },
+  // 14. 보통: 크기+회전
+  { rule:'크기·회전 결합', level:2,
+    matrix:[
+      [{type:'triangle',fill:'outline',size:'s',rotate:0},{type:'triangle',fill:'outline',size:'m',rotate:0},{type:'triangle',fill:'outline',size:'l',rotate:0}],
+      [{type:'triangle',fill:'outline',size:'s',rotate:120},{type:'triangle',fill:'outline',size:'m',rotate:120},{type:'triangle',fill:'outline',size:'l',rotate:120}],
+      [{type:'triangle',fill:'outline',size:'s',rotate:240},{type:'triangle',fill:'outline',size:'m',rotate:240},null],
+    ],
+    options:[
+      {type:'triangle',fill:'outline',size:'l',rotate:240},
+      {type:'triangle',fill:'solid',size:'l',rotate:240},
+      {type:'triangle',fill:'outline',size:'l',rotate:120},
+      {type:'triangle',fill:'outline',size:'m',rotate:240},
+    ], ans:0
+  },
+  // 15. 쉬움: 채움 단순 변화
+  { rule:'채움 순서', level:1,
+    matrix:[
+      [{type:'pentagon',fill:'solid',size:'m'},{type:'pentagon',fill:'outline',size:'m'},{type:'pentagon',fill:'half',size:'m'}],
+      [{type:'cross',fill:'solid',size:'m'},{type:'cross',fill:'outline',size:'m'},{type:'cross',fill:'half',size:'m'}],
+      [{type:'star',fill:'solid',size:'m'},{type:'star',fill:'outline',size:'m'},null],
+    ],
+    options:[
+      {type:'star',fill:'half',size:'m'},
+      {type:'star',fill:'solid',size:'m'},
+      {type:'cross',fill:'half',size:'m'},
+      {type:'star',fill:'outline',size:'l'},
+    ], ans:0
+  },
+  // 16. 보통: 대칭 패턴
+  { rule:'대칭 규칙', level:2,
+    matrix:[
+      [{type:'circle',fill:'solid',size:'l'},{type:'square',fill:'outline',size:'m'},{type:'circle',fill:'solid',size:'l'}],
+      [{type:'triangle',fill:'half',size:'m'},{type:'diamond',fill:'solid',size:'s'},{type:'triangle',fill:'half',size:'m'}],
+      [{type:'hexagon',fill:'outline',size:'l'},{type:'star',fill:'half',size:'m'},null],
+    ],
+    options:[
+      {type:'hexagon',fill:'outline',size:'l'},
+      {type:'star',fill:'half',size:'m'},
+      {type:'hexagon',fill:'solid',size:'l'},
+      {type:'circle',fill:'outline',size:'l'},
+    ], ans:0
+  },
+  // 17. 어려움: 행+열 동시 규칙
+  { rule:'행·열 이중 규칙', level:3,
+    matrix:[
+      [{type:'circle',fill:'solid',size:'s'},{type:'circle',fill:'outline',size:'m'},{type:'circle',fill:'half',size:'l'}],
+      [{type:'square',fill:'outline',size:'s'},{type:'square',fill:'half',size:'m'},{type:'square',fill:'solid',size:'l'}],
+      [{type:'triangle',fill:'half',size:'s'},{type:'triangle',fill:'solid',size:'m'},null],
+    ],
+    options:[
+      {type:'triangle',fill:'outline',size:'l'},
+      {type:'triangle',fill:'half',size:'l'},
+      {type:'triangle',fill:'solid',size:'l'},
+      {type:'circle',fill:'outline',size:'l'},
+    ], ans:0
+  },
+  // 18. 쉬움: 모두 같은 타입 다른 크기
+  { rule:'크기 순서', level:1,
+    matrix:[
+      [{type:'star',fill:'solid',size:'l'},{type:'star',fill:'solid',size:'m'},{type:'star',fill:'solid',size:'s'}],
+      [{type:'diamond',fill:'outline',size:'l'},{type:'diamond',fill:'outline',size:'m'},{type:'diamond',fill:'outline',size:'s'}],
+      [{type:'cross',fill:'half',size:'l'},{type:'cross',fill:'half',size:'m'},null],
+    ],
+    options:[
+      {type:'cross',fill:'half',size:'s'},
+      {type:'cross',fill:'solid',size:'s'},
+      {type:'cross',fill:'half',size:'l'},
+      {type:'diamond',fill:'half',size:'s'},
+    ], ans:0
+  },
+];
+
+// ═══ 일반 문제 풀 ═══
+const POOL_LOGIC = [
+  {d:1,text:"2, 4, 8, 16, __ 다음 수는?",opts:["24","30","32","36"],ans:2},
+  {d:1,text:"1, 3, 5, 7, __ 다음 수는?",opts:["8","9","10","11"],ans:1},
+  {d:1,text:"3, 6, 9, 12, __ 다음 수는?",opts:["13","14","15","16"],ans:2},
+  {d:1,text:"모든 사과는 과일이다. 이것은 사과다. 따라서?",opts:["이것은 채소다","이것은 과일이다","모든 과일은 사과다","알 수 없다"],ans:1},
+  {d:1,text:"5, 10, 20, 40, __ 다음 수는?",opts:["60","70","80","100"],ans:2},
+  {d:2,text:"1, 1, 2, 3, 5, 8, __ 다음 수는?",opts:["11","12","13","14"],ans:2},
+  {d:2,text:"어떤 수의 3배에서 7을 빼면 14. 그 수는?",opts:["5","6","7","8"],ans:2},
+  {d:2,text:"1, 2, 4, 7, 11, __ 다음 수는?",opts:["14","15","16","17"],ans:2},
+  {d:2,text:"A>B이고 C>A이면 가장 큰 것은?",opts:["A","B","C","알 수 없음"],ans:2},
+  {d:2,text:"2, 6, 12, 20, 30, __ 다음 수는?",opts:["40","42","44","46"],ans:1},
+  {d:3,text:"1, 8, 27, 64, __ 다음 수는?",opts:["100","121","125","144"],ans:2},
+  {d:3,text:"x+y=10, x×y=21이면 x²+y²=?",opts:["52","58","60","64"],ans:1},
+  {d:3,text:"3, 7, 15, 31, __ 다음 수는?",opts:["47","61","63","65"],ans:2},
+];
+const POOL_LANG = [
+  {d:1,text:"'빠르다'의 반의어는?",opts:["느리다","크다","작다","무겁다"],ans:0},
+  {d:1,text:"'의사:병원' = '선생님:?'",opts:["학교","공부","학생","교과서"],ans:0},
+  {d:1,text:"'밝다'와 가장 비슷한 단어는?",opts:["어둡다","환하다","조용하다","시끄럽다"],ans:1},
+  {d:1,text:"'차갑다'의 반의어는?",opts:["뜨겁다","시원하다","싸늘하다","냉랭하다"],ans:0},
+  {d:1,text:"다음 중 나머지와 다른 것은?",opts:["사과","배","포도","당근"],ans:3},
+  {d:2,text:"'유비무환'의 뜻은?",opts:["항상 유비를 경계하라","미리 준비하면 근심 없다","힘을 합치면 이긴다","적을 알아야 이긴다"],ans:1},
+  {d:2,text:"'과유불급'의 교훈은?",opts:["열심히 하면 된다","지나침은 모자람과 같다","친구를 사귀어라","지식이 힘이다"],ans:1},
+  {d:2,text:"사자성어와 뜻이 틀리게 연결된 것은?",opts:["일석이조-두 가지 이득","우공이산-끈기로 이룸","타산지석-남의 실패를 교훈","오십보백보-큰 차이"],ans:3},
+  {d:3,text:"'백미(白眉)'가 비유하는 것은?",opts:["흰 눈썹","가장 뛰어난 것","노인","겨울"],ans:1},
+  {d:3,text:"'연역법'과 반대되는 추론 방식은?",opts:["귀납법","비교법","분석법","가설법"],ans:0},
+];
+const POOL_MATH = [
+  {d:1,text:"15 × 8 ÷ 4 = ?",opts:["28","30","32","34"],ans:1},
+  {d:1,text:"100의 35%는?",opts:["30","35","40","45"],ans:1},
+  {d:1,text:"√144 = ?",opts:["11","12","13","14"],ans:1},
+  {d:1,text:"시속 120km로 2시간 30분 달리면?",opts:["240km","280km","300km","320km"],ans:2},
+  {d:1,text:"2의 10제곱은?",opts:["512","1000","1024","2048"],ans:2},
+  {d:2,text:"어떤 수의 40%가 80이면 그 수는?",opts:["160","180","200","220"],ans:2},
+  {d:2,text:"직각삼각형의 두 변이 6과 8이면 빗변은?",opts:["9","10","11","12"],ans:1},
+  {d:2,text:"1부터 100까지 홀수의 합은?",opts:["2000","2250","2500","2750"],ans:2},
+  {d:3,text:"log₂(64) = ?",opts:["4","5","6","7"],ans:2},
+  {d:3,text:"복리 연 10%, 100만원, 3년 후 원리합계는?",opts:["130만원","133.1만원","136만원","110만원"],ans:1},
+];
+const POOL_MEM = [
+  {d:1,text:"3-7-1-9-4를 역순으로 나열하면?",opts:["4-9-1-7-3","9-4-1-7-3","4-1-9-7-3","3-1-7-9-4"],ans:0},
+  {d:1,text:"빨강,파랑,노랑,초록,보라 중 3번째는?",opts:["빨강","파랑","노랑","초록"],ans:2},
+  {d:1,text:"월화수목금토일 중 4번째는?",opts:["수","목","금","토"],ans:1},
+  {d:1,text:"A,B,C,D,E를 역순으로 하면 3번째는?",opts:["A","B","C","D"],ans:2},
+  {d:1,text:"7,3,9,1,5에서 최대-최소는?",opts:["6","7","8","9"],ans:2},
+  {d:2,text:"1-5-3-8-2-7에서 홀수만 더하면?",opts:["9","11","13","15"],ans:0},
+  {d:2,text:"4자리 수 2837에서 각 자릿수의 합은?",opts:["18","19","20","21"],ans:2},
+  {d:2,text:"숫자 1~9 중 소수만 더하면?",opts:["17","19","21","23"],ans:0},
+  {d:3,text:"2진수 10110101을 10진수로 변환하면?",opts:["173","177","181","185"],ans:1},
+  {d:3,text:"1~50의 합 중 3의 배수만 더하면?",opts:["408","432","459","486"],ans:1},
+];
+
+// ═══ 테스트 구성: 도형5 + 논리3 + 언어3 + 수리2 + 기억2 = 15 (도형 33%) ═══
+function buildTest() {
+  const q = [];
+  // 도형 5문항 (쉬움2 보통2 어려움1)
+  const mEasy = shuffle(MATRIX_POOL.filter(x=>x.level===1)).slice(0,2);
+  const mMid  = shuffle(MATRIX_POOL.filter(x=>x.level===2)).slice(0,2);
+  const mHard = shuffle(MATRIX_POOL.filter(x=>x.level===3)).slice(0,1);
+  [...mEasy,...mMid,...mHard].forEach(m=>{
+    // 선택지 셔플
+    const idx=[0,1,2,3];const sh=shuffle(idx);
+    const newOpts=sh.map(i=>m.options[i]);const newAns=sh.indexOf(m.ans);
+    q.push({isMatrix:true,matrix:m.matrix,options:newOpts,ans:newAns,rule:m.rule,level:m.level,cat:0});
+  });
+  // 나머지
+  const addFrom=(pool,cat,n)=>{
+    const easy=shuffle(pool.filter(x=>x.d===1)),mid=shuffle(pool.filter(x=>x.d===2)),hard=shuffle(pool.filter(x=>x.d===3));
+    let p=[];
+    if(n>=3)p=[easy[0],mid[0],hard[0]];
+    else if(n===2)p=[easy[0],mid[0]];
+    else p=[easy[0]];
+    p.forEach(item=>{const sh=shuffle([0,1,2,3]);q.push({isMatrix:false,...item,opts:sh.map(i=>item.opts[i]),ans:sh.indexOf(item.ans),cat});});
+  };
+  addFrom(POOL_LOGIC,1,3);addFrom(POOL_LANG,2,3);addFrom(POOL_MATH,3,2);addFrom(POOL_MEM,4,2);
+  return shuffle(q);
+}
+
+// ═══ 검사 시작 ═══
+function startTest(){
+  if(getRemaining()<=0){show('s-blocked');startBlockedCountdown();return;}
+  USER.name=document.getElementById('inp-name').value.trim()||'응시자';
+  consumeAttempt();updateLimitUI();
+  testQ=buildTest();answers=new Array(testQ.length).fill(null);curIdx=0;elapsed=0;
+  certGenerated=false;
+  show('s-quiz');
+  startTs=Date.now();
+  timerID=setInterval(()=>{
+    elapsed=Math.floor((Date.now()-startTs)/1000);
+    const m=String(Math.floor(elapsed/60)).padStart(2,'0'),s=String(elapsed%60).padStart(2,'0');
+    document.getElementById('timer').textContent=`${m}:${s}`;
+  },1000);
+  renderQ(0);
+}
+
+// ═══ 문제 렌더 ═══
+function renderQ(idx){
+  const q=testQ[idx],total=testQ.length;
+  document.getElementById('prog').style.width=`${(idx/total)*100}%`;
+  document.getElementById('qcnt').textContent=`${idx+1} / ${total}`;
+  document.getElementById('qnum').textContent=`QUESTION ${String(idx+1).padStart(2,'0')}`;
+  document.getElementById('qcat').innerHTML=`<div class="chip ${catClass[q.cat]}">${catLabels[q.cat]}</div>`;
+  document.getElementById('next-btn').disabled=true;
+  document.getElementById('next-btn').textContent=idx===total-1?'검사 완료 →':'다음 문항';
+
+  if(q.isMatrix){
+    renderMatrixQ(q,idx);
+  } else {
+    renderNormalQ(q,idx);
+  }
+}
+
+function renderMatrixQ(q,idx){
+  document.getElementById('qtext').textContent='아래 패턴에서 ? 에 들어갈 도형을 고르세요.';
+  // 3×3 매트릭스 그리기
+  const matWrap=document.getElementById('matrix-display');
+  let cells='';
+  q.matrix.forEach((row,ri)=>{
+    row.forEach((cell,ci)=>{
+      const isQ=cell===null;
+      const bg=isQ?'rgba(200,255,62,.04)':'var(--bg)';
+      const brd=isQ?'2px dashed rgba(200,255,62,.5)':'1px solid rgba(255,255,255,.08)';
+      if(isQ){
+        cells+=`<div style="width:${S}px;height:${S}px;background:${bg};border:${brd};border-radius:6px;display:flex;align-items:center;justify-content:center">${mkSVG(`<text x="${S/2}" y="${S/2+8}" text-anchor="middle" font-size="24" fill="#c8ff3e" font-weight="bold">?</text>`)}</div>`;
+      } else {
+        cells+=`<div style="width:${S}px;height:${S}px;background:${bg};border:${brd};border-radius:6px;display:flex;align-items:center;justify-content:center">${mkSVG(drawShape(cell))}</div>`;
+      }
+    });
+  });
+  matWrap.innerHTML=`<div style="background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:12px;display:flex;justify-content:center"><div style="display:grid;grid-template-columns:repeat(3,${S}px);gap:6px">${cells}</div></div>`;
+
+  // 선택지 (2×2 그리드)
+  const ow=document.getElementById('opts-wrap');
+  let optHtml=`<div class="matrix-opts">`;
+  ['A','B','C','D'].forEach((lbl,i)=>{
+    const shape=q.options[i];
+    const isSel=answers[idx]===i;
+    optHtml+=`<div class="matrix-opt${isSel?' sel':''}" onclick="selectAns(${idx},${i})" id="mopt-${i}">
+      <span class="matrix-opt-label">${lbl}</span>
+      <div style="width:${S}px;height:${S}px;background:var(--bg);border:1px solid rgba(255,255,255,.08);border-radius:6px;display:flex;align-items:center;justify-content:center">${mkSVG(drawShape(shape))}</div>
+    </div>`;
+  });
+  optHtml+='</div>';
+  ow.innerHTML=optHtml;
+}
+
+function renderNormalQ(q,idx){
+  document.getElementById('qtext').textContent=q.text;
+  document.getElementById('matrix-display').innerHTML='';
+  const ow=document.getElementById('opts-wrap');
+  let html='<div class="opts">';
+  ['A','B','C','D'].forEach((lbl,i)=>{
+    html+=`<button class="opt${answers[idx]===i?' sel':''}" onclick="selectAns(${idx},${i})"><span class="ol">${lbl}</span>${q.opts[i]}</button>`;
+  });
+  html+='</div>';
+  ow.innerHTML=html;
+}
+
+function selectAns(qi,oi){
+  answers[qi]=oi;
+  // 일반 문제
+  document.querySelectorAll('.opt').forEach((b,i)=>b.classList.toggle('sel',i===oi));
+  // 매트릭스 문제
+  document.querySelectorAll('.matrix-opt').forEach((b,i)=>b.classList.toggle('sel',i===oi));
+  document.getElementById('next-btn').disabled=false;
+}
+
+async function nextQ(){if(curIdx<testQ.length-1){curIdx++;renderQ(curIdx);}else{clearInterval(timerID);await analyze();}}
+
+// ═══ 분석 ═══
+async function analyze(){
+  show('s-analyze');
+  const steps=document.querySelectorAll('.step');
+  for(let i=0;i<steps.length;i++){
+    if(i>0){steps[i-1].classList.remove('cur');steps[i-1].classList.add('done');}
+    steps[i].classList.add('cur');await wait(750);
+  }
+  steps[steps.length-1].classList.remove('cur');steps[steps.length-1].classList.add('done');
+  await wait(400);
+  computedScore=calcScore();
+  showResult();
+}
+
+function calcScore(){
+  const correct=answers.filter((a,i)=>a!==null&&a===testQ[i].ans).length;
+  return Math.round(85+(correct/testQ.length)*45);
+}
+
+// ═══ 결과 표시 ═══
+function showResult(){
+  const score=computedScore;
+  const label=score>=145?'천재 수준':score>=130?'최우수':score>=120?'우수':score>=110?'평균 이상':score>=90?'평균':'평균 이하';
+  const pct=score>=140?1:score>=130?2:score>=120?9:score>=110?25:score>=100?50:75;
+  const m=String(Math.floor(elapsed/60)).padStart(2,'0'),s=String(elapsed%60).padStart(2,'0');
+
+  document.getElementById('r-name').textContent=USER.name;
+  document.getElementById('r-score').textContent=score;
+  document.getElementById('r-label').textContent=label;
+  document.getElementById('r-pct').textContent=`전체 응시자 상위 ${pct}%`;
+  document.getElementById('r-time').textContent=`소요 시간: ${m}분 ${s}초`;
+
+  catScoresResult=catKeys.map((_,ci)=>{
+    const cq=testQ.filter(q=>q.cat===ci);
+    if(!cq.length)return 0;
+    const ok=cq.filter(q=>answers[testQ.indexOf(q)]===q.ans).length;
+    return Math.round((ok/cq.length)*100);
+  });
+  document.getElementById('r-bars').innerHTML=catScoresResult.map((v,i)=>`
+    <div class="br">
+      <span class="bl">${catLabels[i]}</span>
+      <div class="bt"><div class="bf" style="width:0%" data-val="${v}"></div></div>
+      <span class="bval">${v}%</span>
+    </div>`).join('');
+  show('s-result');
+  setTimeout(()=>{document.querySelectorAll('.bf[data-val]').forEach(el=>{el.style.width=el.dataset.val+'%';});},100);
+}
+
+// ═══ 탭 전환 ═══
+function switchTab(tab){
+  document.querySelectorAll('.rtab').forEach((t,i)=>t.classList.toggle('active',['summary','cert'][i]===tab));
+  document.querySelectorAll('.rtab-panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('tab-'+tab).classList.add('active');
+  if(tab==='cert'&&!certGenerated){
+    // 폰트 로드 후 렌더링
+    document.fonts.ready.then(()=>{
+      generateCert(computedScore,catScoresResult);
+    });
+  }
+}
+
+// ═══ 인증서 생성 (폰트 로드 보장) ═══
+async function generateCert(score,catScores){
+  const canvas=document.getElementById('cert-canvas');
+  const loading=document.getElementById('cert-loading');
+  if(!canvas)return;
+
+  // 반드시 폰트 로드 완료 후 진행
+  await document.fonts.ready;
+
+  const W=900,H=600;
+  canvas.width=W;canvas.height=H;
+  const ctx=canvas.getContext('2d');
+
+  const today=new Date();
+  const dateStr=`${today.getFullYear()}년 ${today.getMonth()+1}월 ${today.getDate()}일`;
+  const certNo='IQP-'+Date.now().toString(36).toUpperCase().slice(-8);
+  const name=USER.name||'응시자';
+
+  // 한글 폰트 우선순위 지정
+  const KO_FONT = `'Noto Serif KR', 'Apple SD Gothic Neo', 'Malgun Gothic', serif`;
+  const MONO_FONT= `'Space Mono', 'Courier New', monospace`;
+
+  // 배경
+  ctx.fillStyle='#0a0a14';ctx.fillRect(0,0,W,H);
+
+  // 테두리
+  ctx.strokeStyle='#c8ff3e';ctx.lineWidth=3;ctx.strokeRect(14,14,W-28,H-28);
+  ctx.strokeStyle='rgba(200,255,62,.2)';ctx.lineWidth=1;ctx.strokeRect(22,22,W-44,H-44);
+
+  // 모서리
+  [[14,14],[W-14,14],[14,H-14],[W-14,H-14]].forEach(([x,y])=>{
+    const sx=x<W/2?1:-1,sy=y<H/2?1:-1;
+    ctx.strokeStyle='#c8ff3e';ctx.lineWidth=2.5;
+    ctx.beginPath();ctx.moveTo(x+sx*28,y);ctx.lineTo(x,y);ctx.lineTo(x,y+sy*28);ctx.stroke();
+  });
+
+  // 헤더
+  ctx.fillStyle='#c8ff3e';ctx.font=`bold 11px ${MONO_FONT}`;ctx.textAlign='center';
+  ctx.fillText('IQ PRO  ·  OFFICIAL INTELLIGENCE CERTIFICATE',W/2,56);
+  ctx.strokeStyle='rgba(200,255,62,.2)';ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(50,68);ctx.lineTo(W-50,68);ctx.stroke();
+
+  // 제목
+  ctx.fillStyle='#ffffff';ctx.font=`bold 34px ${KO_FONT}`;
+  ctx.fillText('지능 검사 인증서',W/2,118);
+  ctx.fillStyle='rgba(255,255,255,.4)';ctx.font=`13px ${MONO_FONT}`;
+  ctx.fillText('Certificate of Intelligence Assessment',W/2,140);
+
+  // 이름
+  ctx.fillStyle='rgba(255,255,255,.4)';ctx.font=`12px ${KO_FONT}`;ctx.fillText('응시자',W/2,178);
+  ctx.fillStyle='#ffffff';ctx.font=`bold 28px ${KO_FONT}`;ctx.fillText(name,W/2,212);
+  ctx.strokeStyle='rgba(200,255,62,.3)';ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(W/2-80,222);ctx.lineTo(W/2+80,222);ctx.stroke();
+
+  // 점수 원
+  const cx=W/2,cy=348,r=84;
+  ctx.strokeStyle='#1a1a2a';ctx.lineWidth=10;ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.stroke();
+  const arc=Math.min((score-70)/80,1);
+  ctx.strokeStyle='#c8ff3e';ctx.lineWidth=6;ctx.lineCap='round';
+  ctx.beginPath();ctx.arc(cx,cy,r,-Math.PI/2,-Math.PI/2+Math.PI*2*arc);ctx.stroke();ctx.lineCap='butt';
+
+  // 점수 숫자
+  ctx.fillStyle='#c8ff3e';ctx.font=`bold 48px ${MONO_FONT}`;ctx.textAlign='center';
+  ctx.fillText(score,cx,cy+17);
+  ctx.fillStyle='rgba(255,255,255,.4)';ctx.font=`11px ${MONO_FONT}`;ctx.fillText('IQ SCORE',cx,cy+38);
+
+  // 분류 배지
+  const lbl=score>=145?'천재 수준':score>=130?'최우수':score>=120?'우수':score>=110?'평균 이상':score>=90?'평균':'평균 이하';
+  ctx.fillStyle='rgba(200,255,62,.1)';
+  roundRect(ctx,cx-56,cy+52,112,26,13);ctx.fill();
+  ctx.strokeStyle='rgba(200,255,62,.3)';ctx.lineWidth=1;
+  roundRect(ctx,cx-56,cy+52,112,26,13);ctx.stroke();
+  ctx.fillStyle='#c8ff3e';ctx.font=`bold 12px ${KO_FONT}`;ctx.fillText(lbl,cx,cy+70);
+
+  // 영역 바
+  const bY=450;
+  catLabels.forEach((l,i)=>{
+    const bx=54+i*158;
+    ctx.fillStyle='rgba(255,255,255,.35)';ctx.font=`10px ${KO_FONT}`;ctx.textAlign='center';
+    ctx.fillText(l,bx+54,bY);
+    ctx.fillStyle='#111120';roundRect(ctx,bx,bY+7,108,5,2);ctx.fill();
+    if((catScores[i]||0)>0){ctx.fillStyle='#5b8cff';roundRect(ctx,bx,bY+7,108*(catScores[i]||0)/100,5,2);ctx.fill();}
+    ctx.fillStyle='#ffffff';ctx.font=`bold 10px ${MONO_FONT}`;ctx.fillText((catScores[i]||0)+'%',bx+54,bY+26);
+  });
+
+  // 구분선
+  ctx.strokeStyle='rgba(200,255,62,.15)';ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(50,497);ctx.lineTo(W-50,497);ctx.stroke();
+
+  // 하단
+  ctx.fillStyle='rgba(255,255,255,.3)';ctx.font=`11px ${MONO_FONT}`;ctx.textAlign='left';
+  ctx.fillText(`발급일: ${dateStr}`,60,518);
+  ctx.fillText(`인증번호: ${certNo}`,60,534);
+  ctx.textAlign='right';
+  ctx.fillStyle='rgba(255,255,255,.3)';ctx.font=`11px ${MONO_FONT}`;ctx.fillText('IQ PRO  |  Official',W-60,518);
+  ctx.fillStyle='#c8ff3e';ctx.font=`bold 12px ${KO_FONT}`;ctx.fillText('공식 인증',W-60,538);
+
+  // 도장
+  ctx.strokeStyle='rgba(200,255,62,.45)';ctx.lineWidth=2;
+  ctx.beginPath();ctx.arc(W-82,536,26,0,Math.PI*2);ctx.stroke();
+  ctx.fillStyle='rgba(200,255,62,.07)';ctx.beginPath();ctx.arc(W-82,536,26,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle='#c8ff3e';ctx.font=`bold 9px ${MONO_FONT}`;ctx.textAlign='center';
+  ctx.fillText('IQ PRO',W-82,533);ctx.font=`8px ${MONO_FONT}`;ctx.fillText('OFFICIAL',W-82,544);
+
+  // 완료 처리
+  canvas.style.display='block';
+  if(loading)loading.style.display='none';
+  document.getElementById('dl-btn').style.display='block';
+  document.getElementById('cert-note').style.display='block';
+  certGenerated=true;
+}
+
+function roundRect(ctx,x,y,w,h,r){
+  ctx.beginPath();ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.quadraticCurveTo(x+w,y,x+w,y+r);
+  ctx.lineTo(x+w,y+h-r);ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);ctx.lineTo(x+r,y+h);
+  ctx.quadraticCurveTo(x,y+h,x,y+h-r);ctx.lineTo(x,y+r);ctx.quadraticCurveTo(x,y,x+r,y);ctx.closePath();
+}
+
+// ═══ PDF 다운로드 ═══
+function downloadCert(){
+  const canvas=document.getElementById('cert-canvas');
+  if(!canvas||!canvas.width||canvas.style.display==='none'){
+    toast('인증서 생성 중입니다. 잠시 후 다시 눌러주세요.');return;
+  }
+  const btn=document.getElementById('dl-btn');
+  btn.textContent='⏳ PDF 생성 중...';btn.disabled=true;
+  try{
+    const{jsPDF}=window.jspdf;
+    const pdf=new jsPDF({orientation:'landscape',unit:'mm',format:'a4'});
+    pdf.addImage(canvas.toDataURL('image/png',1.0),'PNG',0,0,297,210);
+    pdf.save(`IQ인증서_${USER.name}_${new Date().toISOString().slice(0,10)}.pdf`);
+    btn.textContent='✅ 다운로드 완료!';
+    setTimeout(()=>{btn.textContent='📄 IQ 인증서 PDF 다운로드';btn.disabled=false;},3000);
+  }catch(e){
+    const link=document.createElement('a');link.download=`IQ인증서_${USER.name}.png`;
+    link.href=canvas.toDataURL('image/png');link.click();
+    btn.textContent='📄 IQ 인증서 PDF 다운로드';btn.disabled=false;
+  }
+}
+
+// ═══ 재시작 ═══
+function restartTest(){
+  testQ=[];curIdx=0;answers=[];elapsed=0;computedScore=0;catScoresResult=[];certGenerated=false;
+  clearInterval(timerID);USER={name:'응시자'};
+  document.getElementById('inp-name').value='';
+  document.querySelectorAll('.rtab').forEach((t,i)=>t.classList.toggle('active',i===0));
+  document.querySelectorAll('.rtab-panel').forEach((p,i)=>p.classList.toggle('active',i===0));
+  // 인증서 리셋
+  const cv=document.getElementById('cert-canvas');if(cv){cv.width=0;cv.height=0;cv.style.display='none';}
+  const ld=document.getElementById('cert-loading');if(ld)ld.style.display='block';
+  const dlb=document.getElementById('dl-btn');if(dlb)dlb.style.display='none';
+  const cn=document.getElementById('cert-note');if(cn)cn.style.display='none';
+  updateLimitUI();show('s-intro');
+}
+
+// ═══ 초기화 ═══
+window.addEventListener('DOMContentLoaded',()=>{
+  updateLimitUI();
+  setInterval(updateLimitUI,30000);
+});
+</script>
+</body>
+</html>
