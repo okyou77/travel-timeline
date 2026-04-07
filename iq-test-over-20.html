@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>IQ 테스트 — 성인 고급형</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#0d1117;--ink2:#2d3748;--ink3:#718096;
+  --teal:#00897b;--teal2:#004d40;--teal3:#e0f2f1;--teal4:#b2dfdb;
+  --amber:#f59e0b;--amber2:#92400e;--amber3:#fffbeb;
+  --green:#059669;--green3:#ecfdf5;
+  --red:#dc2626;--red3:#fef2f2;
+  --card:#ffffff;--bg:#f8fafc;
+  --r:14px;--rs:9px;--shadow:0 2px 20px rgba(0,77,64,.08);
+}
+body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);min-height:100vh;color:var(--ink);background-image:radial-gradient(circle at 20% 20%,#e0f2f1 0%,transparent 50%),radial-gradient(circle at 80% 80%,#fffbeb 0%,transparent 50%)}
+.title-font{font-family:'Playfair Display',serif}
+
+.screen{display:none;min-height:100vh;padding:1.5rem 1rem}
+.screen.active{display:flex;flex-direction:column;align-items:center;justify-content:center}
+
+/* ── INTRO ── */
+.intro-wrap{max-width:540px;width:100%}
+.hero{text-align:center;margin-bottom:2rem}
+.hero-icon{font-size:4rem;display:block;margin-bottom:.6rem}
+.hero-title{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:900;color:var(--teal2);line-height:1.2}
+.hero-sub{font-size:.88rem;color:var(--ink3);margin-top:.35rem}
+
+.info-pills{display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center;margin:1.2rem 0}
+.pill{border-radius:20px;padding:.32rem .9rem;font-size:.78rem;font-weight:700;border:1.5px solid}
+.pill-teal{background:var(--teal3);color:var(--teal2);border-color:var(--teal4)}
+.pill-amber{background:var(--amber3);color:var(--amber2);border-color:#fde68a}
+.pill-green{background:var(--green3);color:var(--green);border-color:#a7f3d0}
+
+.info-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.65rem;margin-bottom:1.5rem}
+.info-box{background:var(--card);border-radius:var(--rs);padding:.85rem .5rem;text-align:center;box-shadow:var(--shadow);border:1px solid #e2e8f0}
+.info-box .n{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:900;color:var(--teal)}
+.info-box .l{font-size:.65rem;color:var(--ink3);margin-top:.1rem}
+
+.form-card{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);padding:1.8rem;border:1px solid #e2e8f0}
+.form-label{font-size:.8rem;font-weight:700;color:var(--ink2);margin-bottom:.4rem;display:block;letter-spacing:.3px}
+.form-input,.form-select{width:100%;padding:.72rem 1rem;border:1.5px solid #e2e8f0;border-radius:var(--rs);font-size:.95rem;font-family:'Noto Sans KR',sans-serif;outline:none;transition:border .2s;margin-bottom:.85rem;background:#fff;color:var(--ink)}
+.form-input:focus,.form-select:focus{border-color:var(--teal)}
+
+.warn-box{background:var(--amber3);border:1.5px solid #fde68a;border-radius:var(--rs);padding:.72rem 1rem;font-size:.78rem;color:var(--amber2);margin-bottom:.85rem}
+.limit-box{background:var(--teal3);border:1.5px solid var(--teal4);border-radius:var(--rs);padding:.65rem 1rem;font-size:.78rem;color:var(--teal2);margin-bottom:.85rem;display:flex;align-items:center;gap:.4rem}
+.limit-box.blocked{background:var(--red3);border-color:#fecaca;color:var(--red)}
+
+.btn-start{background:var(--teal2);color:#fff;border:none;border-radius:var(--rs);padding:.95rem;font-size:1rem;font-weight:700;font-family:'Playfair Display',serif;cursor:pointer;width:100%;letter-spacing:.5px;box-shadow:0 4px 16px rgba(0,77,64,.25);transition:all .15s}
+.btn-start:hover{background:var(--teal);transform:translateY(-1px)}
+.btn-start:disabled{background:#94a3b8;box-shadow:none;cursor:not-allowed;transform:none}
+
+/* ── QUIZ ── */
+#quiz{justify-content:flex-start;padding-top:.8rem}
+.quiz-wrap{max-width:720px;width:100%}
+
+.topbar{display:flex;align-items:center;gap:.7rem;margin-bottom:.85rem;flex-wrap:wrap}
+.cat-chip{border-radius:20px;padding:.26rem .85rem;font-size:.72rem;font-weight:700;color:#fff;white-space:nowrap;letter-spacing:.2px}
+.diff-chip{border-radius:4px;padding:.18rem .55rem;font-size:.68rem;font-weight:700;background:#f1f5f9;color:var(--ink3);white-space:nowrap}
+.prog-wrap{flex:1;min-width:100px}
+.prog-meta{display:flex;justify-content:space-between;font-size:.7rem;color:var(--ink3);margin-bottom:.28rem}
+.prog-track{height:6px;background:#e2e8f0;border-radius:3px;overflow:hidden}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--teal),var(--teal2));border-radius:3px;transition:width .4s}
+.timer{background:var(--card);border:1.5px solid #e2e8f0;border-radius:var(--rs);padding:.28rem .7rem;font-size:.85rem;font-weight:700;font-family:'Playfair Display',serif;color:var(--teal2);min-width:66px;text-align:center}
+.timer.warn{border-color:var(--amber);color:var(--amber2)}
+.timer.hot{border-color:var(--red);color:var(--red);animation:blink .5s infinite alternate}
+@keyframes blink{to{opacity:.4}}
+
+.q-card{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);padding:1.7rem;margin-bottom:.85rem;border:1px solid #e2e8f0}
+.q-meta{display:flex;align-items:center;gap:.5rem;margin-bottom:.4rem}
+.q-no{font-size:.72rem;color:var(--ink3);font-weight:700}
+.q-text{font-size:1rem;font-weight:600;color:var(--ink);line-height:1.7;margin-bottom:1.3rem;background:var(--teal3);padding:.9rem 1.1rem;border-radius:var(--rs);border-left:4px solid var(--teal)}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+.choice{background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:var(--rs);padding:.8rem 1rem;cursor:pointer;font-size:.88rem;display:flex;align-items:flex-start;gap:.6rem;transition:all .15s;line-height:1.45}
+.choice:hover{border-color:var(--teal);background:var(--teal3);transform:translateY(-1px)}
+.choice.sel{border-color:var(--teal2);background:var(--teal3);font-weight:600}
+.choice.ok{border-color:var(--green);background:var(--green3);color:var(--green);font-weight:700}
+.choice.no{border-color:var(--red);background:var(--red3);color:var(--red)}
+.choice.disabled{cursor:default;transform:none}
+.clabel{min-width:22px;height:22px;border-radius:50%;background:#e2e8f0;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:800;flex-shrink:0;margin-top:.12rem}
+.choice.ok .clabel{background:var(--green);color:#fff}
+.choice.no .clabel{background:var(--red);color:#fff}
+.choice.sel .clabel{background:var(--teal2);color:#fff}
+
+.fb{margin-top:.8rem;padding:.85rem 1rem;border-radius:var(--rs);font-size:.83rem;display:none;line-height:1.5}
+.fb.show{display:block}
+.fb.ok{background:var(--green3);color:var(--green);border-left:3px solid var(--green)}
+.fb.no{background:var(--red3);color:var(--red);border-left:3px solid var(--red)}
+
+.nav{display:flex;justify-content:space-between;align-items:center}
+.btn-nav{border:1.5px solid var(--teal2);border-radius:var(--rs);padding:.58rem 1.3rem;font-size:.85rem;font-weight:700;cursor:pointer;transition:all .15s;font-family:'Noto Sans KR',sans-serif}
+.btn-skip{background:#fff;color:var(--teal2)}
+.btn-skip:hover{background:var(--teal3)}
+.btn-nxt{background:var(--teal2);color:#fff}
+.btn-nxt:hover{background:var(--teal)}
+.btn-nxt:disabled{opacity:.35;cursor:not-allowed}
+.score-badge{font-size:.75rem;color:var(--ink3)}
+
+/* ── RESULT ── */
+#result{justify-content:flex-start;padding-top:1.2rem}
+.result-wrap{max-width:600px;width:100%}
+
+.iq-banner{background:linear-gradient(135deg,var(--teal3),#e8f5e9);border-radius:var(--r);padding:2rem;text-align:center;margin-bottom:1rem;border:1px solid var(--teal4);position:relative;overflow:hidden}
+.iq-banner::before{content:'';position:absolute;top:-25px;right:-25px;width:100px;height:100px;border-radius:50%;background:rgba(0,137,123,.1)}
+.iq-lbl{font-size:.7rem;font-weight:700;color:var(--teal);letter-spacing:1px;text-transform:uppercase}
+.iq-val{font-family:'Playfair Display',serif;font-size:3.8rem;font-weight:900;color:var(--teal2);line-height:1}
+.iq-grade{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;color:var(--ink2);margin-top:.3rem}
+.interp{font-size:.78rem;color:var(--teal2);margin-top:.4rem;line-height:1.5;padding:.5rem .8rem;background:rgba(0,137,123,.08);border-radius:var(--rs)}
+
+.r-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:.55rem;margin-bottom:1rem}
+.r-stat{background:var(--card);border-radius:var(--rs);padding:.72rem .4rem;text-align:center;box-shadow:var(--shadow);border:1px solid #e2e8f0}
+.r-stat .n{font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:900;color:var(--teal2)}
+.r-stat .l{font-size:.65rem;color:var(--ink3)}
+
+.cat-section{background:var(--card);border-radius:var(--r);padding:1.1rem 1.3rem;margin-bottom:1rem;box-shadow:var(--shadow);border:1px solid #e2e8f0}
+.cat-section h3{font-size:.82rem;font-weight:700;margin-bottom:.7rem;color:var(--ink2);letter-spacing:.3px}
+.cat-row{display:flex;align-items:center;gap:.55rem;margin-bottom:.42rem;font-size:.76rem}
+.cat-nm{flex:0 0 95px;color:var(--ink3);font-size:.68rem}
+.cat-track{flex:1;background:#f1f5f9;border-radius:3px;height:6px}
+.cat-bar{height:6px;border-radius:3px;transition:width .8s}
+.cat-pct{width:32px;text-align:right;font-weight:700;font-size:.72rem}
+
+.btn-row{display:flex;gap:.65rem;margin-bottom:1rem}
+.btn-cert{flex:1;background:linear-gradient(135deg,var(--amber),#d97706);color:#fff;border:none;border-radius:var(--rs);padding:.82rem;font-size:.88rem;font-weight:700;cursor:pointer;font-family:'Playfair Display',serif;box-shadow:0 3px 12px rgba(217,119,6,.25);transition:transform .15s}
+.btn-cert:hover{transform:translateY(-2px)}
+.btn-retry2{flex:1;background:var(--card);color:var(--teal2);border:1.5px solid var(--teal2);border-radius:var(--rs);padding:.82rem;font-size:.88rem;font-weight:700;cursor:pointer;transition:background .15s}
+.btn-retry2:hover{background:var(--teal3)}
+
+/* ── CERT ── */
+#cert{display:none;min-height:100vh;padding:2rem 1rem;align-items:center;justify-content:center;background:#f8fafc}
+#cert.active{display:flex;flex-direction:column}
+.cert-card{max-width:700px;width:100%;background:#fff;border:2.5px solid var(--teal2);border-radius:18px;padding:3rem 2.5rem;text-align:center;position:relative;box-shadow:0 8px 40px rgba(0,77,64,.12)}
+.cert-corner{position:absolute;width:40px;height:40px;border:2px solid var(--teal2);opacity:.4}
+.cc-tl{top:10px;left:10px;border-right:none;border-bottom:none;border-radius:4px 0 0 0}
+.cc-tr{top:10px;right:10px;border-left:none;border-bottom:none;border-radius:0 4px 0 0}
+.cc-bl{bottom:10px;left:10px;border-right:none;border-top:none;border-radius:0 0 0 4px}
+.cc-br{bottom:10px;right:10px;border-left:none;border-top:none;border-radius:0 0 4px 0}
+.cert-logo{font-size:2.8rem;margin-bottom:.4rem}
+.cert-org{font-size:.72rem;font-weight:700;color:var(--ink3);letter-spacing:2.5px;text-transform:uppercase}
+.cert-title{font-family:'Playfair Display',serif;font-size:1.7rem;font-weight:900;color:var(--teal2);margin:.4rem 0 .1rem}
+.cert-en{font-size:.72rem;color:var(--ink3);letter-spacing:.5px;margin-bottom:.5rem}
+.cert-divider{width:60px;height:2px;background:linear-gradient(90deg,var(--teal),var(--amber));margin:.6rem auto}
+.cert-body{font-size:.82rem;color:var(--ink3);line-height:1.8;margin-bottom:.3rem}
+.cert-name{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:900;color:var(--ink);margin:.3rem 0}
+.cert-iq{font-family:'Playfair Display',serif;font-size:3.5rem;font-weight:900;color:var(--teal2);line-height:1}
+.cert-grade-txt{font-size:.95rem;font-weight:700;color:var(--ink2);margin:.3rem 0 .5rem}
+.cert-details{display:flex;justify-content:center;gap:2rem;margin:.8rem 0;flex-wrap:wrap}
+.cert-det .dn{font-family:'Playfair Display',serif;font-size:.88rem;font-weight:700;color:var(--ink)}
+.cert-det .dl{font-size:.62rem;color:var(--ink3);text-transform:uppercase;letter-spacing:.5px}
+.cert-stamp{display:inline-flex;align-items:center;justify-content:center;width:64px;height:64px;border-radius:50%;border:2.5px solid var(--teal2);font-size:.55rem;font-weight:800;color:var(--teal2);line-height:1.3;text-align:center;margin:.8rem 0;letter-spacing:.2px}
+.cert-date{font-size:.7rem;color:var(--ink3);margin-top:.4rem}
+.no-print{margin-top:.8rem}
+.btn-print{background:var(--teal2);color:#fff;border:none;border-radius:var(--rs);padding:.7rem 1.8rem;font-size:.88rem;font-weight:700;cursor:pointer;margin:.3rem;font-family:'Playfair Display',serif}
+.btn-back{background:#fff;color:var(--ink3);border:1.5px solid #e2e8f0;border-radius:var(--rs);padding:.7rem 1.8rem;font-size:.88rem;font-weight:700;cursor:pointer;margin:.3rem}
+@media print{
+  .no-print{display:none!important}
+  body,#cert{background:#fff!important}
+  .cert-card{box-shadow:none}
+}
+@media(max-width:520px){
+  .choices{grid-template-columns:1fr}
+  .r-stats{grid-template-columns:repeat(2,1fr)}
+  .info-grid{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+
+<!-- ══ INTRO ══ -->
+<div id="intro" class="screen active">
+<div class="intro-wrap">
+  <div class="hero">
+    <span class="hero-icon">🧠</span>
+    <div class="hero-title">IQ 테스트</div>
+    <div style="font-size:.8rem;color:var(--teal);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-top:.2rem">성인 고급형</div>
+    <div class="hero-sub">인지 능력 종합 평가 · 만 20세 이상</div>
+  </div>
+  <div class="info-pills">
+    <span class="pill pill-teal">📊 측정 영역: 9개 분야</span>
+    <span class="pill pill-amber">⏱ 소요 시간: 약 15분</span>
+    <span class="pill pill-green">🎓 대상 연령: 만 20세 이상</span>
+  </div>
+  <div class="info-grid" style="grid-template-columns:repeat(3,1fr)">
+    <div class="info-box"><div class="n">45</div><div class="l">매회 문항</div></div>
+    <div class="info-box"><div class="n">15<span style="font-size:.85rem">분</span></div><div class="l">제한 시간</div></div>
+    <div class="info-box"><div class="n">2<span style="font-size:.85rem">회</span></div><div class="l">1일 제한</div></div>
+  </div>
+  <div class="form-card">
+    <label class="form-label">이름 <span style="color:var(--red)">*</span></label>
+    <input class="form-input" id="nameInput" placeholder="응시자 이름" maxlength="20" autocomplete="off">
+    <div class="warn-box">⚠️ 이 테스트는 <strong>성인 고급형</strong>입니다. 논리학·수학·철학·인지과학 개념을 포함합니다.</div>
+    <div class="limit-box" id="limitBox">ℹ️ 오늘 남은 응시 횟수: <strong id="remainCount">2</strong>회</div>
+    <button class="btn-start" id="btnStart" onclick="startQuiz()">테스트 시작 →</button>
+  </div>
+</div>
+</div>
+
+<!-- ══ QUIZ ══ -->
+<div id="quiz" class="screen">
+<div class="quiz-wrap">
+  <div class="topbar">
+    <span class="cat-chip" id="catChip">영역</span>
+    <span class="diff-chip" id="diffChip">★☆☆</span>
+    <div class="prog-wrap">
+      <div class="prog-meta"><span id="progTxt">1/45</span><span id="scoreTxt">0점</span></div>
+      <div class="prog-track"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
+    </div>
+    <div class="timer" id="timerEl">15:00</div>
+  </div>
+  <div class="q-card">
+    <div class="q-meta">
+      <div class="q-no" id="qNo">문항 1</div>
+    </div>
+    <div class="q-text" id="qText"></div>
+    <div class="choices" id="choices"></div>
+    <div class="fb" id="fb"></div>
+  </div>
+  <div class="nav">
+    <button class="btn-nav btn-skip" onclick="skip()">건너뛰기</button>
+    <span class="score-badge" id="scoreBadge">맞힌 문항: 0</span>
+    <button class="btn-nav btn-nxt" id="btnNxt" onclick="next()" disabled>다음 ▶</button>
+  </div>
+</div>
+</div>
+
+<!-- ══ RESULT ══ -->
+<div id="result" class="screen">
+<div class="result-wrap">
+  <div class="iq-banner">
+    <div class="iq-lbl">추정 IQ</div>
+    <div class="iq-val" id="rIQ">--</div>
+    <div class="iq-grade" id="rGrade">--</div>
+    <div class="interp" id="rInterp"></div>
+  </div>
+  <div class="r-stats">
+    <div class="r-stat"><div class="n" id="rC">0</div><div class="l">정답</div></div>
+    <div class="r-stat"><div class="n" id="rW">0</div><div class="l">오답</div></div>
+    <div class="r-stat"><div class="n" id="rS">0</div><div class="l">건너뜀</div></div>
+    <div class="r-stat"><div class="n" id="rP">0%</div><div class="l">정답률</div></div>
+  </div>
+  <div class="cat-section">
+    <h3>영역별 결과</h3>
+    <div id="catBars"></div>
+  </div>
+  <div class="btn-row">
+    <button class="btn-cert" onclick="showCert()">🏆 인증서 발급</button>
+    <button class="btn-retry2" onclick="goIntro()">↩ 다시 도전</button>
+  </div>
+</div>
+</div>
+
+<!-- ══ CERT ══ -->
+<div id="cert">
+  <div class="cert-card">
+    <div class="cert-corner cc-tl"></div><div class="cert-corner cc-tr"></div>
+    <div class="cert-corner cc-bl"></div><div class="cert-corner cc-br"></div>
+    <div class="cert-logo">🏅</div>
+    <div class="cert-org">IQ International Assessment</div>
+    <div class="cert-title">인지 능력 인증서</div>
+    <div class="cert-en">Certificate of Cognitive Ability · Advanced Adult</div>
+    <div class="cert-divider"></div>
+    <div class="cert-body">아래 응시자는 성인 고급형 IQ 표준 평가를 완료하였으며<br>다음과 같은 결과를 인증합니다.</div>
+    <div class="cert-name" id="cName">--</div>
+    <div class="cert-iq" id="cIQ">--</div>
+    <div class="cert-grade-txt" id="cGrade">--</div>
+    <div class="cert-details">
+      <div class="cert-det"><div class="dn" id="cScore">--</div><div class="dl">정답 / 총문항</div></div>
+      <div class="cert-det"><div class="dn" id="cPct">--</div><div class="dl">정답률</div></div>
+      <div class="cert-det"><div class="dn" id="cTime">--</div><div class="dl">소요 시간</div></div>
+      <div class="cert-det"><div class="dn">만 20세 이상</div><div class="dl">대상 연령</div></div>
+    </div>
+    <div class="cert-stamp">IQ<br>CERT<br>성인용</div>
+    <div class="cert-date" id="cDate">--</div>
+    <div class="no-print">
+      <button class="btn-print" onclick="window.print()">🖨 인증서 인쇄 / 저장</button>
+      <button class="btn-back" onclick="goIntro()">← 처음으로</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const POOL = [
+  // 언어 유추 고급 (25)
+  {c:"언어 유추",d:1,q:"귀납 : 연역 = 분석 : ?",o:["분류","종합","해체","추론"],a:1},
+  {c:"언어 유추",d:1,q:"엔트로피 : 무질서 = 시너지 : ?",o:["경쟁","협력","분리","상실"],a:1},
+  {c:"언어 유추",d:2,q:"빛 : 파동 = 전자 : ?",o:["입자","에너지","파동","입자이자 파동"],a:3},
+  {c:"언어 유추",d:1,q:"카오스 : 질서 = 아나키 : ?",o:["자유","법치","혼란","독재"],a:1},
+  {c:"언어 유추",d:2,q:"은유 : 직유 = 함의 : ?",o:["명시","암시","역설","반어"],a:0},
+  {c:"언어 유추",d:2,q:"패러독스 : 자기모순 = 딜레마 : ?",o:["선택불가","이분법","역설","모순"],a:0},
+  {c:"언어 유추",d:3,q:"형이상학 : 존재론 = 인식론 : ?",o:["지식의 본질","도덕철학","미학","논리학"],a:0},
+  {c:"언어 유추",d:2,q:"알고리즘 : 과정 = 휴리스틱 : ?",o:["확정해법","근사해법","최적해","무해법"],a:1},
+  {c:"언어 유추",d:3,q:"상관관계 : 인과관계 = 필요조건 : ?",o:["충분조건","동치조건","역조건","부정조건"],a:0},
+  {c:"언어 유추",d:3,q:"프레임 효과 : 인지편향 = 기준점 효과 : ?",o:["계산오류","판단편향","기억왜곡","인지조화"],a:1},
+  {c:"언어 유추",d:2,q:"열역학 : 에너지 = 정보이론 : ?",o:["통신","엔트로피","확률","신호"],a:1},
+  {c:"언어 유추",d:3,q:"귀류법 : 모순 = 대우 : ?",o:["역","이","대우","동치"],a:3},
+  {c:"언어 유추",d:2,q:"절충주의 : 융합 = 환원주의 : ?",o:["분해","통합","복잡화","추상화"],a:0},
+  {c:"언어 유추",d:2,q:"세렌디피티 : 우연발견 = 통찰 : ?",o:["직관적 이해","분석적 결론","귀납추론","연역추론"],a:0},
+  {c:"언어 유추",d:3,q:"임계점 : 상전이 = 티핑포인트 : ?",o:["소규모 변화","패러다임 전환","점진적 변화","되돌림"],a:1},
+  {c:"언어 유추",d:3,q:"변증법 : 정반합 = 헤겔 : ?",o:["칸트","마르크스","니체","비트겐슈타인"],a:0},
+  {c:"언어 유추",d:3,q:"메타인지 : 사고에 대한 사고 = 메타분석 : ?",o:["분석의 분석","연구의 연구","통계의 통계","데이터의 데이터"],a:1},
+  {c:"언어 유추",d:2,q:"공리 : 증명불요 = 정리 : ?",o:["증명필요","가정필요","반증가능","실험검증"],a:0},
+  {c:"언어 유추",d:2,q:"형사적 추론 : 귀납 = 수학적 증명 : ?",o:["귀납","연역","유추","가추"],a:1},
+  {c:"언어 유추",d:2,q:"범주화 : 인지 절약 = 고정관념 : ?",o:["편견의 원천","정확한 판단","다양성 인식","문화 이해"],a:0},
+  {c:"언어 유추",d:3,q:"창발 : 부분의 합 이상 = 환원 : ?",o:["부분으로 설명","전체로 설명","복잡계","시스템"],a:0},
+  {c:"언어 유추",d:3,q:"다원론 : 복수 실재 = 일원론 : ?",o:["단일 실재","이중 실재","무한 실재","무 실재"],a:0},
+  {c:"언어 유추",d:3,q:"자기지시 : 괴델의 불완전성 = 자기조직화 : ?",o:["복잡계 출현","단순계 분해","선형 성장","엔트로피 감소"],a:0},
+  {c:"언어 유추",d:2,q:"프리즘 : 빛의 분산 = 푸리에변환 : ?",o:["신호의 합성","신호의 분해","파동의 증폭","주파수 억제"],a:1},
+  {c:"언어 유추",d:3,q:"양자중첩 : 불확정성 = 확률파동 : ?",o:["파동함수","관측효과","슈뢰딩거","코펜하겐"],a:0},
+  // 복합 수열 (25)
+  {c:"복합 수열",d:1,q:"1, 1, 2, 3, 5, 8, 13, 21, ?",o:["30","34","35","38"],a:1},
+  {c:"복합 수열",d:1,q:"2, 6, 12, 20, 30, 42, ?",o:["52","54","56","58"],a:2},
+  {c:"복합 수열",d:1,q:"1, 4, 9, 16, 25, 36, ?",o:["42","45","49","52"],a:2},
+  {c:"복합 수열",d:2,q:"1, 2, 6, 24, 120, ?",o:["360","480","720","840"],a:2},
+  {c:"복합 수열",d:2,q:"2, 3, 5, 7, 11, 13, ?",o:["15","16","17","18"],a:2},
+  {c:"복합 수열",d:1,q:"0, 1, 3, 6, 10, 15, ?",o:["18","20","21","24"],a:2},
+  {c:"복합 수열",d:2,q:"1, 8, 27, 64, 125, ?",o:["196","210","216","225"],a:2},
+  {c:"복합 수열",d:2,q:"2, 5, 10, 17, 26, 37, ?",o:["48","50","52","54"],a:1},
+  {c:"복합 수열",d:2,q:"1, 3, 7, 15, 31, ?",o:["55","61","63","67"],a:2},
+  {c:"복합 수열",d:2,q:"10, 9, 7, 4, 0, ?",o:["-4","-5","-6","-7"],a:1},
+  {c:"복합 수열",d:2,q:"1, 2, 4, 7, 11, 16, 22, ?",o:["28","29","30","31"],a:1},
+  {c:"복합 수열",d:2,q:"512, 256, 128, 64, ?",o:["16","24","32","48"],a:2},
+  {c:"복합 수열",d:3,q:"3, 1, 4, 1, 5, 9, 2, 6, ? (π 소수점)",o:["3","5","4","6"],a:1},
+  {c:"복합 수열",d:2,q:"1/2, 1/4, 1/8, 1/16, ?",o:["1/24","1/32","1/48","1/64"],a:1},
+  {c:"복합 수열",d:3,q:"101, 97, 89, 79, 67, ?",o:["53","57","59","61"],a:0},
+  {c:"복합 수열",d:2,q:"2, 3, 6, 11, 18, 27, ?",o:["38","40","42","44"],a:0},
+  {c:"복합 수열",d:3,q:"1, 11, 21, 1211, 111221, ? (Look-and-Say)",o:["312211","321211","312221","321221"],a:0},
+  {c:"복합 수열",d:2,q:"0.1, 0.3, 0.9, 2.7, ?",o:["5.4","7.2","8.1","9.0"],a:2},
+  {c:"복합 수열",d:2,q:"4, 9, 25, 49, 121, ? (소수²)",o:["143","169","196","225"],a:1},
+  {c:"복합 수열",d:2,q:"3, 8, 15, 24, 35, ?",o:["46","48","50","52"],a:1},
+  {c:"복합 수열",d:2,q:"7, 14, 28, 56, 112, ?",o:["186","196","224","256"],a:2},
+  {c:"복합 수열",d:3,q:"1, 3, 4, 7, 11, 18, 29, ?",o:["40","44","47","50"],a:2},
+  {c:"복합 수열",d:3,q:"100, 91, 73, 46, ?",o:["10","12","14","18"],a:0},
+  {c:"복합 수열",d:2,q:"1, 6, 15, 28, 45, ?",o:["60","63","66","70"],a:2},
+  {c:"복합 수열",d:3,q:"2², 3², 5², 7², 11², ? (소수²)",o:["13²=169","14²=196","15²=225","17²=289"],a:0},
+  // 고급 도형 행렬 (25)
+  {c:"도형 행렬",d:1,q:"3×3 행렬 각 행 도형 수 합이 6. 첫 행이 1,2,?이면?",o:["1","2","3","4"],a:2},
+  {c:"도형 행렬",d:2,q:"각 열에 ○□△ 한 번씩. 2열3행=□이면 3열1행은?",o:["○","□","△","◇"],a:2},
+  {c:"도형 행렬",d:2,q:"라틴방진 4×4. 3행이 2,?,4,1이면 ?는?",o:["1","2","3","4"],a:2},
+  {c:"도형 행렬",d:2,q:"행렬 값=행번호×열번호. 4행3열은?",o:["7","10","12","14"],a:2},
+  {c:"도형 행렬",d:3,q:"파스칼 삼각형 5행 3열 값은?",o:["6","10","15","20"],a:1},
+  {c:"도형 행렬",d:2,q:"마방진 3×3 합=15. 중앙 값은?",o:["3","5","7","9"],a:1},
+  {c:"도형 행렬",d:2,q:"프랙탈: 1→2→3단계. 삼각형이 3배씩. 4단계는?",o:["27","54","81","108"],a:2},
+  {c:"도형 행렬",d:2,q:"도형 꼭짓점 수: 3→4→5→6→? (등차)",o:["6","7","8","9"],a:1},
+  {c:"도형 행렬",d:3,q:"모듈러 패턴: (행+열) mod 4. (3,3)의 값은?",o:["0","1","2","3"],a:2},
+  {c:"도형 행렬",d:3,q:"각 셀 = 위 셀+왼쪽 셀. (2,3)=5, (3,2)=7이면 (3,3)=?",o:["10","11","12","13"],a:2},
+  {c:"도형 행렬",d:2,q:"음영 누적: 1행=10%, 2행=20%, 3행=?",o:["25%","30%","40%","50%"],a:1},
+  {c:"도형 행렬",d:2,q:"도형 크기: 각 행에서 2배씩. 1행=1cm이면 3행은?",o:["3cm","4cm","8cm","16cm"],a:1},
+  {c:"도형 행렬",d:3,q:"이항계수 C(7,3) = ?",o:["21","28","35","42"],a:2},
+  {c:"도형 행렬",d:2,q:"XOR: (1행 XOR 1열=1, 0 XOR 0=?) 결과는?",o:["0","1","2","3"],a:0},
+  {c:"도형 행렬",d:3,q:"피보나치 배치: 3행4열의 값은?",o:["5","8","13","21"],a:0},
+  {c:"도형 행렬",d:2,q:"45도 회전×3번. 회전 합은?",o:["90도","135도","180도","225도"],a:1},
+  {c:"도형 행렬",d:3,q:"5×5 중심대칭: (2,4)=(4,?) 위치는?",o:["2","3","4","5"],a:0},
+  {c:"도형 행렬",d:2,q:"색상 패턴: 3행이 1단계씩 어두워지면 3행의 색은?",o:["흰색","회색","진회색","검정"],a:1},
+  {c:"도형 행렬",d:2,q:"집합: 교집합 없는 두 도형의 합은?",o:["∅","A","B","A∪B"],a:3},
+  {c:"도형 행렬",d:2,q:"내외 교체: 큰○안작은□→큰□안작은○→다음은?",o:["큰○안작은□","큰△안작은○","큰□안작은△","큰○안작은△"],a:0},
+  {c:"도형 행렬",d:3,q:"재귀: T(n)=2T(n-1)+1, T(1)=1 → T(4)=?",o:["14","15","16","17"],a:1},
+  {c:"도형 행렬",d:2,q:"도형 넓이 수열: 1,4,9,16 → 다음은?",o:["20","25","30","36"],a:1},
+  {c:"도형 행렬",d:3,q:"생성 규칙 A→AB, B→A. 3단계 후 길이는?",o:["3","4","5","6"],a:2},
+  {c:"도형 행렬",d:2,q:"반사대칭+회전 복합 후 도형 방향은?",o:["원래","90도","180도","반사"],a:3},
+  {c:"도형 행렬",d:3,q:"4×4 마방진 합=34. 한 행이 16,5,?,4이면 ?는?",o:["9","10","11","12"],a:0},
+  // 3D 공간 추론 (25)
+  {c:"3D 공간",d:1,q:"정다면체 종류 수는?",o:["3","4","5","6"],a:2},
+  {c:"3D 공간",d:1,q:"오일러 공식: 볼록다면체 꼭짓점-모서리+면=?",o:["0","1","2","3"],a:2},
+  {c:"3D 공간",d:2,q:"정팔면체 꼭짓점 수는?",o:["4","6","8","12"],a:1},
+  {c:"3D 공간",d:2,q:"정이십면체 꼭짓점 수는?",o:["10","12","15","20"],a:1},
+  {c:"3D 공간",d:2,q:"구를 임의 평면으로 자를 때 단면은?",o:["타원","원","포물선","직선"],a:1},
+  {c:"3D 공간",d:3,q:"메비우스 띠의 경계선 수는?",o:["0","1","2","3"],a:1},
+  {c:"3D 공간",d:3,q:"4D 초입방체(테서랙트)의 셀 수는?",o:["16","24","32","48"],a:1},
+  {c:"3D 공간",d:3,q:"구면삼각형 내각의 합은?",o:["180°보다 작다","정확히 180°","180°보다 크다","360°"],a:2},
+  {c:"3D 공간",d:3,q:"쌍곡면 위 삼각형 내각의 합은?",o:[">180°","=180°","<180°","알 수 없음"],a:2},
+  {c:"3D 공간",d:2,q:"정이십면체 모서리 수는?",o:["20","30","40","50"],a:1},
+  {c:"3D 공간",d:2,q:"토러스(도넛)를 수평 평면으로 자르면?",o:["원 1개","원 2개","타원","8자형"],a:1},
+  {c:"3D 공간",d:2,q:"종이 2번 접어 구멍 2개 → 몇 개?",o:["4","6","8","10"],a:2},
+  {c:"3D 공간",d:2,q:"벡터 (1,0,0)을 Z축 90° 반시계 회전하면?",o:["(0,1,0)","(0,-1,0)","(-1,0,0)","(1,0,0)"],a:0},
+  {c:"3D 공간",d:2,q:"정육면체를 꼭짓점 통과 평면으로 자를 때 최대 다각형은?",o:["삼각형","사각형","오각형","육각형"],a:3},
+  {c:"3D 공간",d:2,q:"원기둥을 45도 기울어진 평면으로 자르면?",o:["원","타원","직사각형","사다리꼴"],a:1},
+  {c:"3D 공간",d:3,q:"5개 정다면체 중 꼭짓점 수가 가장 많은 것은?",o:["정사면체","정육면체","정팔면체","정이십면체"],a:3},
+  {c:"3D 공간",d:2,q:"두 구가 내접할 때 교점은?",o:["0개","1개","2개","무한"],a:1},
+  {c:"3D 공간",d:3,q:"사영기하학: 두 평행선이 만나는 곳은?",o:["유클리드 기하","사영기하","비유클리드","위상기하"],a:1},
+  {c:"3D 공간",d:2,q:"쌓기나무: 정면 2층·측면 3열 → 최소 블록 수는?",o:["4","6","8","10"],a:1},
+  {c:"3D 공간",d:3,q:"4차원 초구 표면은 몇 차원?",o:["2차원","3차원","4차원","5차원"],a:1},
+  {c:"3D 공간",d:2,q:"정육면체 대각선(꼭짓점 사이) 수는?",o:["2","3","4","6"],a:2},
+  {c:"3D 공간",d:1,q:"정육면체의 면 수는?",o:["4","5","6","8"],a:2},
+  {c:"3D 공간",d:2,q:"X축 90° 회전하면 Y축 방향은?",o:["X축 방향","Z축 방향","그대로","반전"],a:1},
+  {c:"3D 공간",d:3,q:"클라인 병의 자기교차 없는 차원은?",o:["2D","3D","4D","5D"],a:2},
+  {c:"3D 공간",d:2,q:"정사각형 전개도를 접으면?",o:["정육면체","직육면체","삼각기둥","원기둥"],a:0},
+  // 추상 패턴 (25)
+  {c:"추상 패턴",d:2,q:"f(n)=n²+n+1: f(5)=?",o:["29","31","33","35"],a:1},
+  {c:"추상 패턴",d:2,q:"이진수: 0001→0010→0100→1000→?",o:["0001","1111","0000","10000"],a:3},
+  {c:"추상 패턴",d:2,q:"(17 mod 5) × (13 mod 7) = ?",o:["6","8","10","12"],a:0},
+  {c:"추상 패턴",d:3,q:"K₆(완전그래프) 간선 수는?",o:["12","13","14","15"],a:3},
+  {c:"추상 패턴",d:3,q:"대칭군 S₃ 원소 수는?",o:["3","4","5","6"],a:3},
+  {c:"추상 패턴",d:2,q:"C(7,3) = ?",o:["21","28","35","42"],a:2},
+  {c:"추상 패턴",d:2,q:"T(n)=2T(n-1)+1, T(1)=1 → T(4)=?",o:["14","15","16","17"],a:1},
+  {c:"추상 패턴",d:2,q:"|A|=15,|B|=12,|A∩B|=5 → |A∪B|=?",o:["20","22","27","32"],a:1},
+  {c:"추상 패턴",d:3,q:"(A AND B) OR (NOT A AND C): A=1,B=0,C=1 → ?",o:["0","1","불정","오류"],a:1},
+  {c:"추상 패턴",d:2,q:"5! / 3! = ?",o:["10","20","40","60"],a:1},
+  {c:"추상 패턴",d:2,q:"동전 4번, 정확히 2번 앞면 확률은?",o:["1/4","3/8","1/2","5/8"],a:1},
+  {c:"추상 패턴",d:1,q:"1+2+...+20 = ?",o:["190","200","210","220"],a:2},
+  {c:"추상 패턴",d:3,q:"위수가 소수인 군은 반드시?",o:["비가환","가환(아벨)","단순군","자유군"],a:1},
+  {c:"추상 패턴",d:2,q:"4가지 동등확률 사건의 엔트로피는?",o:["1 bit","2 bit","3 bit","4 bit"],a:1},
+  {c:"추상 패턴",d:3,q:"P(A|B)=0.8,P(B)=0.5,P(A)=0.6 → P(B|A)≈?",o:["0.5","0.667","0.75","0.8"],a:1},
+  {c:"추상 패턴",d:2,q:"C(10,3) = ?",o:["100","110","120","130"],a:2},
+  {c:"추상 패턴",d:3,q:"카탈란 수 n=4 값은?",o:["9","12","14","16"],a:2},
+  {c:"추상 패턴",d:2,q:"시저 암호 +3: 'IQ' 암호화하면?",o:["LT","KS","MU","JR"],a:0},
+  {c:"추상 패턴",d:2,q:"벡터 내적: (1,2,3)·(4,5,6) = ?",o:["28","30","32","34"],a:2},
+  {c:"추상 패턴",d:3,q:"i⁴ⁿ = ? (n은 자연수)",o:["i","-1","1","-i"],a:2},
+  {c:"추상 패턴",d:2,q:"정보 엔트로피: 공정한 동전의 섀넌 엔트로피는?",o:["0","0.5","1 bit","2 bit"],a:2},
+  {c:"추상 패턴",d:3,q:"코흐 눈송이 3단계 둘레 배율(매 단계 4/3배)?",o:["16/9","32/9","64/27","128/27"],a:2},
+  {c:"추상 패턴",d:2,q:"이항계수 삼각형(파스칼) 5행 합은?",o:["8","12","16","20"],a:2},
+  {c:"추상 패턴",d:3,q:"베이즈: P(H|E)∝?",o:["P(H)×P(E|H)","P(E)/P(H)","P(H)/P(E)","P(E)+P(H)"],a:0},
+  {c:"추상 패턴",d:2,q:"(A∪B)∩C의 영역 수는?",o:["1","2","3","4"],a:1},
+  // 명제 논리 (25)
+  {c:"명제 논리",d:1,q:"P→Q, ¬Q → ?",o:["P","¬P","Q","¬Q"],a:1},
+  {c:"명제 논리",d:1,q:"(P∧Q)→R, P=참, Q=참 → R은?",o:["반드시 참","반드시 거짓","알 수 없음","모순"],a:0},
+  {c:"명제 논리",d:2,q:"모든 A는 B. 어떤 B는 C. → 반드시 참인 것은?",o:["모든 A는 C","어떤 A는 C","어떤 A는 B","알 수 없음"],a:2},
+  {c:"명제 논리",d:1,q:"P↔Q, P=참 → Q는?",o:["참","거짓","알 수 없음","모순"],a:0},
+  {c:"명제 논리",d:2,q:"드모르간: ¬(P∨Q) ≡ ?",o:["¬P∧¬Q","¬P∨¬Q","P∧Q","P∨Q"],a:0},
+  {c:"명제 논리",d:1,q:"모든 M은 P. 모든 S는 M. → ?",o:["모든 S는 P","어떤 S는 P","모든 P는 S","알 수 없음"],a:0},
+  {c:"명제 논리",d:3,q:"러셀의 역설: 자신을 포함하지 않는 집합의 집합 R은?",o:["존재","부존재","모순","유한"],a:2},
+  {c:"명제 논리",d:2,q:"P→Q, Q→R, R→¬P. P가 참이면?",o:["Q가 참","모순 발생","R이 거짓","알 수 없음"],a:1},
+  {c:"명제 논리",d:2,q:"P∨Q, ¬P → ?",o:["P","Q","¬Q","알 수 없음"],a:1},
+  {c:"명제 논리",d:2,q:"가언적 삼단논법: P→Q, Q→R → ?",o:["P→R","R→P","P∧Q","알 수 없음"],a:0},
+  {c:"명제 논리",d:1,q:"P→Q의 역은?",o:["Q→P","¬P→¬Q","¬Q→¬P","P∧¬Q"],a:0},
+  {c:"명제 논리",d:1,q:"P→Q의 이(裏)는?",o:["Q→P","¬P→¬Q","¬Q→¬P","P∧¬Q"],a:1},
+  {c:"명제 논리",d:1,q:"P→Q의 대우는?",o:["Q→P","¬P→¬Q","¬Q→¬P","P∧¬Q"],a:2},
+  {c:"명제 논리",d:2,q:"P→Q와 동치인 것은?",o:["Q→P","¬P→¬Q","¬Q→¬P","P∧¬Q"],a:2},
+  {c:"명제 논리",d:2,q:"∃x P(x) ∧ ∀x Q(x) → ?",o:["∃x(P(x)∧Q(x))","∀x(P(x)∧Q(x))","∃x P(x)","∀x Q(x)"],a:0},
+  {c:"명제 논리",d:3,q:"폭발의 원리: P∧¬P → ?",o:["Q (어떤 명제도)","¬Q","P","¬P"],a:0},
+  {c:"명제 논리",d:3,q:"괴델 1불완전성 정리: 무모순 형식체계에는?",o:["참이지만 증명불가 명제 존재","모든 참 명제 증명 가능","모순 포함","공리 부족"],a:0},
+  {c:"명제 논리",d:2,q:"P XOR Q가 거짓인 경우는?",o:["P=T,Q=T 와 P=F,Q=F","P=T,Q=F 와 P=F,Q=T","항상 거짓","항상 참"],a:0},
+  {c:"명제 논리",d:2,q:"P→Q ≡ ¬P∨Q. P=거짓, Q=거짓이면?",o:["참","거짓","불정","모순"],a:0},
+  {c:"명제 논리",d:3,q:"'필연적으로 P' = ?",o:["모든 가능세계에서 P","일부 가능세계에서 P","현실에서 P","증명 가능한 P"],a:0},
+  {c:"명제 논리",d:2,q:"귀류법: P가정 → 모순 → ?",o:["P가 참","P가 거짓","알 수 없음","P는 모순"],a:1},
+  {c:"명제 논리",d:3,q:"완전성 정리: 모든 항진명제는?",o:["증명 가능","반증 가능","미결정","모순 가능"],a:0},
+  {c:"명제 논리",d:2,q:"P→Q이면 (P∧R)→Q는?",o:["항상 참","항상 거짓","알 수 없음","P에 따라"],a:0},
+  {c:"명제 논리",d:3,q:"양상논리 □P→P: 이 공리는?",o:["T 공리","4 공리","5 공리","B 공리"],a:0},
+  {c:"명제 논리",d:3,q:"∀x∀y(P(x,y)→P(y,x))가 표현하는 속성은?",o:["반사성","대칭성","추이성","동치관계"],a:1},
+  // 수리 분석 (25)
+  {c:"수리 분석",d:1,q:"lim(x→0) sin(x)/x = ?",o:["0","1","∞","정의 불가"],a:1},
+  {c:"수리 분석",d:2,q:"∫x² dx = ?",o:["x³","x³/3 + C","3x","x²/2"],a:1},
+  {c:"수리 분석",d:2,q:"행렬 [[1,2],[3,4]]의 det는?",o:["-2","2","4","-4"],a:0},
+  {c:"수리 분석",d:3,q:"오일러 항등식: e^(iπ)+1=?",o:["2","1","0","-2"],a:2},
+  {c:"수리 분석",d:2,q:"n!/(n-2)! = ?",o:["n(n-1)","n²","(n-1)!","n"],a:0},
+  {c:"수리 분석",d:1,q:"정규분포 ±2σ 내 비율은?",o:["68%","95%","99.7%","100%"],a:1},
+  {c:"수리 분석",d:2,q:"복소수 (3+4i)의 절댓값은?",o:["3","4","5","7"],a:2},
+  {c:"수리 분석",d:1,q:"1+2+3+...+100=?",o:["4950","5000","5050","5500"],a:2},
+  {c:"수리 분석",d:1,q:"d/dx[e^x]=?",o:["e^x","xe^(x-1)","e^(x-1)","ln(x)"],a:0},
+  {c:"수리 분석",d:2,q:"|A∪B|: |A|=10,|B|=8,|A∩B|=3 → ?",o:["15","16","17","18"],a:0},
+  {c:"수리 분석",d:1,q:"기하평균: 2와 8의 기하평균은?",o:["4","5","6","3"],a:0},
+  {c:"수리 분석",d:2,q:"소수정리: π(1000) ≈ ?",o:["100","144","168","200"],a:2},
+  {c:"수리 분석",d:2,q:"P(A∪B)=0.7, P(A)=0.4, P(B)=0.5 → P(A∩B)=?",o:["0.1","0.2","0.3","0.4"],a:1},
+  {c:"수리 분석",d:3,q:"행렬 [[2,0],[0,3]] 고유값은?",o:["1,2","2,3","3,4","1,3"],a:1},
+  {c:"수리 분석",d:2,q:"C(10,3) = ?",o:["100","110","120","130"],a:2},
+  {c:"수리 분석",d:2,q:"미적분 기본정리: ∫[a,b]f'(x)dx=?",o:["f(b)+f(a)","f(b)-f(a)","f(b)×f(a)","f(b)/f(a)"],a:1},
+  {c:"수리 분석",d:2,q:"복소수 (1+i)²=?",o:["2","2i","1+2i","2+2i"],a:1},
+  {c:"수리 분석",d:3,q:"∂/∂x[x²y+3xy²]=?",o:["2xy+3y²","x²+6xy","2y+3y²","x²y+3y"],a:0},
+  {c:"수리 분석",d:3,q:"라플라스 변환 L{e^(at)}=?",o:["1/(s-a)","1/(s+a)","a/(s-a)","s/(s-a)"],a:0},
+  {c:"수리 분석",d:3,q:"χ²분포 자유도 k의 기댓값은?",o:["k/2","k","2k","k²"],a:1},
+  {c:"수리 분석",d:2,q:"행렬곱 AB와 BA의 관계는?",o:["항상 같음","일반적으로 다름","항상 다름","크기에 따라"],a:1},
+  {c:"수리 분석",d:3,q:"스털링 근사: ln(n!) ≈ ?",o:["n ln(n)","n ln(n)-n","n!","ln(n)"],a:1},
+  {c:"수리 분석",d:2,q:"정규분포 Z=1.96: 이 값의 의미는?",o:["99% 구간 경계","95% 구간 경계","90% 구간 경계","68% 구간 경계"],a:1},
+  {c:"수리 분석",d:3,q:"그린 정리: 선적분→이중적분 변환 조건은?",o:["단순 연결 영역","비연결 영역","3D 공간","선형 함수"],a:0},
+  {c:"수리 분석",d:2,q:"e^x ≈ 1+x+x²/2!+x³/3!, x=1 대입 4항 합 ≈?",o:["2.5","2.667","2.708","2.718"],a:1},
+  // 귀납·연역 추론 (20)
+  {c:"귀납·연역",d:1,q:"'백조 관찰 → 모든 백조 흰색' 추론 유형은?",o:["연역","귀납","가추","유추"],a:1},
+  {c:"귀납·연역",d:2,q:"가추 추론(Abduction)의 특성은?",o:["최선의 설명 추론","논리적 필연","귀납 일반화","유추"],a:0},
+  {c:"귀납·연역",d:2,q:"포퍼의 반증가능성: 과학 이론의 필수 조건은?",o:["검증 가능","반증 가능","귀납 가능","관찰 가능"],a:1},
+  {c:"귀납·연역",d:2,q:"귀납의 정당화 문제(흄의 문제)는?",o:["관찰 불가","미래 예측의 정당화","논리적 타당성","전제의 거짓"],a:1},
+  {c:"귀납·연역",d:1,q:"연역 논증이 타당하면 전제 참 → 결론은?",o:["참일 수도","반드시 참","반드시 거짓","알 수 없음"],a:1},
+  {c:"귀납·연역",d:1,q:"오컴의 면도날: 설명 선택 기준은?",o:["가장 복잡","가장 단순","가장 오래된","가장 새로운"],a:1},
+  {c:"귀납·연역",d:2,q:"표본 크기 증가 → 추정 정밀도는?",o:["감소","불변","증가","진동"],a:2},
+  {c:"귀납·연역",d:2,q:"성급한 일반화는 어떤 추론의 오류?",o:["귀납","연역","가추","유추"],a:0},
+  {c:"귀납·연역",d:3,q:"쿤의 패러다임 전환은?",o:["귀납 누적","불연속적 혁명","연역 확장","가추 도약"],a:1},
+  {c:"귀납·연역",d:2,q:"상관관계만으로 인과관계 주장하면?",o:["타당한 귀납","귀납 오류","연역 오류","유추 오류"],a:1},
+  {c:"귀납·연역",d:2,q:"베이즈 추론: 새 증거 E 관찰. P(H|E)∝?",o:["P(H)×P(E|H)","P(E)/P(H)","P(H)/P(E)","P(E)+P(H)"],a:0},
+  {c:"귀납·연역",d:3,q:"IBE(최선의 설명으로의 추론)와 가장 유사한 것은?",o:["귀납","연역","가추","유추"],a:2},
+  {c:"귀납·연역",d:2,q:"통계적 삼단논법: '90%의 A는 B다. x는 A다' → ?",o:["강한 귀납","약한 귀납","연역","가추"],a:0},
+  {c:"귀납·연역",d:2,q:"건전한 논증은?",o:["형식적으로 타당","타당+전제 참","전제만 참","결론만 참"],a:1},
+  {c:"귀납·연역",d:2,q:"반사실적 분석: 인과 분석에서 사용하는 논리는?",o:["귀납법","연역법","반사실 조건","유추"],a:2},
+  {c:"귀납·연역",d:2,q:"확증도: 관찰이 이론을 얼마나 지지하는가 = ?",o:["반증도","확증도","신뢰도","확률"],a:1},
+  {c:"귀납·연역",d:2,q:"유추 논증 강도 높이는 요인은?",o:["유사점 감소","차이점 증가","유사점 증가","사례 수 감소"],a:2},
+  {c:"귀납·연역",d:3,q:"논리 형식주의: 타당성은 내용과?",o:["관련있다","무관하다","일부 관련","조건부 관련"],a:1},
+  {c:"귀납·연역",d:2,q:"가설-연역법: 가설→예측→검증→수정은?",o:["귀납 사이클","연역 사이클","가설-연역법","검증주의"],a:2},
+  {c:"귀납·연역",d:3,q:"타당성 vs 건전성: 차이점은?",o:["전제의 진리값 포함 여부","결론의 길이","전제의 수","알 수 없음"],a:0},
+  // 작업 기억·주의 (20)
+  {c:"작업 기억",d:2,q:"8,3,7,1,9,4,6,2,5 역순의 첫 숫자는?",o:["5","2","6","8"],a:0},
+  {c:"작업 기억",d:2,q:"N-back 3: A,B,C,A,B,D,A,? 3칸 전과 같은 것은?",o:["A","B","C","D"],a:1},
+  {c:"작업 기억",d:1,q:"밀러의 법칙: 단기 기억 용량 평균은?",o:["5±2","7±2","9±2","4±2"],a:1},
+  {c:"작업 기억",d:2,q:"스트룹 효과의 원인은?",o:["자동 처리 간섭","색맹","기억 부재","주의 전환"],a:0},
+  {c:"작업 기억",d:2,q:"주의 깜빡임(Attentional Blink): T2 탐지 저하 시간은?",o:["100-200ms","200-500ms","500-800ms","800ms+"],a:1},
+  {c:"작업 기억",d:2,q:"변화 맹시의 주요 원인은?",o:["시각 처리 한계","주의의 선택성","기억 한계","지각 왜곡"],a:1},
+  {c:"작업 기억",d:2,q:"집행 기능(억제·전환·갱신) 담당 뇌 영역은?",o:["해마","전전두엽","편도체","소뇌"],a:1},
+  {c:"작업 기억",d:1,q:"이중 부호화: 언어+이미지 동시 처리 → 기억 효과는?",o:["감소","향상","변화없음","불명확"],a:1},
+  {c:"작업 기억",d:1,q:"간격 효과: 학습 간격 넓을수록 장기 기억은?",o:["감소","증가","동일","처음 감소 후 증가"],a:1},
+  {c:"작업 기억",d:2,q:"기억 재공고화: 회상된 기억은?",o:["항상 강화됨","변형 가능","소거됨","변화없음"],a:1},
+  {c:"작업 기억",d:2,q:"칵테일파티 효과는 어떤 주의의 예?",o:["분할 주의","선택적 주의","지속 주의","교대 주의"],a:1},
+  {c:"작업 기억",d:2,q:"DRM 패러다임의 허위 기억 원인은?",o:["순행 간섭","역행 간섭","의미망 활성화","망각"],a:2},
+  {c:"작업 기억",d:2,q:"메타기억 정확도가 높을수록?",o:["과자신감","학습 효율 향상","과소자신감","관련없음"],a:1},
+  {c:"작업 기억",d:2,q:"장소법(Method of Loci) 핵심 원리는?",o:["반복 암기","공간-이미지 연합","음운 부호화","의미 부호화"],a:1},
+  {c:"작업 기억",d:2,q:"억제 통제가 필요한 상황은?",o:["자동적 반응 무시","기억 검색","주의 전환","정보 갱신"],a:0},
+  {c:"작업 기억",d:3,q:"청킹이 작업 기억 용량을 확장하는 이유는?",o:["물리적 용량 증가","의미 단위화로 슬롯 효율화","처리 속도 증가","억제 감소"],a:1},
+  {c:"작업 기억",d:2,q:"후향 간섭(RI): 새 학습이 이전 기억을 방해하는 예는?",o:["새 번호 학습 후 옛 번호 망각","새 번호 학습 중단","이전 정보 강화","간섭 없음"],a:0},
+  {c:"작업 기억",d:3,q:"Baddeley 모델: 음운 루프+시공간 메모장 조율 요소는?",o:["중앙 실행기","에피소드 버퍼","장기 기억","감각 기억"],a:0},
+  {c:"작업 기억",d:2,q:"기억 공고화에서 중요한 수면 단계는?",o:["NREM 1단계","NREM 2단계","서파 수면(SWS)","REM 수면"],a:2},
+  {c:"작업 기억",d:3,q:"인지 부하 이론: 내재적 부하 줄이려면?",o:["복잡도 증가","선행지식 활용","과제 수 증가","외재 부하 증가"],a:1},
+];
+
+const CATS=["언어 유추","복합 수열","도형 행렬","3D 공간","추상 패턴","명제 논리","수리 분석","귀납·연역","작업 기억"];
+const CAT_COLORS=["#00897b","#1565c0","#6a1b9a","#e65100","#37474f","#c62828","#00695c","#558b2f","#f57f17"];
+const PER_CAT=5, TOTAL_Q=45, TIME_SEC=900, DAILY_LIMIT=2;
+const STORAGE_KEY="iq_adult_daily";
+
+function getTodayKey(){return new Date().toISOString().slice(0,10);}
+function getUsage(){try{const r=localStorage.getItem(STORAGE_KEY);return r?JSON.parse(r):{date:"",count:0};}catch(e){return {date:"",count:0};}}
+function incUsage(){const t=getTodayKey(),u=getUsage(),c=(u.date===t?u.count:0)+1;localStorage.setItem(STORAGE_KEY,JSON.stringify({date:t,count:c}));}
+function checkLimit(){
+  const t=getTodayKey(),u=getUsage(),used=u.date===t?u.count:0,rem=Math.max(0,DAILY_LIMIT-used);
+  document.getElementById("remainCount").textContent=rem;
+  const box=document.getElementById("limitBox"),btn=document.getElementById("btnStart");
+  if(rem===0){box.className="limit-box blocked";box.innerHTML="❌ 오늘 응시 횟수(2회)를 모두 사용했습니다. 내일 다시 도전하세요!";btn.disabled=true;}
+  else{box.className="limit-box";btn.disabled=false;}
+}
+
+function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;}
+function pickQuestions(){
+  const sel=[];
+  CATS.forEach(cat=>{
+    const pool=POOL.filter(q=>q.c===cat);
+    const d1=shuffle(pool.filter(q=>q.d===1));
+    const d2=shuffle(pool.filter(q=>q.d===2));
+    const d3=shuffle(pool.filter(q=>q.d===3));
+    const pick=[...d1.slice(0,2),...d2.slice(0,2),...d3.slice(0,1)];
+    sel.push(...pick.slice(0,PER_CAT));
+  });
+  return shuffle(sel);
+}
+
+let questions=[],cur=0,score=0,answers=[],answered=false;
+let timerInt,elapsed=0,playerName="",eduLevel="";
+
+function show(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  const el=document.getElementById(id);
+  if(el)el.classList.add('active');
+  if(id==='cert'){document.getElementById('cert').classList.add('active');}
+}
+function initScreens(){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('cert').classList.remove('active');
+}
+
+function startQuiz(){
+  playerName=document.getElementById("nameInput").value.trim();
+  if(!playerName){alert("이름을 입력해주세요!");return;}
+  const t=getTodayKey(),u=getUsage(),used=u.date===t?u.count:0;
+  if(used>=DAILY_LIMIT){alert("오늘 응시 횟수를 모두 사용하셨습니다.");return;}
+  eduLevel="";
+  incUsage();checkLimit();
+  questions=pickQuestions();cur=0;score=0;elapsed=0;answered=false;
+  answers=new Array(TOTAL_Q).fill(null);
+  show('quiz');startTimer();renderQ();
+}
+
+function startTimer(){
+  clearInterval(timerInt);
+  timerInt=setInterval(()=>{
+    elapsed++;
+    const rem=TIME_SEC-elapsed;
+    if(rem<=0){clearInterval(timerInt);endQuiz();return;}
+    const m=Math.floor(rem/60),s=rem%60;
+    const el=document.getElementById('timerEl');
+    el.textContent=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+    el.className='timer'+(rem<120?' hot':rem<300?' warn':'');
+  },1000);
+}
+
+const DLABELS=['★☆☆ 기본','★★☆ 중급','★★★ 고급'];
+function renderQ(){
+  if(cur>=questions.length){endQuiz();return;}
+  const q=questions[cur];answered=false;
+  document.getElementById('btnNxt').disabled=true;
+  document.getElementById('fb').className='fb';
+  const catIdx=CATS.indexOf(q.c);
+  const chip=document.getElementById('catChip');
+  chip.textContent=q.c;chip.style.background=CAT_COLORS[catIdx]||'#00897b';
+  document.getElementById('diffChip').textContent=DLABELS[q.d-1]||DLABELS[0];
+  document.getElementById('progFill').style.width=((cur/TOTAL_Q)*100).toFixed(0)+'%';
+  document.getElementById('progTxt').textContent=`${cur+1}/${TOTAL_Q}`;
+  document.getElementById('scoreTxt').textContent=`${score}점`;
+  document.getElementById('scoreBadge').textContent=`맞힌 문항: ${score}`;
+  document.getElementById('qNo').textContent=`문항 ${cur+1}`;
+  document.getElementById('qText').textContent=q.q;
+  const L=['A','B','C','D'];
+  const box=document.getElementById('choices');box.innerHTML='';
+  q.o.forEach((opt,i)=>{
+    const d=document.createElement('div');d.className='choice';
+    d.innerHTML=`<span class="clabel">${L[i]}</span>${opt}`;
+    d.onclick=()=>selectAns(i);box.appendChild(d);
+  });
+}
+
+function selectAns(idx){
+  if(answered)return;answered=true;
+  const q=questions[cur];answers[cur]=idx;
+  const ok=(idx===q.a);if(ok)score++;
+  document.querySelectorAll('.choice').forEach((el,i)=>{
+    el.classList.add('disabled');
+    if(i===q.a)el.classList.add('ok');
+    else if(i===idx&&!ok)el.classList.add('no');
+  });
+  const fb=document.getElementById('fb');
+  fb.className='fb show '+(ok?'ok':'no');
+  fb.textContent=ok?`✓ 정답! [${['A','B','C','D'][q.a]}] ${q.o[q.a]}`:`✗ 오답. 정답: [${['A','B','C','D'][q.a]}] ${q.o[q.a]}`;
+  document.getElementById('btnNxt').disabled=false;
+  document.getElementById('scoreTxt').textContent=`${score}점`;
+  document.getElementById('scoreBadge').textContent=`맞힌 문항: ${score}`;
+}
+
+function skip(){answers[cur]=null;next();}
+function next(){if(cur<questions.length-1){cur++;renderQ();}else endQuiz();}
+
+function endQuiz(){
+  clearInterval(timerInt);
+  const total=questions.length,pct=Math.round(score/total*100);
+  const iq=Math.round(75+(score/total)*65);
+  const skipped=answers.filter(a=>a===null).length;
+  const mins=Math.floor(elapsed/60),secs=elapsed%60;
+  const grades=[[140,"최상위 (상위 0.4%)"],[130,"천재 수준 (상위 2%)"],[120,"매우 우수 (상위 9%)"],[110,"우수 (상위 25%)"],[100,"평균"],[90,"평균 이하"],[0,"하위"]];
+  const ginfo=grades.find(g=>iq>=g[0]);
+  document.getElementById('rIQ').textContent=iq;
+  document.getElementById('rGrade').textContent=ginfo[1];
+  document.getElementById('rC').textContent=score;
+  document.getElementById('rW').textContent=total-score-skipped;
+  document.getElementById('rS').textContent=skipped;
+  document.getElementById('rP').textContent=pct+'%';
+  const interpMap={140:'탁월한 인지 능력. 고차원 추상 추론에서 최상위 수준입니다.',130:'매우 우수한 지적 능력. 논리·수리·패턴 추론 모두 뛰어납니다.',120:'우수한 수준. 성인 고급 추론 문항에서 양호한 수행을 보였습니다.',110:'평균 이상. 일부 고급 영역에서 추가 학습이 도움이 됩니다.',100:'평균 수준. 성인 표준에 부합하는 추론 능력입니다.',90:'일부 영역에서 추가 학습을 권장합니다.',0:'성인 고급형 테스트를 다시 도전해 보세요.'};
+  document.getElementById('rInterp').textContent=interpMap[ginfo[0]]||interpMap[0];
+  const bars=document.getElementById('catBars');bars.innerHTML='';
+  const usedCats=[...new Set(questions.map(q=>q.c))];
+  usedCats.forEach((cat,ci)=>{
+    const qs=questions.filter(q=>q.c===cat);
+    const c=qs.filter(q=>answers[questions.indexOf(q)]===q.a).length;
+    const p=Math.round(c/qs.length*100);
+    const col=CAT_COLORS[CATS.indexOf(cat)];
+    const row=document.createElement('div');row.className='cat-row';
+    row.innerHTML=`<div class="cat-nm">${cat}</div><div class="cat-track"><div class="cat-bar" style="width:${p}%;background:${col}"></div></div><div class="cat-pct" style="color:${col}">${p}%</div>`;
+    bars.appendChild(row);
+  });
+  window._result={name:playerName,edu:eduLevel,iq,grade:ginfo[1],score,total,pct:pct+'%',time:`${mins}분 ${secs}초`,skipped};
+  show('result');
+}
+
+function showCert(){
+  const r=window._result;
+  document.getElementById('cName').textContent=r.name;
+  document.getElementById('cIQ').textContent=r.iq;
+  document.getElementById('cGrade').textContent=r.grade;
+  document.getElementById('cScore').textContent=`${r.score} / ${r.total}`;
+  document.getElementById('cPct').textContent=r.pct;
+  document.getElementById('cTime').textContent=r.time;
+  const now=new Date();
+  document.getElementById('cDate').textContent=`발급일: ${now.getFullYear()}년 ${now.getMonth()+1}월 ${now.getDate()}일`;
+  initScreens();document.getElementById('cert').classList.add('active');
+}
+
+function goIntro(){initScreens();document.getElementById('intro').classList.add('active');checkLimit();}
+
+window.addEventListener('load',()=>{
+  checkLimit();
+  document.getElementById('nameInput').addEventListener('keydown',e=>{if(e.key==='Enter')startQuiz();});
+});
+</script>
+</body>
+</html>
