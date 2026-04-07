@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>IQ 테스트 — 아동·청소년용</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#1a1a2e;--ink2:#3d3d6b;--ink3:#7b7ba8;
+  --sky:#4fc3f7;--sky2:#0288d1;--sky3:#e1f5fe;
+  --sun:#ffca28;--sun2:#f9a825;--sun3:#fff8e1;
+  --leaf:#66bb6a;--leaf2:#388e3c;--leaf3:#e8f5e9;
+  --rose:#ef5350;--rose3:#ffebee;
+  --card:#fff;--bg:#f0f4ff;
+  --r:16px;--rs:10px;--shadow:0 4px 24px rgba(26,26,46,.10);
+}
+body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);min-height:100vh;color:var(--ink)}
+h1,h2,h3,.title{font-family:'Nunito',sans-serif}
+
+.screen{display:none;min-height:100vh;padding:1.5rem 1rem}
+.screen.active{display:flex;flex-direction:column;align-items:center;justify-content:center}
+
+/* ── INTRO ── */
+.intro-wrap{max-width:520px;width:100%}
+.hero{text-align:center;margin-bottom:2rem}
+.hero-icon{font-size:4.5rem;display:block;margin-bottom:.5rem;animation:bounce 2s ease-in-out infinite}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.hero-title{font-family:'Nunito',sans-serif;font-size:2rem;font-weight:900;color:var(--ink);line-height:1.2}
+.hero-sub{font-size:.9rem;color:var(--ink3);margin-top:.4rem}
+
+.info-pills{display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center;margin:1.2rem 0}
+.pill{background:var(--sky3);color:var(--sky2);border-radius:20px;padding:.35rem .9rem;font-size:.8rem;font-weight:700;border:1.5px solid #b3e5fc}
+.pill.sun{background:var(--sun3);color:#e65100;border-color:#ffe082}
+.pill.leaf{background:var(--leaf3);color:var(--leaf2);border-color:#c8e6c9}
+
+.info-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.75rem;margin-bottom:1.5rem}
+.info-box{background:var(--card);border-radius:var(--rs);padding:1rem;text-align:center;box-shadow:var(--shadow)}
+.info-box .n{font-family:'Nunito',sans-serif;font-size:1.7rem;font-weight:900;color:var(--sky2)}
+.info-box .l{font-size:.72rem;color:var(--ink3);margin-top:.15rem}
+
+.form-card{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);padding:1.6rem}
+.form-label{font-size:.82rem;font-weight:700;color:var(--ink2);margin-bottom:.4rem;display:block}
+.form-input{width:100%;padding:.75rem 1rem;border:2px solid #e3e8f0;border-radius:var(--rs);font-size:1rem;font-family:'Noto Sans KR',sans-serif;outline:none;transition:border .2s;margin-bottom:1rem}
+.form-input:focus{border-color:var(--sky)}
+
+.limit-info{background:var(--sun3);border:1.5px solid #ffe082;border-radius:var(--rs);padding:.75rem 1rem;font-size:.8rem;color:#7c5c00;margin-bottom:1rem;display:flex;align-items:center;gap:.5rem}
+.limit-info.blocked{background:var(--rose3);border-color:#ffcdd2;color:#b71c1c}
+
+.btn-start{background:linear-gradient(135deg,var(--sky),var(--sky2));color:#fff;border:none;border-radius:var(--rs);padding:1rem;font-size:1.05rem;font-weight:700;font-family:'Nunito',sans-serif;cursor:pointer;width:100%;letter-spacing:.5px;box-shadow:0 4px 16px rgba(2,136,209,.3);transition:transform .15s,box-shadow .15s}
+.btn-start:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(2,136,209,.4)}
+.btn-start:disabled{background:#ccc;box-shadow:none;cursor:not-allowed;transform:none}
+
+/* ── QUIZ ── */
+#quiz{justify-content:flex-start;padding-top:1rem}
+.quiz-wrap{max-width:680px;width:100%}
+
+.topbar{display:flex;align-items:center;gap:.75rem;margin-bottom:1rem;flex-wrap:wrap}
+.cat-chip{border-radius:20px;padding:.28rem .85rem;font-size:.75rem;font-weight:700;color:#fff;white-space:nowrap}
+.prog-wrap{flex:1;min-width:120px}
+.prog-meta{display:flex;justify-content:space-between;font-size:.72rem;color:var(--ink3);margin-bottom:.3rem}
+.prog-track{height:7px;background:#dde4f0;border-radius:4px;overflow:hidden}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--sky),var(--sky2));border-radius:4px;transition:width .4s}
+.timer{background:var(--card);border:2px solid #dde4f0;border-radius:var(--rs);padding:.32rem .75rem;font-size:.88rem;font-weight:800;font-family:'Nunito',sans-serif;color:var(--sky2);min-width:68px;text-align:center}
+.timer.warn{border-color:var(--sun);color:var(--sun2)}
+.timer.hot{border-color:var(--rose);color:var(--rose);animation:blink .6s infinite alternate}
+@keyframes blink{to{opacity:.5}}
+
+.q-card{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);padding:1.8rem;margin-bottom:.9rem}
+.q-no{font-size:.75rem;color:var(--ink3);font-weight:700;margin-bottom:.4rem}
+.q-text{font-size:1.05rem;font-weight:700;color:var(--ink);line-height:1.65;margin-bottom:1.4rem;padding:.85rem 1rem;background:var(--sky3);border-radius:var(--rs);border-left:4px solid var(--sky2)}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+.choice{background:#f7f9ff;border:2px solid #e3e8f0;border-radius:var(--rs);padding:.8rem 1rem;cursor:pointer;font-size:.9rem;display:flex;align-items:center;gap:.65rem;transition:all .15s;line-height:1.4}
+.choice:hover{border-color:var(--sky);background:var(--sky3);transform:translateY(-1px)}
+.choice.sel{border-color:var(--sky2);background:var(--sky3);font-weight:700}
+.choice.ok{border-color:var(--leaf2);background:var(--leaf3);color:var(--leaf2);font-weight:700}
+.choice.no{border-color:var(--rose);background:var(--rose3);color:var(--rose)}
+.choice.disabled{cursor:default;transform:none}
+.clabel{min-width:22px;height:22px;border-radius:50%;background:#e3e8f0;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:800;flex-shrink:0}
+.choice.sel .clabel{background:var(--sky2);color:#fff}
+.choice.ok .clabel{background:var(--leaf2);color:#fff}
+.choice.no .clabel{background:var(--rose);color:#fff}
+
+.fb{margin-top:.85rem;padding:.85rem 1rem;border-radius:var(--rs);font-size:.85rem;display:none;line-height:1.5}
+.fb.show{display:block}
+.fb.ok{background:var(--leaf3);color:var(--leaf2);border-left:4px solid var(--leaf2)}
+.fb.no{background:var(--rose3);color:var(--rose);border-left:4px solid var(--rose)}
+
+.nav{display:flex;justify-content:space-between;align-items:center}
+.btn-nav{border:2px solid var(--sky2);border-radius:var(--rs);padding:.6rem 1.4rem;font-size:.88rem;font-weight:700;cursor:pointer;transition:all .15s;font-family:'Nunito',sans-serif}
+.btn-skip{background:#fff;color:var(--sky2)}
+.btn-skip:hover{background:var(--sky3)}
+.btn-nxt{background:var(--sky2);color:#fff}
+.btn-nxt:hover{background:#0277bd}
+.btn-nxt:disabled{opacity:.35;cursor:not-allowed}
+.score-badge{font-size:.78rem;color:var(--ink3)}
+
+/* ── RESULT & CERT ── */
+#result{justify-content:flex-start;padding-top:1.5rem}
+.result-wrap{max-width:600px;width:100%}
+
+.iq-banner{background:linear-gradient(135deg,#e3f2fd,#e8eaf6);border-radius:var(--r);padding:2rem;text-align:center;margin-bottom:1.2rem;position:relative;overflow:hidden}
+.iq-banner::before{content:'';position:absolute;top:-30px;right:-30px;width:120px;height:120px;border-radius:50%;background:rgba(79,195,247,.15)}
+.iq-banner::after{content:'';position:absolute;bottom:-20px;left:-20px;width:80px;height:80px;border-radius:50%;background:rgba(255,202,40,.12)}
+.iq-val{font-family:'Nunito',sans-serif;font-size:3.5rem;font-weight:900;color:var(--sky2);line-height:1}
+.iq-lbl{font-size:.78rem;color:var(--ink3);font-weight:700;letter-spacing:.5px;text-transform:uppercase}
+.iq-grade{font-family:'Nunito',sans-serif;font-size:1.1rem;font-weight:800;color:var(--ink);margin-top:.4rem}
+
+.r-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:.6rem;margin-bottom:1.2rem}
+.r-stat{background:var(--card);border-radius:var(--rs);padding:.75rem;text-align:center;box-shadow:var(--shadow)}
+.r-stat .n{font-family:'Nunito',sans-serif;font-size:1.3rem;font-weight:900;color:var(--sky2)}
+.r-stat .l{font-size:.68rem;color:var(--ink3)}
+
+.cat-section{background:var(--card);border-radius:var(--r);padding:1.2rem 1.4rem;margin-bottom:1.2rem;box-shadow:var(--shadow)}
+.cat-section h3{font-size:.88rem;font-weight:700;margin-bottom:.8rem;color:var(--ink2)}
+.cat-row{display:flex;align-items:center;gap:.6rem;margin-bottom:.45rem;font-size:.78rem}
+.cat-nm{flex:0 0 90px;color:var(--ink3);font-size:.72rem}
+.cat-track{flex:1;background:#eef0f7;border-radius:3px;height:7px}
+.cat-bar{height:7px;border-radius:3px;transition:width .8s}
+.cat-pct{width:34px;text-align:right;font-weight:700;font-size:.75rem}
+
+.btn-row{display:flex;gap:.75rem;margin-bottom:1.2rem}
+.btn-cert{flex:1;background:linear-gradient(135deg,var(--sun),var(--sun2));color:var(--ink);border:none;border-radius:var(--rs);padding:.85rem;font-size:.92rem;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;box-shadow:0 4px 14px rgba(249,168,37,.3);transition:transform .15s}
+.btn-cert:hover{transform:translateY(-2px)}
+.btn-retry2{flex:1;background:var(--card);color:var(--sky2);border:2px solid var(--sky2);border-radius:var(--rs);padding:.85rem;font-size:.92rem;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;transition:background .15s}
+.btn-retry2:hover{background:var(--sky3)}
+
+/* ── CERTIFICATE ── */
+#cert{display:none;min-height:100vh;padding:2rem 1rem;align-items:center;justify-content:center;background:#f0f4ff}
+#cert.active{display:flex;flex-direction:column}
+.cert-card{max-width:680px;width:100%;background:#fff;border:3px solid var(--sky2);border-radius:20px;padding:3rem 2.5rem;text-align:center;position:relative;box-shadow:0 8px 40px rgba(2,136,209,.15)}
+.cert-card::before,.cert-card::after{content:'';position:absolute;width:60px;height:60px;border:3px solid var(--sky2);opacity:.3}
+.cert-card::before{top:12px;left:12px;border-right:none;border-bottom:none;border-radius:6px 0 0 0}
+.cert-card::after{bottom:12px;right:12px;border-left:none;border-top:none;border-radius:0 0 6px 0}
+.cert-logo{font-size:3rem;margin-bottom:.5rem}
+.cert-org{font-family:'Nunito',sans-serif;font-size:.8rem;font-weight:800;color:var(--ink3);letter-spacing:2px;text-transform:uppercase;margin-bottom:.3rem}
+.cert-title{font-family:'Nunito',sans-serif;font-size:1.6rem;font-weight:900;color:var(--sky2);margin-bottom.5rem}
+.cert-divider{width:80px;height:3px;background:linear-gradient(90deg,var(--sky),var(--sun));margin:.8rem auto}
+.cert-body{font-size:.9rem;color:var(--ink3);line-height:1.8;margin-bottom:.5rem}
+.cert-name{font-family:'Nunito',sans-serif;font-size:2rem;font-weight:900;color:var(--ink);margin:.4rem 0}
+.cert-iq{font-family:'Nunito',sans-serif;font-size:3rem;font-weight:900;color:var(--sky2);line-height:1}
+.cert-grade-txt{font-size:1rem;font-weight:700;color:var(--ink2);margin:.3rem 0 .6rem}
+.cert-details{display:flex;justify-content:center;gap:2rem;margin:1rem 0;flex-wrap:wrap}
+.cert-det{text-align:center}
+.cert-det .dn{font-family:'Nunito',sans-serif;font-size:.9rem;font-weight:800;color:var(--ink)}
+.cert-det .dl{font-size:.68rem;color:var(--ink3);text-transform:uppercase;letter-spacing:.5px}
+.cert-stamp{display:inline-flex;align-items:center;justify-content:center;width:70px;height:70px;border-radius:50%;border:3px solid var(--sky2);font-family:'Nunito',sans-serif;font-size:.58rem;font-weight:800;color:var(--sky2);letter-spacing:.3px;text-align:center;line-height:1.3;margin:1rem 0}
+.cert-date{font-size:.75rem;color:var(--ink3);margin-top:.5rem}
+.btn-print{background:linear-gradient(135deg,var(--sky),var(--sky2));color:#fff;border:none;border-radius:var(--rs);padding:.75rem 2rem;font-size:.92rem;font-weight:700;cursor:pointer;margin:.5rem .25rem;font-family:'Nunito',sans-serif}
+.btn-back{background:#fff;color:var(--ink2);border:2px solid #dde4f0;border-radius:var(--rs);padding:.75rem 2rem;font-size:.92rem;font-weight:700;cursor:pointer;margin:.5rem .25rem;font-family:'Nunito',sans-serif}
+@media print{
+  .no-print{display:none!important}
+  body{background:#fff}
+  #cert{background:#fff}
+  .cert-card{box-shadow:none;border:2px solid #0288d1}
+}
+@media(max-width:520px){
+  .choices{grid-template-columns:1fr}
+  .r-stats{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+
+<!-- ══ INTRO ══ -->
+<div id="intro" class="screen active">
+<div class="intro-wrap">
+  <div class="hero">
+    <span class="hero-icon">🧒</span>
+    <div class="hero-title">IQ 테스트</div>
+    <div class="hero-sub">아동·청소년용 인지 능력 평가</div>
+  </div>
+  <div class="info-pills">
+    <span class="pill">📋 측정 영역: 9개 분야</span>
+    <span class="pill sun">⏱ 소요 시간: 약 15분</span>
+    <span class="pill leaf">👦 대상 연령: 만 8~14세</span>
+  </div>
+  <div class="info-grid" style="grid-template-columns:repeat(3,1fr)">
+    <div class="info-box"><div class="n">45</div><div class="l">매회 출제 문항</div></div>
+    <div class="info-box"><div class="n">15<span style="font-size:.9rem">분</span></div><div class="l">제한 시간</div></div>
+    <div class="info-box"><div class="n">2<span style="font-size:.9rem">회</span></div><div class="l">1일 응시 제한</div></div>
+  </div>
+  <div class="form-card">
+    <label class="form-label" for="nameInput">이름 <span style="color:var(--rose)">*</span></label>
+    <input class="form-input" id="nameInput" placeholder="응시자 이름을 입력하세요" maxlength="20" autocomplete="off">
+    <div class="limit-info" id="limitInfo">
+      ℹ️ 오늘 남은 응시 횟수: <strong id="remainCount">2</strong>회
+    </div>
+    <button class="btn-start" id="btnStart" onclick="startQuiz()">테스트 시작 →</button>
+  </div>
+</div>
+</div>
+
+<!-- ══ QUIZ ══ -->
+<div id="quiz" class="screen">
+<div class="quiz-wrap">
+  <div class="topbar">
+    <span class="cat-chip" id="catChip">분야</span>
+    <div class="prog-wrap">
+      <div class="prog-meta"><span id="progTxt">1/45</span><span id="scoreTxt">0점</span></div>
+      <div class="prog-track"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
+    </div>
+    <div class="timer" id="timerEl">15:00</div>
+  </div>
+  <div class="q-card">
+    <div class="q-no" id="qNo">문항 1</div>
+    <div class="q-text" id="qText"></div>
+    <div class="choices" id="choices"></div>
+    <div class="fb" id="fb"></div>
+  </div>
+  <div class="nav">
+    <button class="btn-nav btn-skip" onclick="skip()">건너뛰기</button>
+    <span class="score-badge" id="scoreBadge">맞힌 문항: 0</span>
+    <button class="btn-nav btn-nxt" id="btnNxt" onclick="next()" disabled>다음 ▶</button>
+  </div>
+</div>
+</div>
+
+<!-- ══ RESULT ══ -->
+<div id="result" class="screen">
+<div class="result-wrap">
+  <div class="iq-banner">
+    <div class="iq-lbl">추정 IQ</div>
+    <div class="iq-val" id="rIQ">--</div>
+    <div class="iq-grade" id="rGrade">--</div>
+  </div>
+  <div class="r-stats">
+    <div class="r-stat"><div class="n" id="rC">0</div><div class="l">정답</div></div>
+    <div class="r-stat"><div class="n" id="rW">0</div><div class="l">오답</div></div>
+    <div class="r-stat"><div class="n" id="rS">0</div><div class="l">건너뜀</div></div>
+    <div class="r-stat"><div class="n" id="rP">0%</div><div class="l">정답률</div></div>
+  </div>
+  <div class="cat-section">
+    <h3>영역별 결과</h3>
+    <div id="catBars"></div>
+  </div>
+  <div class="btn-row">
+    <button class="btn-cert" onclick="showCert()">🏆 인증서 발급</button>
+    <button class="btn-retry2" onclick="goIntro()">↩ 다시 도전</button>
+  </div>
+</div>
+</div>
+
+<!-- ══ CERT ══ -->
+<div id="cert">
+  <div class="cert-card" id="certCard">
+    <div class="cert-logo">🏅</div>
+    <div class="cert-org">IQ International Assessment</div>
+    <div class="cert-title">인지 능력 인증서</div>
+    <div style="font-size:.78rem;color:var(--ink3);margin-top:.2rem">Certificate of Cognitive Ability</div>
+    <div class="cert-divider"></div>
+    <div class="cert-body">아래 응시자는 아동·청소년 IQ 표준 평가를 완료하였으며<br>다음과 같은 결과를 인증합니다.</div>
+    <div class="cert-name" id="cName">--</div>
+    <div class="cert-iq" id="cIQ">--</div>
+    <div class="cert-grade-txt" id="cGrade">--</div>
+    <div class="cert-details">
+      <div class="cert-det"><div class="dn" id="cScore">--</div><div class="dl">정답 / 총문항</div></div>
+      <div class="cert-det"><div class="dn" id="cPct">--</div><div class="dl">정답률</div></div>
+      <div class="cert-det"><div class="dn" id="cTime">--</div><div class="dl">소요 시간</div></div>
+      <div class="cert-det"><div class="dn">만 8~14세</div><div class="dl">대상 연령</div></div>
+    </div>
+    <div class="cert-stamp">IQ<br>CERT<br>아동용</div>
+    <div class="cert-date" id="cDate">--</div>
+    <div class="no-print" style="margin-top:1rem">
+      <button class="btn-print" onclick="window.print()">🖨 인증서 인쇄 / 저장</button>
+      <button class="btn-back" onclick="goIntro()">← 처음으로</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ──────────── ALL 225 QUESTIONS ────────────
+const POOL = [
+  // 언어 유추 (30)
+  {c:"언어 유추",d:1,q:"사과 : 과일 = 장미 : ?",o:["채소","꽃","나무","풀"],a:1},
+  {c:"언어 유추",d:1,q:"낮 : 밤 = 더위 : ?",o:["봄","겨울","추위","바람"],a:2},
+  {c:"언어 유추",d:1,q:"물고기 : 수영 = 새 : ?",o:["달리기","날기","수영","걷기"],a:1},
+  {c:"언어 유추",d:1,q:"책 : 도서관 = 그림 : ?",o:["학교","박물관","공원","시장"],a:1},
+  {c:"언어 유추",d:1,q:"손 : 장갑 = 발 : ?",o:["모자","양말","코트","벨트"],a:1},
+  {c:"언어 유추",d:1,q:"의사 : 병원 = 요리사 : ?",o:["학교","도서관","음식점","공원"],a:2},
+  {c:"언어 유추",d:1,q:"눈 : 보다 = 귀 : ?",o:["냄새맡다","듣다","만지다","먹다"],a:1},
+  {c:"언어 유추",d:1,q:"강아지 : 짖다 = 고양이 : ?",o:["울부짖다","야옹하다","짖다","달리다"],a:1},
+  {c:"언어 유추",d:1,q:"봄 : 여름 = 가을 : ?",o:["봄","여름","겨울","가을"],a:2},
+  {c:"언어 유추",d:1,q:"빨강 : 정지 = 초록 : ?",o:["위험","주의","출발","멈춤"],a:2},
+  {c:"언어 유추",d:2,q:"연필 : 지우개 = 글쓰기 : ?",o:["지우기","그리기","읽기","자르기"],a:0},
+  {c:"언어 유추",d:2,q:"어머니 : 딸 = 아버지 : ?",o:["딸","아들","형","언니"],a:1},
+  {c:"언어 유추",d:2,q:"크다 : 작다 = 높다 : ?",o:["넓다","낮다","깊다","좁다"],a:1},
+  {c:"언어 유추",d:2,q:"사자 : 초원 = 물고기 : ?",o:["하늘","강","산","땅"],a:1},
+  {c:"언어 유추",d:2,q:"태양 : 낮 = 달 : ?",o:["아침","저녁","밤","새벽"],a:2},
+  {c:"언어 유추",d:2,q:"비행기 : 하늘 = 배 : ?",o:["땅","강","도로","산"],a:1},
+  {c:"언어 유추",d:2,q:"연필 : 쓰다 = 붓 : ?",o:["쓰다","그리다","지우다","자르다"],a:1},
+  {c:"언어 유추",d:2,q:"학교 : 학생 = 병원 : ?",o:["선생님","환자","경찰","소방관"],a:1},
+  {c:"언어 유추",d:2,q:"키가 크다 : 기린 = 코가 길다 : ?",o:["코끼리","사자","원숭이","토끼"],a:0},
+  {c:"언어 유추",d:2,q:"소금 : 짜다 = 설탕 : ?",o:["쓰다","시다","달다","맵다"],a:2},
+  {c:"언어 유추",d:3,q:"나무 : 숲 = 물고기 : ?",o:["강","바다","수족관","어항"],a:1},
+  {c:"언어 유추",d:3,q:"새벽 : 아침 = 저녁 : ?",o:["낮","정오","밤","새벽"],a:2},
+  {c:"언어 유추",d:3,q:"치과 : 이 = 안과 : ?",o:["코","눈","귀","피부"],a:1},
+  {c:"언어 유추",d:3,q:"파란색 : 하늘 = 초록색 : ?",o:["강","풀","모래","눈"],a:1},
+  {c:"언어 유추",d:3,q:"피아노 : 음악 = 붓 : ?",o:["음악","미술","체육","과학"],a:1},
+  {c:"언어 유추",d:3,q:"0 : 짝수 = 1 : ?",o:["짝수","홀수","소수","합성수"],a:1},
+  {c:"언어 유추",d:3,q:"겨울 : 눈 = 여름 : ?",o:["눈","비","안개","서리"],a:1},
+  {c:"언어 유추",d:3,q:"모자 : 머리 = 신발 : ?",o:["손","발","몸통","얼굴"],a:1},
+  {c:"언어 유추",d:3,q:"냉장고 : 차갑다 = 오븐 : ?",o:["차갑다","뜨겁다","시원하다","딱딱하다"],a:1},
+  {c:"언어 유추",d:3,q:"발 : 걷다 = 손 : ?",o:["달리다","쥐다","보다","듣다"],a:1},
+  // 수열 추론 (30)
+  {c:"수열 추론",d:1,q:"2, 4, 6, 8, ?",o:["9","10","11","12"],a:1},
+  {c:"수열 추론",d:1,q:"1, 3, 5, 7, ?",o:["8","9","10","11"],a:1},
+  {c:"수열 추론",d:1,q:"5, 10, 15, 20, ?",o:["22","23","24","25"],a:3},
+  {c:"수열 추론",d:1,q:"3, 6, 9, 12, ?",o:["13","14","15","16"],a:2},
+  {c:"수열 추론",d:1,q:"10, 8, 6, 4, ?",o:["1","2","3","5"],a:1},
+  {c:"수열 추론",d:1,q:"4, 8, 12, 16, ?",o:["18","19","20","21"],a:2},
+  {c:"수열 추론",d:1,q:"7, 14, 21, 28, ?",o:["30","32","35","37"],a:2},
+  {c:"수열 추론",d:2,q:"1, 2, 4, 8, ?",o:["12","14","16","18"],a:2},
+  {c:"수열 추론",d:2,q:"1, 4, 9, 16, ?",o:["20","22","25","27"],a:2},
+  {c:"수열 추론",d:2,q:"2, 3, 5, 8, 13, ?",o:["18","20","21","24"],a:2},
+  {c:"수열 추론",d:2,q:"1, 1, 2, 3, 5, ?",o:["6","7","8","9"],a:2},
+  {c:"수열 추론",d:2,q:"81, 27, 9, ?",o:["1","2","3","4"],a:2},
+  {c:"수열 추론",d:2,q:"2, 6, 18, 54, ?",o:["100","108","110","162"],a:3},
+  {c:"수열 추론",d:2,q:"64, 32, 16, 8, ?",o:["2","3","4","6"],a:2},
+  {c:"수열 추론",d:2,q:"9, 7, 5, 3, ?",o:["0","1","2","4"],a:1},
+  {c:"수열 추론",d:2,q:"3, 9, 27, 81, ?",o:["162","200","243","300"],a:2},
+  {c:"수열 추론",d:2,q:"0, 1, 1, 2, 3, 5, ?",o:["7","8","9","10"],a:1},
+  {c:"수열 추론",d:2,q:"100, 50, 25, ?",o:["10","12","12.5","15"],a:2},
+  {c:"수열 추론",d:3,q:"1, 3, 6, 10, 15, ?",o:["18","20","21","22"],a:2},
+  {c:"수열 추론",d:3,q:"5, 10, 20, 40, ?",o:["60","70","80","90"],a:2},
+  {c:"수열 추론",d:3,q:"12, 10, 8, 6, ?",o:["2","3","4","5"],a:2},
+  {c:"수열 추론",d:3,q:"1, 2, 4, 7, 11, ?",o:["14","15","16","17"],a:2},
+  {c:"수열 추론",d:3,q:"25, 20, 15, 10, ?",o:["3","4","5","6"],a:2},
+  {c:"수열 추론",d:3,q:"2, 4, 8, 16, 32, ?",o:["48","54","64","72"],a:2},
+  {c:"수열 추론",d:3,q:"6, 11, 16, 21, ?",o:["24","25","26","27"],a:2},
+  {c:"수열 추론",d:3,q:"1000, 100, 10, ?",o:["0","0.1","1","2"],a:2},
+  {c:"수열 추론",d:3,q:"3, 5, 8, 12, 17, ?",o:["20","21","22","23"],a:3},
+  {c:"수열 추론",d:3,q:"4, 16, 64, 256, ?",o:["512","768","1024","1280"],a:2},
+  {c:"수열 추론",d:3,q:"50, 45, 40, 35, ?",o:["25","28","30","32"],a:2},
+  {c:"수열 추론",d:3,q:"2, 5, 10, 17, 26, ?",o:["33","35","37","39"],a:2},
+  // 도형 패턴 (25)
+  {c:"도형 패턴",d:1,q:"△ ○ △ ○ △ ? — 다음 도형은?",o:["△","○","□","×"],a:1},
+  {c:"도형 패턴",d:1,q:"● ○ ● ○ ? — 다음 도형은?",o:["●","○","□","△"],a:0},
+  {c:"도형 패턴",d:1,q:"■ ▲ ■ ▲ ■ ? — 다음은?",o:["■","▲","○","●"],a:1},
+  {c:"도형 패턴",d:1,q:"◆ ◇ ◆ ◇ ? — 다음은?",o:["◆","◇","○","□"],a:0},
+  {c:"도형 패턴",d:1,q:"☆★☆★ 다음에 오는 것은?",o:["☆","★","○","●"],a:0},
+  {c:"도형 패턴",d:2,q:"크기: 小→中→大→小→中→?",o:["小","中","大","特大"],a:2},
+  {c:"도형 패턴",d:2,q:"흰○ 검○ 흰○ ? — 다음은?",o:["흰○","검○","회○","파○"],a:1},
+  {c:"도형 패턴",d:2,q:"→ ↑ ← ↓ ? — 90도 회전 패턴의 다음은?",o:["→","↑","←","↓"],a:0},
+  {c:"도형 패턴",d:2,q:"● ●● ●●● ? — 개수 패턴의 다음은?",o:["●●●●","●●●","●●","●"],a:0},
+  {c:"도형 패턴",d:2,q:"▶ 가 90도 시계방향 회전하면?",o:["▼","◀","▲","▶"],a:0},
+  {c:"도형 패턴",d:2,q:"▷ 를 거울에 비추면?",o:["▷","◁","▽","△"],a:1},
+  {c:"도형 패턴",d:2,q:"○ ○○ ○○○ 다음은?",o:["○","○○○○","○○","○○○"],a:1},
+  {c:"도형 패턴",d:2,q:"□ → ▪ 처럼 △ → ?",o:["△","▲","◁","▷"],a:1},
+  {c:"도형 패턴",d:3,q:"선의 수: 삼각형(3)→사각형(4)→오각형(5)→다음은?",o:["오각형","육각형","칠각형","팔각형"],a:1},
+  {c:"도형 패턴",d:3,q:"색 교차: ■□■ 다음 줄은?",o:["□■□","■□■","■■□","□□■"],a:0},
+  {c:"도형 패턴",d:3,q:"큰○→작은○→큰□→? 의 다음은?",o:["작은□","큰□","큰△","작은△"],a:0},
+  {c:"도형 패턴",d:3,q:"△ △△ △△△ △△△△ — 5번째는?",o:["△△△△△","△△△△△△","△△△△","△△△"],a:0},
+  {c:"도형 패턴",d:3,q:"3×3 행렬에서 각 행·열에 ○□△ 한 번씩. 빠진 것은?",o:["○","□","△","◇"],a:2},
+  {c:"도형 패턴",d:3,q:"패턴: 내부 도형이 매번 1개씩 늘 때 3번째는?",o:["2개","3개","4개","5개"],a:1},
+  {c:"도형 패턴",d:3,q:"도형 회전: 180도 돌리면 원래와 같아 보이는 것은?",o:["Z","S","H","L"],a:2},
+  {c:"도형 패턴",d:2,q:"▲ ▲ ● ▲ ▲ ? — 다음은?",o:["▲","●","○","□"],a:1},
+  {c:"도형 패턴",d:2,q:"□ □ △ □ □ ? — 다음은?",o:["○","△","□","×"],a:1},
+  {c:"도형 패턴",d:1,q:"● ○ ● ? — 다음 4번째는?",o:["●","○","□","△"],a:1},
+  {c:"도형 패턴",d:3,q:"→ 도형이 45도씩 회전. 다음은?",o:["↗","↑","↖","←"],a:0},
+  {c:"도형 패턴",d:2,q:"점선·실선 교차 패턴. 4번째는?",o:["점선","실선","혼합","없음"],a:1},
+  // 공간 추론 (25)
+  {c:"공간 추론",d:1,q:"종이를 반으로 접어 구멍 1개 → 펼치면 총 몇 개?",o:["1","2","3","4"],a:1},
+  {c:"공간 추론",d:1,q:"정육면체에서 마주보는 면의 눈 합이 항상 7. 위가 1이면 아래는?",o:["5","6","7","4"],a:1},
+  {c:"공간 추론",d:1,q:"직사각형 종이를 대각선으로 자르면 몇 조각?",o:["2개 삼각형","2개 사각형","3개","4개"],a:0},
+  {c:"공간 추론",d:1,q:"거울 앞에 소문자 'b'를 놓으면?",o:["b","d","p","q"],a:1},
+  {c:"공간 추론",d:1,q:"1층 4개, 2층 3개, 3층 1개 블록의 총 수는?",o:["6","7","8","9"],a:2},
+  {c:"공간 추론",d:2,q:"정사각형을 대각선으로 2번 자르면 몇 조각?",o:["2","3","4","5"],a:2},
+  {c:"공간 추론",d:2,q:"위에서 보면 □, 앞에서 보면 △인 입체는?",o:["삼각기둥","원기둥","정육면체","사각뿔"],a:3},
+  {c:"공간 추론",d:2,q:"주사위의 윗면이 3이면 아래면은?",o:["2","3","4","5"],a:2},
+  {c:"공간 추론",d:2,q:"지도를 90도 돌려 동쪽이 위가 되면 북쪽은?",o:["왼쪽","오른쪽","위","아래"],a:0},
+  {c:"공간 추론",d:2,q:"정사각형 4개로 만들 수 있는 테트로미노 종류는?",o:["3","4","5","6"],a:2},
+  {c:"공간 추론",d:2,q:"직각삼각형 2개를 빗변끼리 붙이면?",o:["정사각형","직사각형","평행사변형","마름모"],a:1},
+  {c:"공간 추론",d:2,q:"L자 도형을 90도 시계방향 회전하면?",o:["⌐ 모양","r 모양","Γ 모양","그대로"],a:2},
+  {c:"공간 추론",d:2,q:"북→동→남 이동 후 방향은?",o:["북","동","남","서"],a:2},
+  {c:"공간 추론",d:3,q:"별 모양(5각별) 꼭짓점 내각의 합은?",o:["180°","360°","540°","720°"],a:0},
+  {c:"공간 추론",d:3,q:"정육면체를 꼭짓점 통과 평면으로 자르면 최대 다각형은?",o:["삼각형","사각형","오각형","육각형"],a:3},
+  {c:"공간 추론",d:3,q:"원을 지름으로 3번 접으면 최대 몇 조각?",o:["6","8","10","12"],a:1},
+  {c:"공간 추론",d:3,q:"종이를 2번 반으로 접어 구멍 1개 → 몇 개?",o:["2","3","4","5"],a:2},
+  {c:"공간 추론",d:3,q:"정다면체의 종류 수는?",o:["3","4","5","6"],a:2},
+  {c:"공간 추론",d:1,q:"두 정사각형 겹칠 때 겹치는 부분의 최대 모양은?",o:["삼각형","사각형","팔각형","원"],a:1},
+  {c:"공간 추론",d:2,q:"큐브를 대각선으로 자르면 단면은?",o:["삼각형","사각형","오각형","육각형"],a:3},
+  {c:"공간 추론",d:3,q:"정삼각형 3개를 꼭짓점이 만나도록 이으면?",o:["별 모양","큰 삼각형","육각형","마름모"],a:0},
+  {c:"공간 추론",d:1,q:"정육면체의 꼭짓점 수는?",o:["6","8","10","12"],a:1},
+  {c:"공간 추론",d:2,q:"정사각형 전개도를 접으면?",o:["정육면체","직육면체","삼각기둥","원기둥"],a:0},
+  {c:"공간 추론",d:3,q:"도형 180도 회전 시 원래와 같아 보이는 것은?",o:["Z","S","L","N"],a:1},
+  {c:"공간 추론",d:2,q:"지도에서 북쪽 3칸, 동쪽 2칸 이동. 출발점 거리는?",o:["4칸","5칸","6칸","13칸"],a:1},
+  // 언어 분류 (25)
+  {c:"언어 분류",d:1,q:"나머지와 다른 것은? 사과, 배, 포도, 당근",o:["사과","배","포도","당근"],a:3},
+  {c:"언어 분류",d:1,q:"악기가 아닌 것은? 피아노, 바이올린, 드럼, 연필",o:["피아노","바이올린","드럼","연필"],a:3},
+  {c:"언어 분류",d:1,q:"계절이 아닌 것은? 겨울, 봄, 낮, 가을",o:["겨울","봄","낮","가을"],a:2},
+  {c:"언어 분류",d:1,q:"교과목이 아닌 것은? 국어, 수학, 영어, 축구",o:["국어","수학","영어","축구"],a:3},
+  {c:"언어 분류",d:1,q:"포유류가 아닌 것은? 개, 고양이, 독수리, 토끼",o:["개","고양이","독수리","토끼"],a:2},
+  {c:"언어 분류",d:1,q:"건물이 아닌 것은? 병원, 학교, 소방서, 사과",o:["병원","학교","소방서","사과"],a:3},
+  {c:"언어 분류",d:2,q:"땅 위 교통수단이 아닌 것은? 버스, 기차, 비행기, 자동차",o:["버스","기차","비행기","자동차"],a:2},
+  {c:"언어 분류",d:2,q:"날지 못하는 새는? 참새, 비둘기, 펭귄, 독수리",o:["참새","비둘기","펭귄","독수리"],a:2},
+  {c:"언어 분류",d:2,q:"물속 동물은? 코끼리, 기린, 돌고래, 사자",o:["코끼리","기린","돌고래","사자"],a:2},
+  {c:"언어 분류",d:2,q:"짝수만 모으면? 1,2,3,4,5 중",o:["1,3,5","2,4","1,2,3","3,4,5"],a:1},
+  {c:"언어 분류",d:2,q:"금속이 아닌 것은? 금, 은, 동, 나무",o:["금","은","동","나무"],a:3},
+  {c:"언어 분류",d:2,q:"요일이 아닌 것은? 월요일, 수요일, 금요일, 12월",o:["월요일","수요일","금요일","12월"],a:3},
+  {c:"언어 분류",d:2,q:"평면도형이 아닌 것은? 삼각형, 사각형, 원, 구",o:["삼각형","사각형","원","구"],a:3},
+  {c:"언어 분류",d:3,q:"다른 종류인 것은? 서울, 부산, 한국, 대구",o:["서울","부산","한국","대구"],a:2},
+  {c:"언어 분류",d:3,q:"나무에서 열리는 것은? 고구마, 감자, 당근, 사과",o:["고구마","감자","당근","사과"],a:3},
+  {c:"언어 분류",d:3,q:"모음이 아닌 것은? A, E, I, B",o:["A","E","I","B"],a:3},
+  {c:"언어 분류",d:3,q:"농장 동물이 아닌 것은? 소, 돼지, 닭, 상어",o:["소","돼지","닭","상어"],a:3},
+  {c:"언어 분류",d:3,q:"팔 부위는? 손가락, 팔꿈치, 발가락, 무릎",o:["손가락","팔꿈치","발가락","무릎"],a:1},
+  {c:"언어 분류",d:2,q:"운동이 아닌 것은? 수영, 달리기, 태권도, 읽기",o:["수영","달리기","태권도","읽기"],a:3},
+  {c:"언어 분류",d:2,q:"한식이 아닌 것은? 밥, 국, 김치, 피자",o:["밥","국","김치","피자"],a:3},
+  {c:"언어 분류",d:1,q:"색깔이 아닌 것은? 빨강, 파랑, 슬픔, 노랑",o:["빨강","파랑","슬픔","노랑"],a:2},
+  {c:"언어 분류",d:2,q:"직업이 아닌 것은? 의사, 간호사, 선생님, 환자",o:["의사","간호사","선생님","환자"],a:3},
+  {c:"언어 분류",d:3,q:"동사가 아닌 것은? 말하다, 먹다, 자다, 쉽다",o:["말하다","먹다","자다","쉽다"],a:3},
+  {c:"언어 분류",d:3,q:"형용사가 아닌 것은? 빠르다, 느리다, 높다, 사과",o:["빠르다","느리다","높다","사과"],a:3},
+  {c:"언어 분류",d:2,q:"물이 없는 곳은? 강, 호수, 바다, 산",o:["강","호수","바다","산"],a:3},
+  // 수학 추론 (25)
+  {c:"수학 추론",d:1,q:"5 + 3 × 2 = ?",o:["13","16","11","14"],a:2},
+  {c:"수학 추론",d:1,q:"24 ÷ 6 + 2 = ?",o:["6","8","10","4"],a:0},
+  {c:"수학 추론",d:1,q:"삼각형의 세 각의 합은?",o:["90°","180°","270°","360°"],a:1},
+  {c:"수학 추론",d:1,q:"정사각형 한 변이 5cm → 넓이는?",o:["20cm²","25cm²","30cm²","15cm²"],a:1},
+  {c:"수학 추론",d:1,q:"1시간 30분 = 몇 분?",o:["80분","90분","100분","120분"],a:1},
+  {c:"수학 추론",d:2,q:"어떤 수 × 4 = 36 → 어떤 수는?",o:["8","9","10","7"],a:1},
+  {c:"수학 추론",d:2,q:"12의 약수 개수는?",o:["4","5","6","3"],a:2},
+  {c:"수학 추론",d:2,q:"100 − 37 + 15 = ?",o:["68","72","78","82"],a:2},
+  {c:"수학 추론",d:2,q:"3² + 4² = ?",o:["25","49","36","45"],a:0},
+  {c:"수학 추론",d:2,q:"분속 60m로 5분 → 거리는?",o:["250m","300m","350m","400m"],a:1},
+  {c:"수학 추론",d:2,q:"1/2 + 1/4 = ?",o:["3/4","1/2","2/4","1/4"],a:0},
+  {c:"수학 추론",d:2,q:"0.5 × 0.2 = ?",o:["0.01","0.1","1","10"],a:1},
+  {c:"수학 추론",d:2,q:"20%는 100 중 몇인가?",o:["5","10","20","25"],a:2},
+  {c:"수학 추론",d:2,q:"반지름 5인 원의 넓이(π≈3.14)?",o:["31.4","62.8","78.5","15.7"],a:2},
+  {c:"수학 추론",d:2,q:"3,5,7,9,11의 평균은?",o:["6","7","8","9"],a:1},
+  {c:"수학 추론",d:3,q:"직각삼각형 두 변이 3, 4 → 빗변은?",o:["5","6","7","8"],a:0},
+  {c:"수학 추론",d:3,q:"2³ × 2² = ?",o:["2⁵","2⁶","2⁴","2⁷"],a:0},
+  {c:"수학 추론",d:3,q:"소수 중 가장 작은 짝수는?",o:["1","2","3","4"],a:1},
+  {c:"수학 추론",d:3,q:"정육면체의 꼭짓점 수는?",o:["6","8","10","12"],a:1},
+  {c:"수학 추론",d:3,q:"45 ÷ 9 × (3+2) = ?",o:["20","25","30","15"],a:1},
+  {c:"수학 추론",d:3,q:"비율: 6:8 = ?:12",o:["9","8","10","7"],a:0},
+  {c:"수학 추론",d:3,q:"1km = 몇 cm?",o:["100","1000","10000","100000"],a:3},
+  {c:"수학 추론",d:3,q:"17 × 8 = ?",o:["126","130","136","144"],a:2},
+  {c:"수학 추론",d:3,q:"−3 + (−5) = ?",o:["-2","-8","-15","8"],a:1},
+  {c:"수학 추론",d:3,q:"4와 6의 최소공배수는?",o:["12","18","24","8"],a:0},
+  // 논리 추론 (20)
+  {c:"논리 추론",d:1,q:"모든 A는 B, 모든 B는 C → 결론은?",o:["모든 A는 C","어떤 A는 C","모든 C는 A","알 수 없음"],a:0},
+  {c:"논리 추론",d:1,q:"5명 중 3명이 안경 → 안경 없는 사람은?",o:["1명","2명","3명","4명"],a:1},
+  {c:"논리 추론",d:1,q:"갑>을, 을>병 → 가장 작은 것은?",o:["갑","을","병","알 수 없음"],a:2},
+  {c:"논리 추론",d:2,q:"A참→B참. B거짓이면?",o:["A도 거짓","A는 참","알 수 없음","B는 참"],a:0},
+  {c:"논리 추론",d:2,q:"3명이 3일에 9개 → 1명이 1일에?",o:["1개","3개","9개","6개"],a:0},
+  {c:"논리 추론",d:2,q:"오늘이 수요일 → 5일 후는?",o:["월요일","화요일","수요일","목요일"],a:0},
+  {c:"논리 추론",d:2,q:"A,B,C 각각 다른 색. A≠빨강, B=파랑 → C는?",o:["빨강","파랑","노랑","알 수 없음"],a:2},
+  {c:"논리 추론",d:2,q:"빨간 공 3개, 파란 공 2개. 빨간 공 꺼낼 확률은?",o:["2/5","3/5","1/2","1/5"],a:1},
+  {c:"논리 추론",d:2,q:"4명이 서로 악수 한 번씩 → 총 악수 수는?",o:["4","5","6","8"],a:2},
+  {c:"논리 추론",d:3,q:"A=1,B=2,...Z=26이면 C+A+T=?",o:["24","26","28","30"],a:1},
+  {c:"논리 추론",d:3,q:"1부터 10까지 합은?",o:["45","50","55","60"],a:2},
+  {c:"논리 추론",d:3,q:"아버지는 자녀보다 25살 많고 합 55. 자녀 나이는?",o:["13","14","15","16"],a:2},
+  {c:"논리 추론",d:3,q:"60km/h로 2.5시간 → 거리는?",o:["120km","140km","150km","180km"],a:2},
+  {c:"논리 추론",d:3,q:"정삼각형의 각 각도는?",o:["45°","60°","90°","120°"],a:1},
+  {c:"논리 추론",d:1,q:"짝수이면서 5의 배수인 두 자리 수 중 가장 작은 것은?",o:["10","20","30","40"],a:0},
+  {c:"논리 추론",d:2,q:"어제의 어제 = 내일의 이틀 전 → 기준은?",o:["오늘","어제","그저께","내일"],a:0},
+  {c:"논리 추론",d:3,q:"민수는 항상 거짓말쟁이. '나는 거짓말쟁이다' → ?",o:["참","거짓","알 수 없음","모순"],a:3},
+  {c:"논리 추론",d:2,q:"100 이하 소수 개수는?",o:["23","24","25","26"],a:2},
+  {c:"논리 추론",d:2,q:"주사위 두 개 합이 7인 경우의 수는?",o:["4","5","6","7"],a:2},
+  {c:"논리 추론",d:3,q:"모든 고양이는 동물. 나비는 동물 아님 → 나비는?",o:["고양이","동물","고양이 아님","알 수 없음"],a:2},
+  // 기억력 (20)
+  {c:"기억력",d:1,q:"3,7,2,8,1,5,9 중 4번째 숫자는?",o:["2","8","1","7"],a:1},
+  {c:"기억력",d:1,q:"사과,기차,의자,달,연필 중 3번째는?",o:["기차","의자","달","사과"],a:1},
+  {c:"기억력",d:1,q:"빨,파,초,노,보 중 2번째는?",o:["빨","파","초","노"],a:1},
+  {c:"기억력",d:1,q:"ABCDEFA에서 A는 몇 번 나오나?",o:["1","2","3","4"],a:1},
+  {c:"기억력",d:1,q:"'철수는 학교, 영희도, 민수는 집' — 집에 있던 사람은?",o:["철수","영희","민수","모두"],a:2},
+  {c:"기억력",d:2,q:"5,3,8,2 역순으로 나열하면?",o:["2,8,3,5","5,3,8,2","8,3,5,2","2,3,8,5"],a:0},
+  {c:"기억력",d:2,q:"△□○△□ 중 3번째는?",o:["△","□","○","×"],a:2},
+  {c:"기억력",d:2,q:"사과-빨강, 바나나-노랑, 포도-?",o:["초록","보라","파랑","주황"],a:1},
+  {c:"기억력",d:2,q:"2, 4, ?, 8, 10 에서 ?는?",o:["5","6","7","9"],a:1},
+  {c:"기억력",d:2,q:"철수13, 영희11, 민수15 — 가장 어린 사람은?",o:["철수","영희","민수","모름"],a:1},
+  {c:"기억력",d:2,q:"북→동→남→서 — 처음 방향은?",o:["동","남","북","서"],a:2},
+  {c:"기억력",d:2,q:"빨빨파초 — 파는 몇 번째?",o:["2","3","4","5"],a:1},
+  {c:"기억력",d:2,q:"1번째=A, 3번째=C → 2번째는?",o:["A","B","C","D"],a:1},
+  {c:"기억력",d:2,q:"'3시에 공원에서 파란 풍선' — 풍선 색은?",o:["빨강","파랑","초록","노랑"],a:1},
+  {c:"기억력",d:2,q:"A,B,A,B... 패턴의 10번째는?",o:["A","B","C","D"],a:1},
+  {c:"기억력",d:3,q:"7823의 역순은?",o:["3287","3278","2387","2378"],a:0},
+  {c:"기억력",d:3,q:"연필,지우개,책,가방,자 — 가방은 몇 번째?",o:["3","4","5","6"],a:1},
+  {c:"기억력",d:3,q:"파랑,초록,빨강,노랑 — 빨강은?",o:["1번째","2번째","3번째","4번째"],a:2},
+  {c:"기억력",d:3,q:"9,5,3,7,1 중 가장 큰 수는?",o:["5","7","9","3"],a:2},
+  {c:"기억력",d:3,q:"하늘,바다,산,강,들 — 2번째와 4번째는?",o:["하늘,강","바다,강","산,들","바다,산"],a:1},
+  // 단어 관계 (20)
+  {c:"단어 관계",d:1,q:"반대말: 기쁨 ↔ ?",o:["행복","슬픔","분노","공포"],a:1},
+  {c:"단어 관계",d:1,q:"유의어: 아름답다 ≈ ?",o:["추하다","예쁘다","크다","작다"],a:1},
+  {c:"단어 관계",d:1,q:"기능: 냉장고 → 음식을 ? 하다",o:["가열","냉장","세척","포장"],a:1},
+  {c:"단어 관계",d:1,q:"순서: 아기→어린이→청소년→?",o:["노인","어른","중년","유아"],a:1},
+  {c:"단어 관계",d:2,q:"부분-전체: 바퀴 → ?",o:["도로","자동차","가솔린","운전"],a:1},
+  {c:"단어 관계",d:2,q:"재료: 나무로 만든 것은?",o:["컵","책상","냄비","병"],a:1},
+  {c:"단어 관계",d:2,q:"장소: 선수→경기장, 의사→?",o:["학교","병원","공장","상점"],a:1},
+  {c:"단어 관계",d:2,q:"도구: 망치→못, 가위→?",o:["종이","실","천","풀"],a:2},
+  {c:"단어 관계",d:2,q:"인과: 비가 오면→?",o:["맑아진다","춥다","땅이 젖는다","눈이 온다"],a:2},
+  {c:"단어 관계",d:2,q:"크기: 마을 < 도시 < ?",o:["나라","집","거리","공원"],a:0},
+  {c:"단어 관계",d:2,q:"속도: 거북이 < 사람 < 말 < ?",o:["달팽이","치타","개","고양이"],a:1},
+  {c:"단어 관계",d:2,q:"시간: 초 < 분 < 시간 < ?",o:["주","달","년","세기"],a:0},
+  {c:"단어 관계",d:2,q:"반대말: 시작 ↔ ?",o:["처음","중간","끝","과정"],a:2},
+  {c:"단어 관계",d:2,q:"연결: 눈→보다, 코→?",o:["듣다","냄새맡다","만지다","맛보다"],a:1},
+  {c:"단어 관계",d:3,q:"포유류에 속하는 것은?",o:["독수리","개구리","고래","뱀"],a:2},
+  {c:"단어 관계",d:3,q:"결과: 씨앗을 심으면?",o:["열매만 난다","뿌리가 먼저","싹이 튼다","꽃이 먼저"],a:2},
+  {c:"단어 관계",d:3,q:"반대말: 무겁다 ↔ ?",o:["크다","가볍다","넓다","짧다"],a:1},
+  {c:"단어 관계",d:1,q:"학교에서 쓰는 것은?",o:["냄비","교과서","침대","자동차"],a:1},
+  {c:"단어 관계",d:2,q:"속성: 얼음의 특성은?",o:["뜨겁다","딱딱하다","부드럽다","무겁다"],a:1},
+  {c:"단어 관계",d:2,q:"선생님이 하는 일은?",o:["치료","가르침","요리","건설"],a:1},
+];
+
+// ──── CONSTANTS ────
+const CATS = ["언어 유추","수열 추론","도형 패턴","공간 추론","언어 분류","수학 추론","논리 추론","기억력","단어 관계"];
+const CAT_COLORS = ["#0288d1","#388e3c","#7b1fa2","#e65100","#00838f","#c62828","#37474f","#f57f17","#1565c0"];
+const PER_CAT = 5; // 45 total = 9 cats × 5
+const TOTAL_Q = 45;
+const TIME_SEC = 15 * 60;
+const DAILY_LIMIT = 2;
+const STORAGE_KEY = "iq_child_daily";
+
+// ──── DAILY LIMIT ────
+function getTodayKey(){ return new Date().toISOString().slice(0,10); }
+function getUsage(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(!raw) return {date:"",count:0};
+    return JSON.parse(raw);
+  }catch(e){return {date:"",count:0};}
+}
+function incUsage(){
+  const today = getTodayKey();
+  const u = getUsage();
+  const count = (u.date===today ? u.count : 0) + 1;
+  localStorage.setItem(STORAGE_KEY, JSON.stringify({date:today,count}));
+}
+function checkLimit(){
+  const today = getTodayKey();
+  const u = getUsage();
+  const used = u.date===today ? u.count : 0;
+  const rem = Math.max(0, DAILY_LIMIT - used);
+  document.getElementById("remainCount").textContent = rem;
+  const info = document.getElementById("limitInfo");
+  const btn = document.getElementById("btnStart");
+  if(rem===0){
+    info.className = "limit-info blocked";
+    info.textContent = "❌ 오늘 응시 횟수(2회)를 모두 사용했습니다. 내일 다시 도전하세요!";
+    btn.disabled = true;
+  } else {
+    info.className = "limit-info";
+    btn.disabled = false;
+  }
+}
+
+// ──── RANDOM SELECTION ────
+function pickQuestions(){
+  const selected = [];
+  CATS.forEach(cat=>{
+    const pool = POOL.filter(q=>q.c===cat);
+    // sort by difficulty, pick 1-2 easy, 2 medium, 1-2 hard
+    const d1 = shuffle(pool.filter(q=>q.d===1));
+    const d2 = shuffle(pool.filter(q=>q.d===2));
+    const d3 = shuffle(pool.filter(q=>q.d===3));
+    const pick = [...d1.slice(0,2),...d2.slice(0,2),...d3.slice(0,1)];
+    selected.push(...pick.slice(0,PER_CAT));
+  });
+  return shuffle(selected);
+}
+function shuffle(arr){
+  const a=[...arr];
+  for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}
+  return a;
+}
+
+// ──── STATE ────
+let questions=[], cur=0, score=0, answers=[], answered=false;
+let timerInt, elapsed=0, playerName="", testStartTime;
+
+// ──── SCREENS ────
+function show(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  const el=document.getElementById(id);
+  if(el){el.classList.add('active');}
+  if(id==='cert'){document.getElementById('cert').classList.add('active');}
+}
+function initScreens(){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('cert').classList.remove('active');
+}
+
+// ──── START ────
+function startQuiz(){
+  playerName = document.getElementById("nameInput").value.trim();
+  if(!playerName){alert("이름을 입력해주세요!");return;}
+  const today = getTodayKey();
+  const u = getUsage();
+  const used = u.date===today ? u.count : 0;
+  if(used >= DAILY_LIMIT){alert("오늘 응시 횟수를 모두 사용하셨습니다.");return;}
+  incUsage();
+  checkLimit();
+  questions = pickQuestions();
+  cur=0; score=0; elapsed=0; answered=false;
+  answers = new Array(TOTAL_Q).fill(null);
+  testStartTime = Date.now();
+  show('quiz');
+  startTimer();
+  renderQ();
+}
+
+// ──── TIMER ────
+function startTimer(){
+  clearInterval(timerInt);
+  timerInt = setInterval(()=>{
+    elapsed++;
+    const rem = TIME_SEC - elapsed;
+    if(rem<=0){clearInterval(timerInt);endQuiz();return;}
+    const m=Math.floor(rem/60), s=rem%60;
+    const el=document.getElementById('timerEl');
+    el.textContent=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+    el.className='timer'+(rem<120?' hot':rem<300?' warn':'');
+  },1000);
+}
+
+// ──── RENDER ────
+function renderQ(){
+  if(cur>=questions.length){endQuiz();return;}
+  const q=questions[cur];
+  answered=false;
+  document.getElementById('btnNxt').disabled=true;
+  document.getElementById('fb').className='fb';
+
+  const catIdx=CATS.indexOf(q.c);
+  const chip=document.getElementById('catChip');
+  chip.textContent=q.c;
+  chip.style.background=CAT_COLORS[catIdx]||'#0288d1';
+
+  const pct=((cur/TOTAL_Q)*100).toFixed(0);
+  document.getElementById('progFill').style.width=pct+'%';
+  document.getElementById('progTxt').textContent=`${cur+1}/${TOTAL_Q}`;
+  document.getElementById('scoreTxt').textContent=`${score}점`;
+  document.getElementById('scoreBadge').textContent=`맞힌 문항: ${score}`;
+  document.getElementById('qNo').textContent=`문항 ${cur+1}`;
+  document.getElementById('qText').textContent=q.q;
+
+  const L=['A','B','C','D'];
+  const box=document.getElementById('choices');
+  box.innerHTML='';
+  q.o.forEach((opt,i)=>{
+    const d=document.createElement('div');
+    d.className='choice';
+    d.innerHTML=`<span class="clabel">${L[i]}</span>${opt}`;
+    d.onclick=()=>selectAns(i);
+    box.appendChild(d);
+  });
+}
+
+function selectAns(idx){
+  if(answered)return;
+  answered=true;
+  const q=questions[cur];
+  answers[cur]=idx;
+  const ok=(idx===q.a);
+  if(ok)score++;
+  document.querySelectorAll('.choice').forEach((el,i)=>{
+    el.classList.add('disabled');
+    if(i===q.a)el.classList.add('ok');
+    else if(i===idx&&!ok)el.classList.add('no');
+  });
+  const fb=document.getElementById('fb');
+  fb.className='fb show '+(ok?'ok':'no');
+  fb.textContent=ok?`✓ 정답! [${['A','B','C','D'][q.a]}] ${q.o[q.a]}`:`✗ 오답. 정답: [${['A','B','C','D'][q.a]}] ${q.o[q.a]}`;
+  document.getElementById('btnNxt').disabled=false;
+  document.getElementById('scoreTxt').textContent=`${score}점`;
+  document.getElementById('scoreBadge').textContent=`맞힌 문항: ${score}`;
+}
+
+function skip(){answers[cur]=null;next();}
+function next(){
+  if(cur<questions.length-1){cur++;renderQ();}
+  else endQuiz();
+}
+
+// ──── END ────
+function endQuiz(){
+  clearInterval(timerInt);
+  const total=questions.length;
+  const pct=Math.round(score/total*100);
+  const iq=Math.round(70+(score/total)*60);
+  const skipped=answers.filter(a=>a===null).length;
+  const mins=Math.floor(elapsed/60),secs=elapsed%60;
+
+  const grades=[
+    [130,"천재 수준 ✨"],[120,"매우 우수 🌟"],[110,"우수 ⭐"],[100,"평균 이상 👍"],
+    [90,"평균 😊"],[80,"평균 이하"],[0,"기초 단계"]
+  ];
+  const grade=grades.find(g=>iq>=g[0])[1];
+
+  document.getElementById('rIQ').textContent=iq;
+  document.getElementById('rGrade').textContent=grade;
+  document.getElementById('rC').textContent=score;
+  document.getElementById('rW').textContent=total-score-skipped;
+  document.getElementById('rS').textContent=skipped;
+  document.getElementById('rP').textContent=pct+'%';
+
+  const bars=document.getElementById('catBars');
+  bars.innerHTML='';
+  const usedCats=[...new Set(questions.map(q=>q.c))];
+  usedCats.forEach((cat,ci)=>{
+    const qs=questions.filter(q=>q.c===cat);
+    const c=qs.filter((q,i)=>answers[questions.indexOf(q)]===q.a).length;
+    const p=Math.round(c/qs.length*100);
+    const col=CAT_COLORS[CATS.indexOf(cat)];
+    const row=document.createElement('div');row.className='cat-row';
+    row.innerHTML=`<div class="cat-nm">${cat}</div><div class="cat-track"><div class="cat-bar" style="width:${p}%;background:${col}"></div></div><div class="cat-pct" style="color:${col}">${p}%</div>`;
+    bars.appendChild(row);
+  });
+
+  // store for cert
+  window._result={name:playerName,iq,grade,score,total,pct:pct+'%',time:`${mins}분 ${secs}초`,skipped};
+  show('result');
+}
+
+function showCert(){
+  const r=window._result;
+  document.getElementById('cName').textContent=r.name;
+  document.getElementById('cIQ').textContent=r.iq;
+  document.getElementById('cGrade').textContent=r.grade;
+  document.getElementById('cScore').textContent=`${r.score} / ${r.total}`;
+  document.getElementById('cPct').textContent=r.pct;
+  document.getElementById('cTime').textContent=r.time;
+  const now=new Date();
+  document.getElementById('cDate').textContent=`발급일: ${now.getFullYear()}년 ${now.getMonth()+1}월 ${now.getDate()}일`;
+  initScreens();
+  document.getElementById('cert').classList.add('active');
+}
+
+function goIntro(){
+  initScreens();
+  document.getElementById('intro').classList.add('active');
+  checkLimit();
+}
+
+// ──── INIT ────
+window.addEventListener('load',()=>{
+  checkLimit();
+  document.getElementById('nameInput').addEventListener('keydown',e=>{if(e.key==='Enter')startQuiz();});
+});
+</script>
+</body>
+</html>
